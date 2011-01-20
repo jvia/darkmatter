@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.giantcow.</groupId>
+    <artifactId>darkmatter</artifactId>
+    <packaging>jar</packaging>
+    <version>0.1-SNAPSHOT</version>
+    <name>darkmatter</name>
+    <url>http://maven.apache.org</url>
+    <description>An Osmos-inspired matter absorption game.</description>
+    <inceptionYear>2011</inceptionYear>
+    <organization>
+        <name>Giant Cow</name>
+    </organization>
+    <developers>
+        <developer>
+            <id>joss</id>
+            <name>Joss Greenway</name>
+            <email>jtg897@cs.bham.ac.uk</email>
+            <roles>
+                <role>team leader</role>
+                <role>developer</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
+            <id>charlie</id>
+            <name>Charlie Horrell</name>
+            <email>cxh900@cs.bham.ac.uk</email>
+            <roles>
+                <role>secretary</role>
+                <role>developer</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
+            <id>yukun</id>
+            <name>Yukun Wang</name>
+            <email>yxw999@cs.bham.ac.uk</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
+            <id>jeremiah</id>
+            <name>Jeremiah Via</name>
+            <email>jxv911@cs.bham.ac.uk</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:svn:https://codex.cs.bham.ac.uk/svn/teamjava/A2/trunk/</connection>
+        <tag>HEAD</tag>
+        <url>https://codex.cs.bham.ac.uk/svn/teamjava/A2/trunk</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>config/sun_checks.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
