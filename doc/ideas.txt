@@ -1,0 +1,2 @@
+- Should use a Sprite interface and use a mechanism so we only load
+  each sprite once to save on memory.
