@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2011 Giant Cow</copyright>
     <item>
-      <title>File: 1,
-             Errors: 11,
+      <title>File: 3,
+             Errors: 13,
              Warnings: 0,
              Infos: 0
       </title>
@@ -29,6 +29,20 @@
           <tbody>
                           <tr>
                 <td>
+                  <a href="http://maven.apache.org/checkstyle.html#com.giantcow.darkmatter.package-info.java">com/giantcow/darkmatter/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://maven.apache.org/checkstyle.html#com.giantcow.darkmatter.App.java">com/giantcow/darkmatter/App.java</a>
                 </td>
                 <td>
@@ -38,7 +52,21 @@
                   0
                 </td>
                 <td>
-                  11
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#com.giantcow.darkmatter.Sprite.java">com/giantcow/darkmatter/Sprite.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
                 </td>
               </tr>
                       </tbody>
