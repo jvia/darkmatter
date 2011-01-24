@@ -4,8 +4,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 /**
+ * Represents an image in the game.
  *
- * @author Jeremiah Via
+ * This class should never be created directly but should in fact
+ * be created with the SpriteFactory.
+ *
+ * @author  Jeremiah Via <jxv911@cs.bham.ac.uk>
+ * @version 2011.0124
+ * @since   0.1
  */
 public class Sprite {
 
