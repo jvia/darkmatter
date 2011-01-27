@@ -4,4 +4,10 @@
   - Killer Game Programming in Java
     (http://fivedots.coe.psu.ac.th/~ad/jg/code/index.html)
 
+  - Beginning Java SE 6 Game Programming
+    (http://my.safaribooksonline.com/9781435458086)
+
 * Websites
+
+  - http://www.javacooperation.gmxhome.de/TutorialStartEng.html
+  -

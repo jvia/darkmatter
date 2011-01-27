@@ -9,6 +9,7 @@
   - Absorb stars if large enough, burn up if not.
   - Compete with other dark matter for control of the universe.
   - Dark energy being with desire to conquer universe.
+  - If *exact* same size, find a way to deal with it.
 
 * GUI design
 
@@ -16,17 +17,22 @@
   - Full-screen
   - Need a menu (using escape?)
   - Scaling/black bar so all resolutions see the same thing
+  - Colors indicate size
+  - Images and rotation for animating the characters.
 
 * Release Plan
 
-  - Weekly release cycle (SCRUMs)
+  - Weekly release cycle: XP
+  - Create a new tag every week
+  - robust
 
 * Software Engineering and Testing
 
-  - SCRUM
+  - XP
   - Pair Programming
   - jUnit
-  - Maven
+  - Maven: awesome for development!
+
 
 * Networking
 
