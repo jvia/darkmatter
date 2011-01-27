@@ -1,0 +1,30 @@
+#+title: Project Proposal
+#+author: Jeremiah M. Via
+
+
+
+* Functionality
+
+  - Mouse based control
+  - Absorb stars if large enough, burn up if not.
+  - Compete with other dark matter for control of the universe.
+
+* GUI design
+
+  - Java SWING; possibly port to OpenGL if time.
+
+* Release Plan
+
+  - Weekly release cycle (SCRUMs)
+
+* Software Engineering and Testing
+
+  - SCRUM
+  - Pair Programming
+  - jUnit
+  - Maven
+
+* Networking
+
+  - P2P would be nice
+  - Client-Server easier so more likely
