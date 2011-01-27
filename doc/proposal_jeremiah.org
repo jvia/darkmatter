@@ -2,16 +2,20 @@
 #+author: Jeremiah M. Via
 
 
-
 * Functionality
 
   - Mouse based control
+    - one click shoots out a ratio of self to give certain speed
   - Absorb stars if large enough, burn up if not.
   - Compete with other dark matter for control of the universe.
+  - Dark energy being with desire to conquer universe.
 
 * GUI design
 
   - Java SWING; possibly port to OpenGL if time.
+  - Full-screen
+  - Need a menu (using escape?)
+  - Scaling/black bar so all resolutions see the same thing
 
 * Release Plan
 

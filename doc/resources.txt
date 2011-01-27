@@ -1,0 +1,7 @@
+
+* Books
+
+  - Killer Game Programming in Java
+    (http://fivedots.coe.psu.ac.th/~ad/jg/code/index.html)
+
+* Websites
