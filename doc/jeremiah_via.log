@@ -9,3 +9,20 @@
   more to add but not required.
 
 * Week 02
+
+  Had our weekly team meeting on Tuesday. Decided that we would meet
+  up three times a week for pair programming. This way we all feel
+  comfortable with all the code. 
+
+  I spent some time this week coding a Sprite class and a
+  SpriteFactory class. They both have unit tests to ensure that they
+  work as intended. It will be good to move these two classes to their
+  own package eventually that way we can enforce the fact that sprites
+  must be created through the factory class.
+
+  Met up again on Thursday and had a productive meeting. Discussed
+  more of nitty-gritty details of our project. We also spent time
+  locating resources to aid us in building our project.
+
+  
+  
