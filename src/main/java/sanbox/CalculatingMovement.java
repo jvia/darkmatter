@@ -1,35 +1,58 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package sanbox;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.util.ArrayList;
 
 /**
- *
  * @author via
  */
 public class CalculatingMovement {
+    JFrame frame;
+    CirclePanel panel;
+    static int WIDTH = 400;
+    static int HEIGHT = 400;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        CirclePanel panel = new CirclePanel();
+    public CalculatingMovement() {
+        frame = new JFrame();
+        panel = new CirclePanel();
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(WIDTH, HEIGHT);
         frame.setVisible(true);
         frame.addMouseListener(panel);
+    }
+
+    public boolean isOver() {
+        return false;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        CalculatingMovement cm = new CalculatingMovement();
+
+        int fps = 0;
+        long time = System.currentTimeMillis();
+        // Main game loop
+        while (!cm.isOver()) {
+
+            if (System.currentTimeMillis() - time >= 1000) {
+                System.out.printf("FPS: %d\n", fps);
+                fps = 0;
+                time = System.currentTimeMillis();
+            } else {
+                ++fps;
+            }
+
+            // Update the GUI & sleep
+            cm.frame.repaint();
+            Thread.sleep(5);
+        }
+
     }
 }
 
@@ -43,18 +66,21 @@ class Circle extends Ellipse2D.Double {
 class CirclePanel extends JPanel implements MouseListener {
 
     private Circle circle;
+    ArrayList<Circle> circles;
     private Point2D click = new Point2D.Double();
     private String msg = "HI";
 
     public CirclePanel() {
         circle = new Circle(185, 185, 30);
+        circles = new ArrayList<Circle>();
+        circles.add(circle);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.clearRect(0, 0, 400, 400);
+        g2.clearRect(0, 0, WIDTH, HEIGHT);
 
         g2.setColor(Color.black);
         g2.fill(circle);
@@ -74,9 +100,8 @@ class CirclePanel extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         msg = String.format("Circle: (%.2f, %.2f)    Click: (%d, %d) ",
-                            circle.x, circle.y, e.getX(), e.getY());
+                circle.x, circle.y, e.getX(), e.getY());
         click.setLocation(e.getX(), e.getY());
-        repaint();
     }
 
     @Override
