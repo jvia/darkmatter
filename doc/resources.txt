@@ -1,4 +1,3 @@
-
 * Books
 
   - Killer Game Programming in Java
@@ -8,6 +7,13 @@
     (http://my.safaribooksonline.com/9781435458086)
 
 * Websites
+** General Games Tutorials
 
   - http://www.javacooperation.gmxhome.de/TutorialStartEng.html
-  -
+  - http://www.cokeandcode.com/node/6
+  
+** Collision Detection
+
+   - http://gpwiki.org/index.php/C:Collision_detection_between_two_circles
+   - http://compsci.ca/v3/viewtopic.php?t=14897
+   - http://www.metanetsoftware.com/technique/tutorialA.html
