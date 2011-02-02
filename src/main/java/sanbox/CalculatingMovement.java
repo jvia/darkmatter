@@ -22,13 +22,14 @@ import java.util.List;
  * @author via
  */
 public class CalculatingMovement {
+
     static JFrame frame;
     static CirclePanel panel;
     public static int WIDTH = 400;
     public static int HEIGHT = 400;
 
-    public CalculatingMovement() {         
- 		
+    public CalculatingMovement() {
+
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,6 +38,7 @@ public class CalculatingMovement {
 
         // Add key listener
         frame.addKeyListener(new KeyListener() {
+
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -63,18 +65,18 @@ public class CalculatingMovement {
         //panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         frame.add(panel);
         frame.addMouseListener(panel);
-        
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
- 		frame.setUndecorated(true);
- 		frame.setResizable(false);
- 		frame.validate();
 
- 		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setUndecorated(true);
+        frame.setResizable(false);
+        frame.validate();
+
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
 //
 //        frame.pack();
 //        frame.setVisible(true);
-        
-        
+
+
     }
 
     public boolean isOver() {
@@ -89,7 +91,6 @@ public class CalculatingMovement {
             Thread.sleep(10);
         }
     }
-
 
     private static void updateScreen() {
         frame.repaint();
@@ -109,15 +110,21 @@ public class CalculatingMovement {
 
             // check for collisions
             if (dist <= player.getHeight() + npc.getHeight()) {
+
+                player.setDX((player.getDX() * player.getArea() + npc.getDX() * npc.getArea()) / (player.getArea() + npc.getArea()));
+                player.setDY((player.getDY() * player.getArea() + npc.getDY() * npc.getArea()) / (player.getArea() + npc.getArea()));
+
                 if (player.getArea() >= npc.getArea()) {
                     System.out.println("Absorb! @ " + System.nanoTime());
                     player.setArea(player.getArea() + (npc.getArea() * percent));
-                    player.setDX((player.getDX() + npc.getDX()) / 2);
-                    player.setDY((player.getDY() + npc.getDY()) / 2);
                     npc.setArea(npc.getArea() - (npc.getArea() * percent));
                 } else {
                     System.out.println("Absorbed! @ " + System.nanoTime());
+                    player.setArea(player.getArea() - (npc.getArea() * percent));
+                    npc.setArea(npc.getArea() + (npc.getArea() * percent));
 
+                    if (player.getArea() < 1.0)
+                        System.out.println("Game Over!");
                 }
 
             }
@@ -135,26 +142,27 @@ public class CalculatingMovement {
     }
 }
 
-
 /**
  * Represents a circle object on the screen.
  */
 class Circle extends Ellipse2D.Double {
+
     private double dy;
     private double dx;
     private double radius;
 
     public Circle(final double x, final double y, final double r) {
-        super(x, y, r, r);
+        super(x, y, 2 * r, 2 * r);
         radius = r;
         dy = 0;
         dx = 0;
     }
 
     public Circle(final double x, final double y, final double r, final double dy, final double dx) {
-        super(x, y, r, r);
+        super(x, y, 2 * r, 2 * r);
         this.dy = dy;
         this.dx = dx;
+        radius = r;
     }
 
     public void setRadius(final double r) {
@@ -180,7 +188,7 @@ class Circle extends Ellipse2D.Double {
     }
 
     public double getArea() {
-        return Math.PI * Math.pow(width, 2);
+        return Math.PI * Math.pow(getRadius(), 2);
     }
 
     public void update() {
@@ -229,6 +237,10 @@ class Circle extends Ellipse2D.Double {
         double radius = Math.sqrt(area / Math.PI);
         setRadius(radius);
     }
+
+    boolean intersects(Circle b) {
+        return (radius + b.radius) <= (Math.hypot(x - b.x, y - b.y));
+    }
 }
 
 /**
@@ -275,6 +287,11 @@ class CirclePanel extends JPanel implements MouseListener {
 
         g2.setColor(Color.red);
         g2.drawString("Hit [ESC] to Quit", 15, 15);
+
+        Ellipse2D.Double el1 = new Ellipse2D.Double(0.0, 100.0, 50.0, 50.0);
+        Ellipse2D.Double el2 = new Ellipse2D.Double(50.0, 100.0, 50.0, 50.0);
+        g2.draw(el1);
+        g2.draw(el2);
     }
 
     @Override
