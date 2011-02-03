@@ -22,7 +22,9 @@ public class Vector {
      * @param matter
      */
     public Vector(Matter matter) {
-        quantity = 2 * matter.getRadius();
+
+        quantity = matter.getRadius()*matter.getRadius();
+
         if (matter.getDx() > 0 && matter.getDy() > 0) {
             direction = Math.atan(-matter.getDx() / matter.getDy()) + Math.PI;
         }
@@ -39,7 +41,7 @@ public class Vector {
 
     /**
      *
-     * @return
+     * @return(
      */
     public double getQuantity() {
         return quantity;
