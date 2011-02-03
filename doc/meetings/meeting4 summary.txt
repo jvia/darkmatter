@@ -1,0 +1,31 @@
+Meeting Summary
+
+01/2/2011
+
+1000-1100
+
+
+Present: 
+
+
+Joss Greenway (team leader)
+Charles Horrell (secretary)
+Jeremiah Via
+Yukunk Wang
+
+
+
+Summary:
+
+We discussed how we were going to approach the pair programming sessions over the coming week. It was decided upon that for the sessions scheduled straight after the meeting that jeremiah and joss would work on the matter class and charlie and yukun would work on the physics class. This work was then undertaken and submitted to subversion. It was raised that charlie and yukun were not uploading comments when they submitted work to subversion and this should be rememdied. Jeremiah and Yukun also showed of various prototypes that they had uploaded to subversion to test out aspects of the game.
+
+Action to be taken: 
+
+Joss & Jeremiah: Produce Matter Class
+Charlie & Yukun: Produce Physics Class
+ 
+
+
+signed 
+
+Charlie 
