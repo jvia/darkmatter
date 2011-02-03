@@ -23,7 +23,7 @@ public class game {
         h = height;
         NPC = new ArrayList<matter>();
         for (int n = 0; n < 10; n++) {
-            NPC.add(new matter(w * Math.random(), h * Math.random(), 30 * Math.random(), 2 * Math.random(), 2 * Math.random()));
+            NPC.add(new matter(w * Math.random(), h * Math.random(), 50 * Math.random(), 2 * Math.random(), 2 * Math.random()));
         }
         player = new matter(w / 2, h / 2, 15, 0, 0);
         m = new physics(w, h);
@@ -37,20 +37,26 @@ public class game {
             for (int i = n + 1; i < NPC.size(); i++) {
                 matter a = NPC.get(n);
                 matter b = NPC.get(i);
-                if (a.intersects( b)) {
-                    NPC.add(m.absorb(a, b));
-                    NPC.remove(a);
-                    NPC.remove(b);
+                if (a.intersects(b)) {
+                    if (a.eat(b) || b.eat(a)) {
+                        NPC.add(m.eat(a, b));
+                        NPC.remove(a);
+                        NPC.remove(b);
+                    } else {
+                        NPC.remove(a);
+                        NPC.remove(b);
+                        NPC.addAll(m.absorb(a, b));
+                    }
                 }
             }
         }
-        m.move(player);
-        for (int n = 0; n < NPC.size(); n++) {
-        if (player.intersects(NPC.get(n))){
-            player = m.absorb(player, NPC.get(n));
-            NPC.remove(NPC.get(n));
-        }
-        }
-        m.move(player);
+        //m.move(player);
+        /**for (int n = 0; n < NPC.size(); n++) {
+            if (player.intersects(NPC.get(n))) {
+                player = m.eat(player, NPC.get(n));
+                NPC.remove(NPC.get(n));
+            }
+        }*/
+        //m.move(player);
     }
 }

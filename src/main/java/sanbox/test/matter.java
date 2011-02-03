@@ -18,7 +18,7 @@ public class matter extends Ellipse2D.Double {
     public double speedY;
 
     public matter(double x, double y, double r, double sX, double sY) {
-        super(x, y, r, r);
+        super(x, y, 2*r, 2*r);
         radius = r;
         setSize();
         speedX = sX;
@@ -50,8 +50,12 @@ public class matter extends Ellipse2D.Double {
     }
 
     public boolean intersects(matter a) {
-        double distance = Math.hypot((a.x - x), (a.y - y));
+        double distance = Math.hypot((a.x+a.radius - x-radius), (a.y+a.radius - y-radius));
         return distance <= (a.radius + radius);
+    }
+
+    public boolean eat(matter a) {
+        return this.contains(a.x+a.radius, a.y+a.radius);
     }
 
     public void up() {
