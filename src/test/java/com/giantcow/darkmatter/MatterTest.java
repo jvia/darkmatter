@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.giantcow.darkmatter;
 
 import java.awt.geom.Ellipse2D;
@@ -44,6 +39,15 @@ public class MatterTest extends TestCase {
         boolean result = Test1.intersects(Test2);
         assertEquals(expResult, result);       
         
+    }
+
+    public void testIntersects2() {
+        System.out.println("One point intersection");
+        Matter other = new Matter(2.0, 0.0, 1.0, 0.0, 0.0);
+        Matter instance = new Matter(0.0, 0.0, 1.0, 0.0, 0.0);
+        boolean expResult = true;
+        boolean result = instance.intersects(other);
+        assertEquals(expResult, result);
     }
 
     /**

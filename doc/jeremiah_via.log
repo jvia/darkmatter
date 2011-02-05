@@ -24,5 +24,45 @@
   more of nitty-gritty details of our project. We also spent time
   locating resources to aid us in building our project.
 
+  On Sunday, I created a prototype to help myself understand some of
+  the game mechanics. It is a quick, dirty hack but will make it
+  easier to reason about the architecture of the system we need.
   
-  
+* Week 03
+
+  On Tuesday we had a meeting and decided the code we would be making
+  for the week.  We decided to make the Matter and Vector classes in
+  our pair programming sessions. We also discussed the possibly of
+  encoding levels into YAML files so that we could easily design a
+  multitude of levels. 
+
+  After our meeting, I had my first pair programming sessions with
+  Joss. We create the Matter class. It was quite straightforward but
+  one method yet remains unimplemented. We were able to extensively
+  document our code and even write unit tests to assert our intent as
+  to how our code should work.
+
+  Later in the evening I cam home and slightly modified our Matter
+  object to make it more convenient to use. After the modifications it
+  was possible to pass our Matter object immediately to Graphics
+  methods which makes the code look cleaner.
+
+  On Thursday morning, I had my pair programming sessions with
+  Charlie. We created a VelocityVector class which maintains
+  information about an object's velocity and contains methods to
+  conveniently work with that data, e.g., calculate momentum,
+  magnitude and angle.
+
+  In the afternoon, I met up with Yukun for a while to do our pair
+  programming sessions. Unfortunately I felt very about half-way
+  through and had to go home. We will have to make up for it next
+  time! 
+
+* Week 04
+* Week 05
+* Week 06
+* Week 07
+* Week 08
+* Week 09
+* Week 10
+* Week 11
