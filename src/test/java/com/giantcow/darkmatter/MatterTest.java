@@ -41,7 +41,7 @@ public class MatterTest extends TestCase {
         
     }
 
-    public void testIntersects2() {
+    /**public void testIntersects2() {
         System.out.println("One point intersection");
         Matter other = new Matter(2.0, 0.0, 1.0, 0.0, 0.0);
         Matter instance = new Matter(0.0, 0.0, 1.0, 0.0, 0.0);
@@ -49,6 +49,7 @@ public class MatterTest extends TestCase {
         boolean result = instance.intersects(other);
         assertEquals(expResult, result);
     }
+     */
 
     /**
      * Test of collision method, of class Matter.

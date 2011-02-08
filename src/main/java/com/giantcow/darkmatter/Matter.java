@@ -16,6 +16,7 @@ public class Matter implements Shape {
 
     private Ellipse2D.Double blob;
     private VelocityVector velocity;
+    private static final double ALPHA = 0.1;
 
     /**
      * Constructs a Matter object
@@ -196,13 +197,12 @@ public class Matter implements Shape {
         m.setArea(0.05 * getArea());
         setArea((1 - 0.05) * getArea());
         // Calculate matter's position
-        double posX = (x < getBlob().getCenterX()) ? getBlob().getMinX() - m.getDiameter()
-                                                   : getBlob().getMaxX() + m.getDiameter();
-        double posY = (y < getBlob().getCenterY()) ? getBlob().getMinY() - m.getDiameter()
-                                                   : getBlob().getMaxY() + m.getDiameter();
+        Point2D centre = expulsionCentres(x,y,m.getRadius());
+        double posX = centre.getX();
+        double posY = centre.getY();
         Rectangle2D rect = m.getBounds2D();
         rect.setFrame(posX, posY, rect.getWidth(), rect.getHeight());
-        m.getBlob().setFrame(rect);
+        m.getBlob().setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
 
         double nextDY = getDy() - m.getDy();
         nextDY = (nextDY > MAX_SPEED)? MAX_SPEED : nextDY;
@@ -212,6 +212,15 @@ public class Matter implements Shape {
         setDx(nextDX);
 
         return m;
+    }
+
+    private Point2D expulsionCentres(double x, double y, double radius){
+        double theta = Math.toDegrees(Math.atan2(y, x));
+        double hyp = radius + getRadius() + ALPHA;
+        double x1 = Math.sin(theta) * hyp;
+        double y1 = Math.cos(theta) * hyp;
+
+        return new Point2D.Double(x1, y1);
     }
 
 
