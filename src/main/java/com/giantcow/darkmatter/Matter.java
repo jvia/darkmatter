@@ -12,8 +12,8 @@ import java.awt.geom.*;
  * @since 0.1
  */
 public class Matter implements Shape {
-    private static final double MAX_SPEED = 2.0;
 
+    private static final double MAX_SPEED = 2.0;
     private Ellipse2D.Double blob;
     private VelocityVector velocity;
     private static final double ALPHA = 0.1;
@@ -144,9 +144,9 @@ public class Matter implements Shape {
      * @return 'True' if objects intersects, 'False' if otherwise
      */
     public boolean intersects(Matter other) {
-        return blob.intersects(other.getBounds2D()) &&
-               (Math.hypot(blob.getCenterX() - other.getBlob().getCenterX(),
-                           blob.getCenterY() - other.getBlob().getCenterY())
+        return blob.intersects(other.getBounds2D())
+                && (Math.hypot(blob.getCenterX() - other.getBlob().getCenterX(),
+                blob.getCenterY() - other.getBlob().getCenterY())
                 <= (getRadius() + other.getRadius()));
     }
 
@@ -161,7 +161,6 @@ public class Matter implements Shape {
     public boolean isBigger(Matter other) {
         return getRadius() > other.getRadius();
     }
-
 
     public double getVelocity() {
         return velocity.resultant();
@@ -185,10 +184,12 @@ public class Matter implements Shape {
         double deltaX = 0.1;
         double deltaY = 0.1;
 
-        if (x < blob.getCenterX())
+        if (x < blob.getCenterX()) {
             deltaX *= -1;
-        if (y < blob.getCenterY())
+        }
+        if (y < blob.getCenterY()) {
             deltaY *= -1;
+        }
 
         // Create empty matter with the speed
         Matter m = new Matter(0.0, 0.0, 0.0, deltaY, deltaX);
@@ -197,32 +198,42 @@ public class Matter implements Shape {
         m.setArea(0.05 * getArea());
         setArea((1 - 0.05) * getArea());
         // Calculate matter's position
-        Point2D centre = expulsionCentres(x,y,m.getRadius());
+        Point2D centre = expulsionCentres(x, y, m.getRadius());
         double posX = centre.getX();
         double posY = centre.getY();
-        Rectangle2D rect = m.getBounds2D();
-        rect.setFrame(posX, posY, rect.getWidth(), rect.getHeight());
+
         m.getBlob().setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
 
         double nextDY = getDy() - m.getDy();
-        nextDY = (nextDY > MAX_SPEED)? MAX_SPEED : nextDY;
+        nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;
         double nextDX = getDx() - m.getDx();
-        nextDX = (nextDX > MAX_SPEED)? MAX_SPEED : nextDX;
+        nextDX = (nextDX > MAX_SPEED) ? MAX_SPEED : nextDX;
         setDy(nextDY);
         setDx(nextDX);
 
         return m;
     }
 
-    private Point2D expulsionCentres(double x, double y, double radius){
-        double theta = Math.toDegrees(Math.atan2(y, x));
+    private Point2D expulsionCentres(double x, double y, double radius) {
+        Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
+        double theta = Math.toDegrees(Math.atan(Math.abs(y - getBlob().getCenterY())/Math.abs(x - getBlob().getCenterX())));
+        //double theta = Math.toDegrees(Math.atan2(y,x));
+
         double hyp = radius + getRadius() + ALPHA;
-        double x1 = Math.sin(theta) * hyp;
-        double y1 = Math.cos(theta) * hyp;
+        double y1 = Math.sin(theta) * hyp;
+        double x1 = Math.cos(theta) * hyp;
 
-        return new Point2D.Double(x1, y1);
+        if (x <= getBlob().getCenterX() & y <= getBlob().getCenterY()) {
+            expulsionCentre.setLocation(getBlob().getCenterX() - x1, getBlob().getCenterY() - y1);
+        } else if (x > getBlob().getCenterX() & y <= getBlob().getCenterY()) {
+            expulsionCentre.setLocation(getBlob().getCenterX() + x1, getBlob().getCenterY() - y1);
+        } else if (x <= getBlob().getCenterX() & y > getBlob().getCenterY()) {
+            expulsionCentre.setLocation(getBlob().getCenterX() - x1, getBlob().getCenterY() + y1);
+        } else if (x > getBlob().getCenterX() & y > getBlob().getCenterY()) {
+            expulsionCentre.setLocation(getBlob().getCenterX() + x1, getBlob().getCenterY() + y1);
+        }
+        return expulsionCentre;
     }
-
 
     /**
      * Returns an integer {@link java.awt.Rectangle} that completely encloses the <code>Shape</code>.  Note that there
