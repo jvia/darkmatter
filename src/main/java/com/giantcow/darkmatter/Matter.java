@@ -214,6 +214,15 @@ public class Matter implements Shape {
         return m;
     }
 
+    /**
+     * Calculates the appropriate centre x and y coordinates of an expelled matter object depending
+     * on the position the mouse was clicked at
+     * @param x x-coordinate of mouse click
+     * @param y y-coordinate of mouse click
+     * @param radius radius of expelled matter object
+     * @return Point2D object holding x and y coordinates which represent the centre position
+     * of the expelled Matter object
+     */
     private Point2D expulsionCentres(double x, double y, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
         double theta = Math.toDegrees(Math.atan(Math.abs(y - getBlob().getCenterY())/Math.abs(x - getBlob().getCenterX())));
