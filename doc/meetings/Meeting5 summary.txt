@@ -1,0 +1,33 @@
+Meeting Summary
+
+08/2/2011
+
+1000-1100
+
+
+Present: 
+
+
+Joss Greenway (team leader)
+Charles Horrell (secretary)
+Jeremiah Via
+Yukunk Wang
+
+
+
+Summary:
+
+Firstly we discussed the progress of the previous and team members were bought up to date on the demonstrator meeting from the previous week. We discussed the points raised in that meeting and endevoured to address the issues that came up such as using more scientific english and producing a detailed weekly report. It was decided that charlie would produce this in time for the demonstrator meeting for the following weeks. Jeremiah demonstrated to us the dark matter class he had written and joss showed us the draft of an opening video for the game. We then decided on tasks for the week and ranked tasks that needed to be done in order of priority. The main issues to be undertaken were programming an AI for the other player in the single player mode, start programming the networking, fixing the ejection angles of the balls of matter and introduce an egocentric scrolling view. 
+
+Action to be taken: 
+
+Joss: Fix ejection angles of matter
+Charlie: Produce AI for other player
+Jeremiah: Start the client server networking
+Yukun: Develop an scrolling system with the player always at the center. 
+ 
+
+
+signed 
+
+Charlie 
