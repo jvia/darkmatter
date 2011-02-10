@@ -1,2 +1,10 @@
-- Should use a Sprite interface and use a mechanism so we only load
-  each sprite once to save on memory.
+* Critical
+** TODO Networking (Jeremiah)
+** TODO AI Player (Charlie)
+** TODO Scrollable World (Yukun)
+** DONE More Exact Expulsion (Joss)
+* Important
+** Game Music using JOrbis
+* Nice to Have
+** Sprites
+** Animating Sprites

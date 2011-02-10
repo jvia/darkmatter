@@ -66,6 +66,11 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.projectdarkstar.ext.jorbis</groupId>
+            <artifactId>jorbis</artifactId>
+            <version>0.0.17</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
