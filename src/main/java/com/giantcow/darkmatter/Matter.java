@@ -215,8 +215,8 @@ public class Matter implements Shape {
     }
 
     /**
-     * Calculates the appropriate centre x and y coordinates of an expelled matter object depending
-     * on the position the mouse was clicked at
+     * Creates Point2D object holding x and y coordinates which represent the centre
+     * position of a new expelled Matter object
      * @param x x-coordinate of mouse click
      * @param y y-coordinate of mouse click
      * @param radius radius of expelled matter object
@@ -225,7 +225,7 @@ public class Matter implements Shape {
      */
     private Point2D expulsionCentres(double x, double y, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
-        double theta = Math.toDegrees(Math.atan(Math.abs(y - getBlob().getCenterY())/Math.abs(x - getBlob().getCenterX())));
+        double theta = Math.atan(Math.abs(y - getBlob().getCenterY())/Math.abs(x - getBlob().getCenterX()));
         //double theta = Math.toDegrees(Math.atan2(y,x));
 
         double hyp = radius + getRadius() + ALPHA;
@@ -240,7 +240,7 @@ public class Matter implements Shape {
             expulsionCentre.setLocation(getBlob().getCenterX() - x1, getBlob().getCenterY() + y1);
         } else if (x > getBlob().getCenterX() & y > getBlob().getCenterY()) {
             expulsionCentre.setLocation(getBlob().getCenterX() + x1, getBlob().getCenterY() + y1);
-        }
+        }        
         return expulsionCentre;
     }
 
