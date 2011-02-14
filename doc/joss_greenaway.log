@@ -6,6 +6,10 @@ Week 2 (24/01) :-
 
 Met for our second team meeting (25/01), went through certain ideas pertaining to the class structure of the game, concluding that until we had more information on the networking aspect we shouldn't move forward too strongly with implementing a detailed class structure, but for the mean time should stick to experimentation with basic ideas. Sorted out a schedule for pairs programming between the four of us where we would program with one every other member of the team for an hour per week.
 
-Week 3 ( 31/01) :-
+Week 3 (31/01) :-
 
 Met for our third team meeting (01/02), discussed our planned pair programming for the week and what we intended to achieve for the end of the week so we could update to our next version release. Settled on myself and Jeremiah working on a Matter class which would be used as a wrapped for Ellipse2D objects to generate both NPC and Player Matter objects, whilst Charlie and Yukun were set to work on Physics (Specially Vectors and Motion).
+
+Week 4 (07/02) :-
+
+Met and discussed what goals we wanted to set ourselves for the week ahead, looked at the most pressing issues with our game and what would 'need' to be done soonest in order to have our fully functioning prototype by week six - this ended up being 'Egocentric view', 'Server/Client Networking capability', 'AI Matter class' and 'Ejecting matter from any angle relative to your Player Matter'. We divided up the work with me working on the Matter Ejection, Jeremiah on the Client/Server, Yukun on the Egocentric view and Charlie on the AI programming. I completed my project by Thursday and then switched to looking at experimentation with playing music using Java - looking at the plugin Jorvis.
