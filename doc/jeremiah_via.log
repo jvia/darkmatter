@@ -59,6 +59,28 @@
   time! 
 
 * Week 04
+
+  The team had our weekly meeting on Tuesday. We decided on what tasks
+  we will be doing and now have a list of tasks to do. It was decided
+  that I would do networking and I have been reading up on video game
+  networking and planning on a good design. I think for our game
+  purposes it will be fine to send objects as there is not too much in
+  the game. But if it is, in fact, too slow then I will alter to send
+  only numbers.
+
+  Joss and I had our weekly pair programming sessions. We tried to
+  figure out how to solve the problem of making the ejection angle
+  just right for expelled matter. By the end of the sessions we had
+  worked out the general idea of how it would be done.
+
+  On Thursday, Charlie and I met up and began working on the AI
+  player. We made a little bit of progress but we will need to change
+  a few things architecturally in order for it to work right. Later
+  that day I met with Yukun and we spent our pair programming sessions
+  deciding how it would be possible to scroll around the map. This
+  seems like a hard problem and one which we do not yet have an answer
+  for.
+
 * Week 05
 * Week 06
 * Week 07
