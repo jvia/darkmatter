@@ -7,3 +7,7 @@ Hower we need the further detail about the game structure. Than went to lab lear
 
 Week 3
 Met with our team on tuesday. We decided to use vector to calculate momentum. And this week we will do Vector, Matter and Physic class. After meetiong, Charles and I began to make physics class, but did not make as much as we hoped. On thursday, worked with Jeremiah to make Game class. In the Game class, we write update method and creat a panel and a main method to test this class.
+
+Week 4
+
+Had teem meeting on Tursday. We disscussed what should we do next step, and list them to decide what should we do this week. At the end, my work this week was "center view", which make sure the player's matter at the center of screen and always be a suitable size, this should enlarge the whole map of game. My inital is select a window on the map depends on the play's size and position, the full screen this window. Unfortunately, at pairgramme I found there is not a good the to select this window. No my idea is is crest a zoom level to enlarge every matter on the screen and the put the local player an the center of screen. 
