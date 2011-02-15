@@ -1,0 +1,29 @@
+Demonstrator Meeting 4
+
+
+10/02/2011 
+3pm-3.30pm 
+
+
+Present: 
+
+Kat (demonstrator) 
+
+Charles Horrell (secretary)
+Yukunk Wang
+Joss Greenway (team leader) 
+Jeremiah Via 
+
+
+
+Summary:
+
+During this meeting we presented to Kat the weekly report that had been promised at the previous weeks meeting. Feeback from this was generally positive however Kat requested that it would have been more useful if the weekly report had been submitted to subversion earlier in the day, unfortunately a large part of our timetabled man hours for the project takes place on the thursdays and so any report submitted earlier in the day would likely be a false state of affairs. Kat approved of our production of long term goals and organisation in approaching problems. 
+
+We were also introduced to the planning game which involved different team members approximating the amount of time taken for particular tasks in arbritary units consisting of the time taken for a simple feature such as a button to be programmed in java. From this we decided that the client server would take the majority of the weeks ahead and as such the team should pitch in to help Jeremiah with the production of this. We also rated the scrolling problem as taking a long time to solve. 
+
+ 
+
+signed 
+
+Charlie (secretary) 
