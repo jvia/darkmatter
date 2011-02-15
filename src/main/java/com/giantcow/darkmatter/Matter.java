@@ -2,6 +2,7 @@ package com.giantcow.darkmatter;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.Collection;
 
 /**
  * Perfect circle representing a Matter object in space.
@@ -11,7 +12,7 @@ import java.awt.geom.*;
  * @version 2011.0201
  * @since 0.1
  */
-public class Matter implements Shape {
+public class Matter implements Shape, Comparable {
 
     protected static final double MAX_SPEED = 2.0;
     private Ellipse2D.Double blob;
@@ -118,9 +119,22 @@ public class Matter implements Shape {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-                && (Math.hypot(blob.getCenterX() - other.getCenterX(),
-                blob.getCenterY() - other.getCenterY())
-                <= (getRadius() + other.getRadius()));
+               && (Math.hypot(blob.getCenterX() - other.getCenterX(),
+                              blob.getCenterY() - other.getCenterY())
+                   <= (getRadius() + other.getRadius()));
+    }
+
+    public boolean intersects(Collection<Matter> others) {
+        for (Matter other : others)
+            if (this.intersects(other))
+                return true;
+        return false;
+    }
+
+    public boolean completelyConsumes(Matter other) {
+        return blob.getMinX() <= other.getMinX() && blob.getMinY() <= other.
+                getMinY() && blob.getMaxX() >= other.getMaxX() && blob.getMaxY() >= other.
+                getMaxX();
     }
 
     public double getCenterX() {
@@ -175,7 +189,8 @@ public class Matter implements Shape {
         double posX = centre.getX();
         double posY = centre.getY();
 
-        m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
+        m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.
+                getRadius());
 
         double nextDY = getDy() - m.getDy();
         nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;
@@ -203,7 +218,8 @@ public class Matter implements Shape {
      */
     protected Point2D expulsionCentres(double x, double y, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
-        double theta = Math.atan(Math.abs(y - getCenterY())/Math.abs(x - getCenterX()));
+        double theta = Math.atan(Math.abs(y - getCenterY()) / Math.abs(
+                x - getCenterX()));
         //double theta = Math.toDegrees(Math.atan2(y,x));
 
         double hyp = radius + getRadius() + ALPHA;
@@ -471,5 +487,15 @@ public class Matter implements Shape {
 
     public double getMinY() {
         return blob.getMinY();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        try {
+            Matter m = (Matter) o;
+            return (int) (this.getRadius() - m.getRadius());
+        } catch (ClassCastException ex) {
+            throw new ClassCastException("Object not of type Matter");
+        }
     }
 }
