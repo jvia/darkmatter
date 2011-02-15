@@ -11,6 +11,7 @@
   consists of absorbing smaller objects and the avoidance of
   absorption from larger objects. These two facts together force
   players to create a balance between their speed and their mass.
+  - Frictionless world
 
   Levels will vary in main goals and level design. Some may be
   situated more in deep space while others are situated around a star
