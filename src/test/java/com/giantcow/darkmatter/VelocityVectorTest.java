@@ -1,23 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.giantcow.darkmatter;
 
 import junit.framework.TestCase;
 
 /**
+ * Testing the VelocityVector class.
  *
- * @author Charlie
+ * @author Charlie Horrel <cxh900@cs.bham.ac.uk>
+ * @author Jeremiah Via <jxv911@cs.bham.ac.uk>
  */
 public class VelocityVectorTest extends TestCase {
     
     public VelocityVectorTest() {
         super("velocity vector test");
     }
-
-    
 
    
     /**

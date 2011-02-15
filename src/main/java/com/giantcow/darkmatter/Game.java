@@ -45,10 +45,10 @@ public class Game {
 
     public void update(){
         for (int n = 0; n < NPC.size(); n++) {
-            if(NPC.get(n).getBlob().getMaxX()>ScreenWidth||NPC.get(n).getBlob().getMinX()<0){
+            if(NPC.get(n).getMaxX()>ScreenWidth||NPC.get(n).getMinX()<0){
                 NPC.get(n).setDx(-NPC.get(n).getDx());
             }
-            if(NPC.get(n).getBlob().getMaxY()>ScreenHeight||NPC.get(n).getBlob().getMinY()<0){
+            if(NPC.get(n).getMaxY()>ScreenHeight||NPC.get(n).getMinY()<0){
                 NPC.get(n).setDy(-NPC.get(n).getDy());
             }
             NPC.get(n).update();

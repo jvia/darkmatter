@@ -178,7 +178,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                                              boundingBox.getY(),
                                              boundingBox.getWidth(),
                                              boundingBox.getHeight());
-                        m.getBlob().setFrame(boundingBox);
+                        m.setFrame(boundingBox);
                     }
 
 
@@ -189,7 +189,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                                              boundingBox.getY() - yOffset,
                                              boundingBox.getWidth(),
                                              boundingBox.getHeight());
-                        m.getBlob().setFrame(boundingBox);
+                        m.setFrame(boundingBox);
                     }
                 }
             }
@@ -197,9 +197,9 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
         // Change dy/dx if necessary
         for (Matter m : matterList) {
-            if (m.getBlob().getX() <= 0 || m.getBlob().getMaxX() >= getWidth())
+            if (m.getX() <= 0 || m.getMaxX() >= getWidth())
                 m.setDx(-m.getDx());
-            if (m.getBlob().getY() <= 0 || m.getBlob().getMaxY() >= getHeight())
+            if (m.getY() <= 0 || m.getMaxY() >= getHeight())
                 m.setDy(-m.getDy());
             m.update();
         }

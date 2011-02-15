@@ -13,7 +13,7 @@ import java.awt.geom.*;
  */
 public class Matter implements Shape {
 
-    private static final double MAX_SPEED = 2.0;
+    protected static final double MAX_SPEED = 2.0;
     private Ellipse2D.Double blob;
     private VelocityVector velocity;
     private static final double ALPHA = 0.1;
@@ -54,24 +54,6 @@ public class Matter implements Shape {
 
     public Matter(Matter m) {
         this(m.blob, m.getDy(), m.getDx());
-    }
-
-    /**
-     * Returns Ellipse2D object
-     *
-     * @return
-     */
-    public Ellipse2D getBlob() {
-        return blob;
-    }
-
-    /**
-     * sets Ellipse2D object
-     *
-     * @param blob the Ellipse2D object
-     */
-    public void setBlob(Ellipse2D.Double blob) {
-        this.blob = blob;
     }
 
     /**
@@ -119,15 +101,6 @@ public class Matter implements Shape {
         blob.height = blob.width;
     }
 
-    public double getDiameter() {
-        return blob.width;
-    }
-
-    public void setDiamater(double d) {
-        blob.width = d;
-        blob.height = blob.width;
-    }
-
     public double getArea() {
         return Math.PI * Math.pow(getRadius(), 2);
     }
@@ -145,17 +118,17 @@ public class Matter implements Shape {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-                && (Math.hypot(blob.getCenterX() - other.getBlob().getCenterX(),
-                blob.getCenterY() - other.getBlob().getCenterY())
+                && (Math.hypot(blob.getCenterX() - other.getCenterX(),
+                blob.getCenterY() - other.getCenterY())
                 <= (getRadius() + other.getRadius()));
     }
 
-    /**
-     * Modifies Matter object based on the other Matter object it has intersected with
-     *
-     * @param other other Matter object
-     */
-    public void collision(Matter other) {
+    public double getCenterX() {
+        return blob.getCenterX();
+    }
+
+    public double getCenterY() {
+        return blob.getCenterY();
     }
 
     public boolean isBigger(Matter other) {
@@ -202,7 +175,7 @@ public class Matter implements Shape {
         double posX = centre.getX();
         double posY = centre.getY();
 
-        m.getBlob().setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
+        m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
 
         double nextDY = getDy() - m.getDy();
         nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;
@@ -214,33 +187,38 @@ public class Matter implements Shape {
         return m;
     }
 
+    public void setFrameFromCenter(double x, double y, double x1, double y1) {
+        blob.setFrameFromCenter(x, y, x1, y1);
+    }
+
     /**
      * Creates Point2D object holding x and y coordinates which represent the centre
-     * position of a new expelled Matter object
+     * position of a new expelled Matter object.
+     *
      * @param x x-coordinate of mouse click
      * @param y y-coordinate of mouse click
      * @param radius radius of expelled matter object
      * @return Point2D object holding x and y coordinates which represent the centre position
-     * of the expelled Matter object
+     *         of the expelled Matter object
      */
-    private Point2D expulsionCentres(double x, double y, double radius) {
+    protected Point2D expulsionCentres(double x, double y, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
-        double theta = Math.atan(Math.abs(y - getBlob().getCenterY())/Math.abs(x - getBlob().getCenterX()));
+        double theta = Math.atan(Math.abs(y - getCenterY())/Math.abs(x - getCenterX()));
         //double theta = Math.toDegrees(Math.atan2(y,x));
 
         double hyp = radius + getRadius() + ALPHA;
         double y1 = Math.sin(theta) * hyp;
         double x1 = Math.cos(theta) * hyp;
 
-        if (x <= getBlob().getCenterX() & y <= getBlob().getCenterY()) {
-            expulsionCentre.setLocation(getBlob().getCenterX() - x1, getBlob().getCenterY() - y1);
-        } else if (x > getBlob().getCenterX() & y <= getBlob().getCenterY()) {
-            expulsionCentre.setLocation(getBlob().getCenterX() + x1, getBlob().getCenterY() - y1);
-        } else if (x <= getBlob().getCenterX() & y > getBlob().getCenterY()) {
-            expulsionCentre.setLocation(getBlob().getCenterX() - x1, getBlob().getCenterY() + y1);
-        } else if (x > getBlob().getCenterX() & y > getBlob().getCenterY()) {
-            expulsionCentre.setLocation(getBlob().getCenterX() + x1, getBlob().getCenterY() + y1);
-        }        
+        if (x <= getCenterX() & y <= getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() - x1, getCenterY() - y1);
+        } else if (x > getCenterX() & y <= getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() + x1, getCenterY() - y1);
+        } else if (x <= getCenterX() & y > getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() - x1, getCenterY() + y1);
+        } else if (x > getCenterX() & y > getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() + x1, getCenterY() + y1);
+        }
         return expulsionCentre;
     }
 
@@ -465,5 +443,33 @@ public class Matter implements Shape {
     @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return blob.getPathIterator(at, flatness);
+    }
+
+    public double getX() {
+        return blob.getX();
+    }
+
+    public double getY() {
+        return blob.getY();
+    }
+
+    public void setFrame(Rectangle2D frame) {
+        blob.setFrame(frame);
+    }
+
+    public double getMaxX() {
+        return blob.getMaxX();
+    }
+
+    public double getMaxY() {
+        return blob.getMaxY();
+    }
+
+    public double getMinX() {
+        return blob.getMinX();
+    }
+
+    public double getMinY() {
+        return blob.getMinY();
     }
 }

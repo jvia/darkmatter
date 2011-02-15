@@ -4,7 +4,7 @@
     <groupId>com.giantcow.</groupId>
     <artifactId>darkmatter</artifactId>
     <packaging>jar</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <name>darkmatter</name>
     <url>http://maven.apache.org</url>
     <description>An Osmos-inspired matter absorption game.</description>

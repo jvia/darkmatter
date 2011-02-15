@@ -23,9 +23,9 @@ public class AIMatter extends Matter {
         Matter best = null;
         Matter expel = new Matter(0., 0.0, 0.0, 0.1, 0.1);
         for (Matter other : others) {
-            if (Math.hypot(other.getBlob().getCenterX() - getBlob().getCenterX(),
-                    other.getBlob().getCenterY() - getBlob().getCenterY()) <= Math.hypot(best.getBlob().getCenterX() - getBlob().getCenterX(),
-                    best.getBlob().getCenterY() - getBlob().getCenterY())) {
+            if (Math.hypot(other.getCenterX() - getCenterX(),
+                    other.getCenterY() - getCenterY()) <= Math.hypot(best.getCenterX() - getCenterX(),
+                    best.getCenterY() - getCenterY())) {
                 if (other.getArea() < best.getArea()) {
                     best = other;
                 }
@@ -33,24 +33,24 @@ public class AIMatter extends Matter {
             }
         }
 
-        double xmod = Math.abs(getBlob().getCenterX() - best.getBlob().getCenterX());
-        double ymod = Math.abs(getBlob().getCenterY() - best.getBlob().getCenterY());
+        double xmod = Math.abs(getCenterX() - best.getCenterX());
+        double ymod = Math.abs(getCenterY() - best.getCenterY());
 
-        if (getBlob().getCenterX() < best.getBlob().getCenterX()) {
-            x = getBlob().getCenterX() - xmod;
+        if (getCenterX() < best.getCenterX()) {
+            x = getCenterX() - xmod;
         }
 
-        if (getBlob().getCenterX() > best.getBlob().getCenterX()) {
-            x = getBlob().getCenterX() + xmod;
+        if (getCenterX() > best.getCenterX()) {
+            x = getCenterX() + xmod;
         }
 
-        if (getBlob().getCenterY() < best.getBlob().getCenterY()) {
-            y = getBlob().getCenterY() - ymod;
+        if (getCenterY() < best.getCenterY()) {
+            y = getCenterY() - ymod;
         }
 
 
-        if (getBlob().getCenterY() > best.getBlob().getCenterY()) {
-            y = getBlob().getCenterY() + ymod;
+        if (getCenterY() > best.getCenterY()) {
+            y = getCenterY() + ymod;
         }
 
         // Set matter's speed
@@ -61,7 +61,7 @@ public class AIMatter extends Matter {
         double posX = centre.getX();
         double posY = centre.getY();
 
-        expel.getBlob().setFrameFromCenter(posX, posY, posX + expel.getRadius(), posY + expel.getRadius());
+        expel.setFrameFromCenter(posX, posY, posX + expel.getRadius(), posY + expel.getRadius());
 
         double nextDY = getDy() - expel.getDy();
         nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;

@@ -1,4 +1,4 @@
 /**
- * Currently our only package.
+ * Holds the main game code.
  */
 package com.giantcow.darkmatter;
