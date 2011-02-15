@@ -18,11 +18,11 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
     private static final long DELAY = 10;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         DarkMatter darkMatter = new DarkMatter();
         darkMatter.run();
     }
+
     // GUI Variables
     private static int DEFAULT_WIDTH = 600;
     private static int DEFAULT_HEIGHT = 400;
@@ -31,17 +31,17 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private Color npc = new Color(245, 179, 73);
     private boolean isFullScreen;
     // Game Variables
-    private boolean gameOver;
     private ArrayList<Matter> matterList;
     private Matter localPlayer;
     private Matter remotePlayer;
     private double goalArea;
     // Game constants
-    private static double MAX_SPEED = 0.5;
     private static int INITIAL_BLOBS = 20;
 
-    public DarkMatter()
-    {
+    /**
+     * Create the game object.
+     */
+    public DarkMatter() {
         // Setup our component
         setDoubleBuffered(true);
         setOpaque(true);
@@ -67,9 +67,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      * TODO Contact network to get this information
      * TODO Use level loader to build
      */
-    private void init()
-    {
-        gameOver = false;
+    private void init() {
         matterList = new ArrayList<Matter>();
         localPlayer = new Matter(20, 20, 40, 0, 0);
         remotePlayer = new Matter(300, 200, 40, 0, 0);
@@ -87,16 +85,10 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
             // Check to see if it is on top of any other blobs
             // and if not add it to the queue
-            boolean collides = false;
-            for (Matter other : matterList) {
-                if (m.intersects(other)) {
-                    collides = true;
-                    break;
-                }
-            }
-            if (!collides) {
+            if (!m.intersects(matterList)) {
                 matterList.add(m);
                 area += m.getArea();
+
             }
         }
 
@@ -105,9 +97,13 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
     }
 
+    /**
+     * Paints the current state of the game to the screen.
+     * 
+     * @param g the graphics context object
+     */
     @Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -136,8 +132,12 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         g.dispose();
     }
 
-    public void run()
-    {
+    /**
+     * This method runs the game. It simple updates every object,
+     * repaints the screen and then sleep for the specified amount
+     * of time.
+     */
+    public void run() {
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
 
@@ -161,8 +161,11 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         }
     }
 
-    private void update()
-    {
+    /**
+     * Updates every matter object in the game. This method will get long
+     * so it will be best to try and split it up into many smaller methods.
+     */
+    private void update() {
         // Detect collisions
         for (int i = 0; i < matterList.size(); i++) {
             for (int j = 0; j < matterList.size(); j++) {
@@ -216,14 +219,14 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     }
 
     /**
-     * Invoked when a key has been pressed. See the class description for {@link java.awt.event.KeyEvent} for a
-     * definition of a key pressed event.
+     * Invoked when a key has been pressed. See the class description for 
+     * {@link java.awt.event.KeyEvent} for a definition of a key pressed
+     * event.
      *
      * @param e the key event
      */
     @Override
-    public void keyPressed(KeyEvent e)
-    {
+    public void keyPressed(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_F11) {
             isFullScreen = (isFullScreen) ? false : true;
             System.out.println("Switch modes");
@@ -232,44 +235,39 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
     /** Invoked when a mouse button has been pressed on a component. */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         Matter m = localPlayer.changeMove(e.getX(), e.getY());
         if (m != null)
             matterList.add(m);
     }
 
+    // <editor-fold desc="Unused event methods">
     @Override
-    public void keyTyped(KeyEvent e)
-    {
+    public void keyTyped(KeyEvent e) {
     }
 
     @Override
-    public void keyReleased(KeyEvent e)
-    {
+    public void keyReleased(KeyEvent e) {
     }
 
     /** Invoked when the mouse button has been clicked (pressed and released) on a component. */
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
     }
 
     /** Invoked when a mouse button has been released on a component. */
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
     }
 
     /** Invoked when the mouse enters a component. */
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
     }
 
     /** Invoked when the mouse exits a component. */
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
     }
+    // </editor-fold>
 }
