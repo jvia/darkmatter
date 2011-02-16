@@ -79,7 +79,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             // Generate random blob
             Matter m = new Matter(Math.random() * (getWidth() - 50),
                                   Math.random() * (getHeight() - 50),
-                                  Math.random() * 50,
+                                  Math.random() * 25,
                                   -0.1 + Math.random() * 0.2,
                                   -0.1 + Math.random() * 0.2);
 

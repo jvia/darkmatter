@@ -15,9 +15,10 @@ import java.util.Collection;
 public class Matter implements Shape, Comparable {
 
     protected static final double MAX_SPEED = 2.0;
+    private static final double ALPHA = 0.1;
+    
     private Ellipse2D.Double blob;
     private VelocityVector velocity;
-    private static final double ALPHA = 0.1;
 
     /**
      * Constructs a Matter object
@@ -34,15 +35,6 @@ public class Matter implements Shape, Comparable {
     /**
      * Constructs a Matter object
      *
-     * @param blob the Ellipse2D object
-     */
-    public Matter(Ellipse2D.Double blob) {
-        this(blob, 0.0, 0.0);
-    }
-
-    /**
-     * Constructs a Matter object
-     *
      * @param x      Top left corner of the bounding rectangle
      * @param y      Top left corner of the bounding rectangle
      * @param radius the radius
@@ -50,11 +42,25 @@ public class Matter implements Shape, Comparable {
      * @param dx     change in x
      */
     public Matter(double x, double y, double radius, double dy, double dx) {
-        this(new Ellipse2D.Double(x, y, radius, radius), dy, dx);
+        this(new Ellipse2D.Double(x, y, 2 * radius,  2 * radius), dy, dx);
     }
 
+    /**
+     * Constructs a Matter object from another matter object.
+     *
+     * @param m the other matter object.
+     */
     public Matter(Matter m) {
         this(m.blob, m.getDy(), m.getDx());
+    }
+
+    /**
+     * Constructs a Matter object
+     *
+     * @param blob the Ellipse2D object
+     */
+    public Matter(Ellipse2D.Double blob) {
+        this(blob, 0.0, 0.0);
     }
 
     /**
@@ -93,19 +99,38 @@ public class Matter implements Shape, Comparable {
         velocity.setDy(dy);
     }
 
+    /**
+     * Gets the radius of the matter object.
+     *
+     * @return the matter's radius
+     */
     public double getRadius() {
         return blob.width / 2;
     }
 
+    /**
+     * Sets the radius of the matter object.
+     *
+     * @param r the new radius
+     */
     public void setRadius(double r) {
         blob.width = r * 2;
         blob.height = blob.width;
     }
 
+    /**
+     * Returns the area of the object.
+     * @return the current area
+     */
     public double getArea() {
         return Math.PI * Math.pow(getRadius(), 2);
     }
 
+    /**
+     * Sets the area of the object.
+     *
+     * @param area the new area
+     */
     public void setArea(double area) {
         double radius = Math.sqrt(area / Math.PI);
         setRadius(radius);
@@ -124,6 +149,13 @@ public class Matter implements Shape, Comparable {
                    <= (getRadius() + other.getRadius()));
     }
 
+    /**
+     * Checks whether this Matter object intersects with a Collection  of
+     * other  Matter objects.
+     *
+     * @param others the Collection  of Matter objects
+     * @return true if a collision, false otherwise
+     */
     public boolean intersects(Collection<Matter> others) {
         for (Matter other : others)
             if (this.intersects(other))
@@ -132,9 +164,7 @@ public class Matter implements Shape, Comparable {
     }
 
     public boolean completelyConsumes(Matter other) {
-        return blob.getMinX() <= other.getMinX() && blob.getMinY() <= other.
-                getMinY() && blob.getMaxX() >= other.getMaxX() && blob.getMaxY() >= other.
-                getMaxX();
+        return blob.getMinX() <= other.getMinX() && blob.getMinY() <= other.getMinY() && blob.getMaxX() >= other.getMaxX() && blob.getMaxY() >= other.getMaxX();
     }
 
     public double getCenterX() {
@@ -189,8 +219,7 @@ public class Matter implements Shape, Comparable {
         double posX = centre.getX();
         double posY = centre.getY();
 
-        m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.
-                getRadius());
+        m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
 
         double nextDY = getDy() - m.getDy();
         nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;
@@ -427,33 +456,43 @@ public class Matter implements Shape, Comparable {
     }
 
     /**
-     * Returns an iterator object that iterates along the <code>Shape</code> boundary and provides access to a flattened
-     * view of the <code>Shape</code> outline geometry.
+     * Returns an iterator object that iterates along the <code>Shape</code> 
+     * boundary and provides access to a flattened view of the <code>Shape</code>
+     * outline geometry.
      * <p/>
-     * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types are returned by the iterator.
+     * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types are returned
+     * by the iterator.
      * <p/>
-     * If an optional <code>AffineTransform</code> is specified, the coordinates returned in the iteration are
+     * If an optional <code>AffineTransform</code> is specified, the
+     * coordinates returned in the iteration are
      * transformed accordingly.
      * <p/>
-     * The amount of subdivision of the curved segments is controlled by the <code>flatness</code> parameter, which
-     * specifies the maximum distance that any point on the unflattened transformed curve can deviate from the returned
-     * flattened path segments. Note that a limit on the accuracy of the flattened path might be silently imposed,
-     * causing very small flattening parameters to be treated as larger values.  This limit, if there is one, is defined
-     * by the particular implementation that is used.
+     * The amount of subdivision of the curved segments is controlled by 
+     * the <code>flatness</code> parameter, which specifies the maximum
+     * distance that any point on the unflattened transformed curve can deviate
+     * from the returned flattened path segments. Note that a limit on the
+     * accuracy of the flattened path might be silently imposed, causing very
+     * small flattening parameters to be treated as larger values.  This limit,
+     * if there is one, is defined by the particular implementation that is used.
      * <p/>
-     * Each call to this method returns a fresh <code>PathIterator</code> object that traverses the <code>Shape</code>
-     * object geometry independently from any other <code>PathIterator</code> objects in use at the same time.
+     * Each call to this method returns a fresh <code>PathIterator</code> 
+     * object that traverses the <code>Shape</code> object geometry independently
+     * from any other <code>PathIterator</code> objects in use at the same time.
      * <p/>
-     * It is recommended, but not guaranteed, that objects implementing the <code>Shape</code> interface isolate
-     * iterations that are in process from any changes that might occur to the original object's geometry during such
-     * iterations.
+     * It is recommended, but not guaranteed, that objects implementing the 
+     * <code>Shape</code> interface isolate iterations that are in process
+     * from any changes that might occur to the original object's geometry
+     * during such iterations.
      *
-     * @param at       an optional <code>AffineTransform</code> to be applied to the coordinates as they are returned in
-     *                 the iteration, or <code>null</code> if untransformed coordinates are desired
-     * @param flatness the maximum distance that the line segments used to approximate the curved segments are allowed
-     *                 to deviate from any point on the original curve
-     * @return a new <code>PathIterator</code> that independently traverses a flattened view of the geometry of the
-     *         <code>Shape</code>.
+     * @param at       an optional <code>AffineTransform</code> to be applied 
+     *                  to the coordinates as they are returned in the iteration,
+     *                  or <code>null</code> if untransformed coordinates
+     *                  are desired
+     * @param flatness the maximum distance that the line segments used to 
+     *                  approximate the curved segments are allowed to deviate
+     *                  from any point on the original curve
+     * @return a new <code>PathIterator</code> that independently traverses 
+     *          a flattened view of the geometry of the <code>Shape</code>.
      * @since 1.2
      */
     @Override
@@ -489,6 +528,12 @@ public class Matter implements Shape, Comparable {
         return blob.getMinY();
     }
 
+    /**
+     * Compares this object to another.
+     *
+     * @param o
+     * @return  negative if less than; 0 if equal; &gt positive if greater than
+     */
     @Override
     public int compareTo(Object o) {
         try {
@@ -498,4 +543,18 @@ public class Matter implements Shape, Comparable {
             throw new ClassCastException("Object not of type Matter");
         }
     }
+
+    /**
+     * Returns a String representation of the object. It details the (X,Y)
+     * coordinate of the top-left corner of the bounding rectangle, the radius
+     * of the circle and the change in y and x of the object.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString() {
+        return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f",
+                             getX(), getY(), getRadius(), getDx(), getDy());
+    }
+
 }
