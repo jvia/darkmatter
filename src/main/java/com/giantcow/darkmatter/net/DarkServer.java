@@ -16,15 +16,16 @@ import java.util.logging.Logger;
  */
 public class DarkServer {
 
+    protected static final Matter MINIMUM_MATTER_SIZE = new Matter(0, 0, 1.0, 0, 0);
+
     public static void main(String[] args) {
         try {
             new DarkServer();
         } catch (IOException ex) {
-            Logger.getLogger(DarkServer.class.getName()).log(Level.SEVERE, null,
-                                                             ex);
+            Logger.getLogger(DarkServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private static final int PORT = 1234;
     // Blob characteristics
     private static final int INITIAL_NPCS = 20;
@@ -33,8 +34,7 @@ public class DarkServer {
     private double MAX_RADIUS = 50.0;
     private double MAX_DY = 1.0;
     private double MAX_DX = 1.0;
-    private SortedSet<Matter> matters = Collections.synchronizedSortedSet(
-            new TreeSet<Matter>());
+    private SortedSet<Matter> matters = Collections.synchronizedSortedSet(new TreeSet<Matter>());
 
     public DarkServer() throws IOException {
 
@@ -47,7 +47,7 @@ public class DarkServer {
         }
 
         ServerSocket serverSocket = new ServerSocket(PORT);
-        
+
         while (true) {
             Socket socket = serverSocket.accept();
             DarkServerHandler handler = new DarkServerHandler(socket, matters);
@@ -74,4 +74,5 @@ public class DarkServer {
     private double randomDX() {
         return Math.random() * MAX_DX;
     }
+
 }
