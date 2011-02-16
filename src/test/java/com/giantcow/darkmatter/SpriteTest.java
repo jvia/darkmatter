@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 /**
  * Tests the Sprite class.
  *
- * @author Jeremiah Via
+ * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
  */
 public class SpriteTest extends TestCase {
 

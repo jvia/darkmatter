@@ -1,42 +1,28 @@
 package com.giantcow.darkmatter;
 
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Ellipse2D.Double;
 import junit.framework.TestCase;
 
 /**
- *
+ * Unit tests for the Matter class.
+ * 
+ * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
  * @author jtg897
  */
 public class MatterTest extends TestCase {
 
-    public Matter Test1;
-    public Matter Test2;
-    
     public MatterTest() {
         super("Matter Tests");
     }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
 
     /**
      * Test of intersects method, of class Matter.
      */
     public void testIntersects() {
         System.out.println("intersects");
-        Test1 = new Matter(0.0, 0.0, 10, 0.0, 0.0);
-        Test2 = new Matter(0.0, 0.0, 10, 0.0, 0.0);
+        Matter instance = new Matter(0.0, 0.0, 10, 0.0, 0.0);
+        Matter other = new Matter(0.0, 0.0, 10, 0.0, 0.0);
         boolean expResult = true;
-        boolean result = Test1.intersects(Test2);
+        boolean result = instance.intersects(other);
         assertEquals(expResult, result);       
         
     }
@@ -67,8 +53,38 @@ public class MatterTest extends TestCase {
         double y1 = instance.getY();
         assertEquals(x + instance.getDx(), x1);
         assertEquals(y + instance.getDy(), y1);
-
-
+    }
+    
+    /**
+     * Test if getArea if returning the right value.
+     */
+    public void testGetArea() {
+        System.out.println("getArea");
+        Matter instance = new Matter(0.0, 0.0, 5.0, 0.0, 0.0);
+        double expResult = Math.PI * Math.pow(5.0, 2.0);
+        assertEquals(expResult, instance.getArea(), 0.001);
+    }
+    
+    /**
+     * Test if complete intersection is happening. It should in this case
+     * it should be true.
+     */
+    public void testCompletelyConsumes() {
+        System.out.println("Completely Consumes");
+        Matter instance = new Matter(0.0, 0.0, 100.0, 0.0, 0.0);
+        Matter other = new Matter(50.0, 50.0, 6.0, 0.0, 0.0);
+        assertTrue(instance.completelyConsumes(other));
     }
 
+    /**
+     * Test if complete intersection is happening. It should in this case
+     * it should be false because the circle will have a tiny amount
+     * just outside the other circle.
+     */
+    public void testCompletelyConsumes2() {
+        System.out.println("Completely Consumes");
+        Matter instance = new Matter(0.0, 0.0, 100.0, 0.0, 0.0);
+        Matter other = new Matter(-1.0, 0.0, 6.0, 0.0, 0.0);
+        assertFalse(instance.completelyConsumes(other));
+    }
 }
