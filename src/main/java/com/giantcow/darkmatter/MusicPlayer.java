@@ -22,6 +22,7 @@ public class MusicPlayer extends Thread {
     private String fileName;
     private Position chPosition;
     private final int EXTERNAL_BUFFER_SIZE = 524288;
+    private SourceDataLine auline;
 
     enum Position {
 
@@ -82,6 +83,16 @@ public class MusicPlayer extends Thread {
 
     }
 
+    /**
+     * Tells the Line assigned for playing audio to stop playing, drain the contents
+     * of itself and then close.
+     */
+    public void endTrack(){
+        auline.stop();
+        auline.drain();
+        auline.close();
+    }
+
     @Override
     public void run() {  
 
@@ -107,7 +118,7 @@ public class MusicPlayer extends Thread {
 
         //Retrieves a DataLine which can be used to play the audio
         AudioFormat format = audioIn.getFormat();
-        SourceDataLine auline = null;
+        auline = null;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
 
         try {
