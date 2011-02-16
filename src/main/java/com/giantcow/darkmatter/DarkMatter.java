@@ -12,7 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This is the class that runs the whole show.
+ * This is the class that runs the whole show. It handles the game
+ * mechanics
  *
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
  */
