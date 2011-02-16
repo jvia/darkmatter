@@ -1,10 +1,7 @@
 package com.giantcow.darkmatter;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -52,10 +49,9 @@ public class MusicPlayer extends Thread {
         chPosition = p;
     }
 
-    @Override
-    public void run() {
-
+    private String generateAbsolutePath(){
         //Retrieves a URL of the File to be played, and assigns it's URL path to a String
+
         String filePath = getClass().getClassLoader().getResource(fileName).getPath();
 
         /* Removes the escape character at the start of the URL path, converting
@@ -71,26 +67,33 @@ public class MusicPlayer extends Thread {
 
         int counter = 0;
         for (int i = 0; i < ca.length; i++) {
-            
+
             if (ca[i] == '2' && ca[i + 1] == '0') {
                 i = i + 1;
                 counter++;
             } else {
                 ca2[i - (counter*2)] = ca[i];
-                
+
             }
 
         }
-        filePath = new String(ca2);
+
+        return new String(ca2);
+
+    }
+
+    @Override
+    public void run() {  
 
         // Creates a new File from the Absolute File Path that's been generated and checks it exists
-            File soundFile = new File(filePath);
+            File soundFile = new File(generateAbsolutePath());
             if (!soundFile.exists()) {
                 System.err.println("Wave file not found : " + fileName);
                 return;
             }
         
 
+        //Creates an AudioInputStream from the Sound File provided
         AudioInputStream audioIn = null;
         try {
             audioIn = AudioSystem.getAudioInputStream(soundFile);
@@ -102,6 +105,7 @@ public class MusicPlayer extends Thread {
             return;
         }
 
+        //Retrieves a DataLine which can be used to play the audio
         AudioFormat format = audioIn.getFormat();
         SourceDataLine auline = null;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
@@ -117,6 +121,7 @@ public class MusicPlayer extends Thread {
             return;
         }
 
+        //Sets the value of the FloatControl depending on the channel selected for the Music Player
         if (auline.isControlSupported(FloatControl.Type.PAN)) {
             FloatControl pan = (FloatControl) auline.getControl(FloatControl.Type.PAN);
             if (chPosition == Position.RIGHT) {
@@ -150,11 +155,5 @@ public class MusicPlayer extends Thread {
 
     }
 
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        new MusicPlayer("SpaceFighterLoop.wav").start();
-    }
+
 }
