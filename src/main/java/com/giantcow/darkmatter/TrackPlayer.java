@@ -17,7 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @version 2011.0902
  * @since 0.2
  */
-public class TrackPlayer {
+public class TrackPlayer implements Runnable {
 
     private String fileName;
     private Position chPosition;
@@ -80,7 +80,7 @@ public class TrackPlayer {
      * form as a URL, removing the initial / and removing any URL space character '%20'
      * @return a String representing the Absolute Path of the fileName
      */
-    private String generateAbsolutePath() {
+    public String generateAbsolutePath() {
 
         String filePath = getClass().getClassLoader().getResource(getFileName()).getPath();
 
@@ -129,33 +129,10 @@ public class TrackPlayer {
     }
 
     /**
-     * Tells the Line assigned for playing audio to stop playing, drain the contents
-     * of itself and then close.
-     */
-    public void endTrack() {
-        auline.stop();
-        auline.drain();
-        auline.close();
-    }
-
-    /**
-     * Tells the line to stop playing the current audio
-     */
-    public void pauseTrack() {
-        auline.stop();
-    }
-
-    /**
-     * Tells the line to resume playing the track from where it was stopped
-     */
-    public void resumeTrack() {
-        auline.start();
-    }
-
-    /**
      *  Takes the fileName and runs the specified wave file, setting a line for Audio to
      * be played through and subsequently streams the audio file to the user
      */
+    @Override
     public void run() {
 
         // Creates a new File from the Absolute File Path that's been generated and checks it exists

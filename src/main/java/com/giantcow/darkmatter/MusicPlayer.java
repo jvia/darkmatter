@@ -50,6 +50,9 @@ public class MusicPlayer {
         for (int i = 0; i < tracks.length; i++) {
             getTrackPlayer().setFileName((String) tracks[i]);
             getTrackPlayer().run();
+            while(getTrackPlayer().getLine().isActive()){
+
+            }
         }
     }
 /**

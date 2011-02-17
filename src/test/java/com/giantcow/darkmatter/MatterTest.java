@@ -7,7 +7,7 @@ import junit.framework.TestCase;
  * Unit tests for the Matter class.
  * 
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
- * @author jtg897
+ * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
  */
 public class MatterTest extends TestCase {
 
