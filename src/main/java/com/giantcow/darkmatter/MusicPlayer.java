@@ -52,8 +52,8 @@ public class MusicPlayer {
             getTrackPlayer().run();
         }
     }
-
-    /* public static void main(String[] args) throws InterruptedException {
+/**
+    public static void main(String[] args) {
     ArrayList<String> tracks = new ArrayList<String>();
     tracks.add("SillyFunThemeA.wav");
     tracks.add("SpaceFighterLoop.wav");
@@ -63,5 +63,5 @@ public class MusicPlayer {
 
 
     }
-     */
+    */
 }

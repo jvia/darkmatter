@@ -116,7 +116,7 @@ public class TrackPlayer {
      * sets the SourceDataLine of the TrackPlayer
      * @param al the SourceDataLine to be set
      */
-    private void setLine(SourceDataLine al) {
+    public void setLine(SourceDataLine al) {
         auline = al;
     }
 
