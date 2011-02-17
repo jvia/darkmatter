@@ -1,5 +1,6 @@
 package com.giantcow.darkmatter;
 
+import com.giantcow.darkmatter.Matter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,7 +72,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      * TODO Use level loader to build
      */
     private void init() {
-        matterList = new HashSet<Matter>();
+        matterList = Collections.synchronizedSet(new HashSet<Matter>());
         localPlayer = new Matter(20, 20, 40, 0, 0);
         remotePlayer = new Matter(300, 200, 40, 0, 0);
         matterList.add(localPlayer);
