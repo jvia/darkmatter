@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.giantcow.darkmatter;
 
 import java.io.File;
@@ -36,6 +32,7 @@ public class TrackPlayerTest extends TestCase {
 
     /**
      * Test of getFileName method, of class TrackPlayer.
+     * Sets the String name attached to a TrackPlayer to TestTrack.wav and makes sure it takes
      */
     public void testGetFileName() {
         System.out.println("getFileName");
@@ -47,6 +44,7 @@ public class TrackPlayerTest extends TestCase {
 
     /**
      * Test of getFileName method, of class TrackPlayer
+     * Sets the String name attached to a TrackPlayer to be null and makes sure it takes
      */
     public void testGetFileName2() {
         System.out.println("getFileName");
@@ -56,16 +54,21 @@ public class TrackPlayerTest extends TestCase {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of getFileName method, of class TrackPlayer
+     * Sets the String name attached to TrackPlayer to be TestTrack2.wav and makes sure it takes
+     */
     public void testGetFileName3() {
         System.out.println("getFileName");
-        TrackPlayer instance = new TrackPlayer("TestTrack2.wav");
-        String expResult = "TestTrack2.wav";
+        TrackPlayer instance = new TrackPlayer("%%%%.wav");
+        String expResult = "%%%%.wav";
         String result = instance.getFileName();
         assertEquals(expResult, result);
     }
 
     /**
      * Test of setFileName method, of class TrackPlayer.
+     * Sets the String name attached to TrackPlayer to be TestTrack.wav and makes sure it's been set correctly
      */
     public void testSetFileName() {
         System.out.println("setFileName");
@@ -75,6 +78,10 @@ public class TrackPlayerTest extends TestCase {
         assertEquals(fileName, instance.getFileName());
     }
 
+    /**
+     * Test of setFileName method, of class TrackPlayer
+     * Sets the String name attached to TrackPlayer to be null and makes sure it's been set correctly
+     */
     public void testSetFileName2() {
         System.out.println("setFileName");
         String fileName = null;
@@ -85,6 +92,10 @@ public class TrackPlayerTest extends TestCase {
 
     }
 
+     /**
+     * Test of setFileName method, of class TrackPlayer
+     * Sets the String name attached to TrackPlayer to be %%%%.wav and makes sure it's been set correctly
+     */
     public void testSetFileName3() {
         System.out.println("setFileName");
         String fileName = "%%%%.wav";
@@ -95,6 +106,7 @@ public class TrackPlayerTest extends TestCase {
 
     /**
      * Test of getEXTERNAL_BUFFER_SIZE method, of class TrackPlayer.
+     * Gets the External Buffer Size and ensures it matches it's the final value it should have of 524288
      */
     public void testGetEXTERNAL_BUFFER_SIZE() {
         System.out.println("getEXTERNAL_BUFFER_SIZE");
@@ -106,6 +118,7 @@ public class TrackPlayerTest extends TestCase {
 
     /**
      * Test of setLine method, of class TrackPlayer
+     * Generates a new line and sets it to the TrackPlayer, checking the line generated is the same as the one set to the TrackPlayer
      */
     public void testSetLine() {
         System.out.println("setLine");
@@ -132,7 +145,8 @@ public class TrackPlayerTest extends TestCase {
     }
 
     /**
-     * Test of getLine method, of class TrackPlayer.
+     * Test of getLine method, of class TrackPlayer
+     * Generates a new line and sets it to the TrackPlayer, checking the line retrieved from the TrackPlayer is the same as the one generated
      */
     public void testGetLine() {
         System.out.println("setLine");
@@ -158,6 +172,11 @@ public class TrackPlayerTest extends TestCase {
         assertEquals(instance.getLine(), testLine);
     }
 
+    /**
+     * Test of the run method, from class TrackPlayer
+     * Generates a new TrackPlayer, with an existing wav file used, and calls run to ensure it plays, asserting that the line
+     * has been correctly closed after use
+     */
     public void testRun() {
         System.out.println("run");
         TrackPlayer instance = new TrackPlayer("SillyFunThemeA.wav");
