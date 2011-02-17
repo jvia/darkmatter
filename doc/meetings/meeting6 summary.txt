@@ -1,0 +1,33 @@
+Meeting Summary
+
+15/2/2011
+
+1030-1045
+
+
+Present: 
+
+
+Joss Greenway (team leader)
+Charles Horrell (secretary)
+Jeremiah Via
+Yukunk Wang
+
+
+
+Summary:
+
+This was an extremely brief meeting where we just decided that we would carry on with the previous weeks goals and that joss would work on producing the media player. Jeremiah also filled us in on how the changes to the client server would effect the rest of the game code and helped us install the latest versions of maven on our machines. 
+
+Action to be taken: 
+
+Joss: Produce media player for game
+Charlie: Produce AI for other player
+Jeremiah: Start the client server networking
+Yukun: Develop an scrolling system with the player always at the center. 
+ 
+
+
+signed 
+
+Charlie 
