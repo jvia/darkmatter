@@ -13,3 +13,10 @@ Met for our third team meeting (01/02), discussed our planned pair programming f
 Week 4 (07/02) :-
 
 Met and discussed what goals we wanted to set ourselves for the week ahead, looked at the most pressing issues with our game and what would 'need' to be done soonest in order to have our fully functioning prototype by week six - this ended up being 'Egocentric view', 'Server/Client Networking capability', 'AI Matter class' and 'Ejecting matter from any angle relative to your Player Matter'. We divided up the work with me working on the Matter Ejection, Jeremiah on the Client/Server, Yukun on the Egocentric view and Charlie on the AI programming. I completed my project by Thursday and then switched to looking at experimentation with playing music using Java - looking at the plugin Jorvis.
+
+Week 5 (14/02) :-
+
+Rest of the team continued to work on their assignments from last week whilst I continued looking at playing Music within our game. Abandoned the Jorbis idea as the plugin was more trouble than it was worth so I used the Java API to build a trackplayer which would assign a DataLine then stream Audio from wave files to a user. Expanded this to a full Music Player which takes ArrayLists of names of tracks from the resource folder and plays them in order. Now beginning to work on integrating this into the DarkMatter class, and also developing a fade in/out for the tracks.
+
+
+
