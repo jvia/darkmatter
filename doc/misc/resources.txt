@@ -11,9 +11,15 @@
 
   - http://www.javacooperation.gmxhome.de/TutorialStartEng.html
   - http://www.cokeandcode.com/node/6
+  - http://download.oracle.com/javase/tutorial/
   
 ** Collision Detection
 
    - http://gpwiki.org/index.php/C:Collision_detection_between_two_circles
    - http://compsci.ca/v3/viewtopic.php?t=14897
    - http://www.metanetsoftware.com/technique/tutorialA.html
+   
+   
+* Music sources
+
+   - 'SpaceFighterLoop.wav' - Kevin MacLeod @ Incompetech.com (Space Fighter Loop)
