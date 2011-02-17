@@ -1,5 +1,6 @@
 package com.giantcow.darkmatter;
 
+import java.awt.geom.Point2D;
 import junit.framework.TestCase;
 
 /**
@@ -23,8 +24,8 @@ public class MatterTest extends TestCase {
         Matter other = new Matter(0.0, 0.0, 10, 0.0, 0.0);
         boolean expResult = true;
         boolean result = instance.intersects(other);
-        assertEquals(expResult, result);       
-        
+        assertEquals(expResult, result);
+
     }
 
     /**
@@ -39,7 +40,6 @@ public class MatterTest extends TestCase {
         assertEquals(expResult, result);
     }
 
-
     /**
      * Test of update method, of class Matter.
      */
@@ -47,14 +47,14 @@ public class MatterTest extends TestCase {
         System.out.println("update");
         Matter instance = new Matter(0.0, 0.0, 10, 5.0, 5.0);
         double x = instance.getX();
-        double y=  instance.getY();
+        double y = instance.getY();
         instance.update();
         double x1 = instance.getX();
         double y1 = instance.getY();
         assertEquals(x + instance.getDx(), x1);
         assertEquals(y + instance.getDy(), y1);
     }
-    
+
     /**
      * Test if getArea if returning the right value.
      */
@@ -64,7 +64,7 @@ public class MatterTest extends TestCase {
         double expResult = Math.PI * Math.pow(5.0, 2.0);
         assertEquals(expResult, instance.getArea(), 0.001);
     }
-    
+
     /**
      * Test if complete intersection is happening. It should in this case
      * it should be true.
@@ -86,5 +86,45 @@ public class MatterTest extends TestCase {
         Matter instance = new Matter(0.0, 0.0, 100.0, 0.0, 0.0);
         Matter other = new Matter(-1.0, 0.0, 6.0, 0.0, 0.0);
         assertFalse(instance.completelyConsumes(other));
+    }
+
+    public void testVelocity() {
+        System.out.println("Velocity test");
+        Matter instance = new Matter(0.0, 0.0, 0.0, 3.0, 4.0);
+        double expResult = 5.0;
+        double result = instance.getVelocity();
+        assertEquals(expResult, result, 0.0);
+    }
+
+    public void testVelocity2() {
+        System.out.println("Velocity test 2");
+        Matter instance = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        double expResult = 0.0;
+        double result = instance.getVelocity();
+        assertEquals(expResult, result, 0.0);
+    }
+
+    public void testCompareTo1() {
+        System.out.println("Compare To 1");
+        Matter instance = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        Matter other = new Matter(0.0, 0.0, 10.0, 0.0, 0.0);
+        int result = instance.compareTo(other);
+        assertTrue(result < 0.0);
+    }
+
+    public void testCompareTo2() {
+        System.out.println("Compare To 2");
+        Matter instance = new Matter(0.0, 0.0, 10.0, 0.0, 0.0);
+        Matter other = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        int result = instance.compareTo(other);
+        assertTrue(result > 0.0);
+    }
+
+    public void testCompareTo3() {
+        System.out.println("Compare To 3");
+        Matter instance = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        Matter other = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        int result = instance.compareTo(other);
+        assertTrue(result == 0.0);
     }
 }
