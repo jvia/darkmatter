@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 /**
  *
- * @author Joss
+ * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
  */
 public class TrackPlayerTest extends TestCase {
 
@@ -164,4 +164,5 @@ public class TrackPlayerTest extends TestCase {
         instance.run();
         assertFalse(instance.getLine().isActive());
     }
+
 }
