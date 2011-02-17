@@ -40,14 +40,41 @@ public class TrackPlayerTest extends TestCase {
     }
 
     /**
+     * Test of getFileName method, of class TrackPlayer
+     */
+    public void testGetFileName2(){
+        System.out.println("getFileName");
+        TrackPlayer instance = new TrackPlayer(null);
+        String expResult = null;
+        String result = instance.getFileName();
+        assertEquals(expResult, result);
+    }
+
+    public void testGetFileName3(){
+        System.out.println("getFileName");
+        TrackPlayer instance = new TrackPlayer("TestTrack2.wav");
+        String expResult = "TestTrack2.wav";
+        String result = instance.getFileName();
+        assertEquals(expResult, result);
+    }
+
+    /**
      * Test of setFileName method, of class TrackPlayer.
      */
     public void testSetFileName() {
         System.out.println("setFileName");
         String fileName = "TestTrack.wav";
-        TrackPlayer instance = new TrackPlayer(fileName);
+        TrackPlayer instance = new TrackPlayer(null);
         instance.setFileName(fileName);
         assertEquals(fileName, instance.getFileName());
+    }
+
+    public void testSetFileName2() {
+            System.out.println("setFileName");
+            String fileName = null;
+            TrackPlayer instance = new TrackPlayer("Hmmm");
+            instance.setFileName(fileName);
+            assertEquals(fileName, instance.getFileName());
     }
 
     /**
@@ -83,48 +110,5 @@ public class TrackPlayerTest extends TestCase {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of endTrack method, of class TrackPlayer.
-     */
-    public void testEndTrack() {
-        System.out.println("endTrack");
-        TrackPlayer instance = null;
-        instance.endTrack();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of pauseTrack method, of class TrackPlayer.
-     */
-    public void testPauseTrack() {
-        System.out.println("pauseTrack");
-        TrackPlayer instance = null;
-        instance.pauseTrack();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of resumeTrack method, of class TrackPlayer.
-     */
-    public void testResumeTrack() {
-        System.out.println("resumeTrack");
-        TrackPlayer instance = null;
-        instance.resumeTrack();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of run method, of class TrackPlayer.
-     */
-    public void testRun() {
-        System.out.println("run");
-        TrackPlayer instance = null;
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
 }
