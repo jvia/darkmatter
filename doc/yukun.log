@@ -1,13 +1,18 @@
 Week 1
-Met with team members for the first time and talked severals games and discussed about which game is a good choic. Finially made a decision and met our turtle Kat. We talked about our idea and she give us some advices. Than We selected a team name "Giant Cow Games'.
+Met with team members for the first time and talked several games and discussed about which game is a good choice. Finally made a decision and met our turtle Kat. We talked about our idea and she gave us some advices. Than we selected a team name "Giant Cow Games'.
 
 Week 2
-This time talked about the techinc may used in our game and searched internet.
-Hower we need the further detail about the game structure. Than went to lab learned try to used SVN and put this log to the net. 
+This time talked about the technical may used in our game and searched internet.
+However we need the further detail about the game structure. Than went to lab learned try to used SVN and put this log to the net. 
 
 Week 3
-Met with our team on tuesday. We decided to use vector to calculate momentum. And this week we will do Vector, Matter and Physic class. After meetiong, Charles and I began to make physics class, but did not make as much as we hoped. On thursday, worked with Jeremiah to make Game class. In the Game class, we write update method and creat a panel and a main method to test this class.
+Met with our team on Tuesday. We decided to use vector to calculate momentum. And this week we will do Vector, Matter and Physic class. After meeting, Charles and I began to make physics class, but did not make as much as we hoped. On Thursday, worked with Jeremiah to make Game class. In the Game class, we write update method and create a panel and a main method to test this class.
 
 Week 4
 
-Had teem meeting on Tursday. We disscussed what should we do next step, and list them to decide what should we do this week. At the end, my work this week was "center view", which make sure the player's matter at the center of screen and always be a suitable size, this should enlarge the whole map of game. My inital is select a window on the map depends on the play's size and position, the full screen this window. Unfortunately, at pairgramme I found there is not a good the to select this window. No my idea is is crest a zoom level to enlarge every matter on the screen and the put the local player an the center of screen. 
+Had team meeting on Tuesday. We discussed what should we do next step, and list them to decide what we should do this week. At the end, my work this week was "center view", which make sure the player's matter at the center of screen and always be a suitable size, this should enlarge the whole map of game. My initial is select a window on the map depends on the play's size and position, the full screen this window. Unfortunately, at pair programming I found there is not a good way to select this window. Now my idea is creating a zoom level to enlarge every matter on the screen and the put the local player on the center of screen.
+
+Week 5
+
+Continue do the rest work from last week; I have already done a prototype by using translate and scale method in painting. However it still not works perfectly. I will try to figure out the value about how much the pen should move and scaling level. Jeremiah suggested me to put the entire thing in a panel not frame. Hope it can help me solve my work.
+
