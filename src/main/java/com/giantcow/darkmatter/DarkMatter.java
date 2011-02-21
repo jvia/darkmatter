@@ -116,36 +116,49 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
     /**
      * calculate the zoomlevel and the distancae pen should move
-     * the initial zoomlevel is 5 times, means the screen width is five times of
+     * the initial zoomlevel is 5 times, means the screen width is 5 times of
      * local player matter's diameter if it is possible
      */
     private void zoom() {
-        if (localPlayer.getCenterY() < 5 * localPlayer.getRadius()
-                && DEFAULT_HEIGHT - localPlayer.getCenterY() < 5 * localPlayer.getRadius()
-                && localPlayer.getCenterX() < 5 * localPlayer.getRadius() * DEFAULT_WIDTH / DEFAULT_HEIGHT
-                && DEFAULT_WIDTH - localPlayer.getCenterX() < 5 * localPlayer.getRadius() * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
+        double r = localPlayer.getRadius();
+        double lx = localPlayer.getCenterX();
+        double ly = localPlayer.getCenterY();
+        if (ly < 5 * r
+                && DEFAULT_HEIGHT - ly < 5 * r
+                && lx < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT
+                && DEFAULT_WIDTH - localPlayer.getCenterX() < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
             //zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
         } else {
-            if (DEFAULT_HEIGHT > localPlayer.getRadius() * 10) {
-                zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+            if (DEFAULT_HEIGHT > r * 10) {
+                zoom = DEFAULT_HEIGHT / r / 10;
             } else {
                 zoom = 1;
             }
         }
 
         if (zoom > 1) {
-            if (localPlayer.getCenterY() > 5 * localPlayer.getRadius()
-                    && DEFAULT_HEIGHT - localPlayer.getCenterY() > 5 * localPlayer.getRadius()) {
-                y = localPlayer.getCenterY() - 5 * localPlayer.getRadius();
+            if (ly < 5 * r) {
+                y = 0;
+            } else if (DEFAULT_HEIGHT - ly >= 5 * r) {
+                y = ly - DEFAULT_HEIGHT / 2 / zoom;
+            } else {
+                y = (zoom - 1) * DEFAULT_HEIGHT;
             }
+        } else {
+            y = 0;
+        }
 
-            if (localPlayer.getCenterX() > 5 * localPlayer.getRadius() * DEFAULT_WIDTH / DEFAULT_HEIGHT
-                    && DEFAULT_WIDTH - localPlayer.getCenterX() > 5 * localPlayer.getRadius() * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
-                x = localPlayer.getCenterX() - 5 * localPlayer.getRadius() * DEFAULT_WIDTH / DEFAULT_HEIGHT;
+        if (zoom > 1) {
+            if (lx < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
+                x = 0;
+            } else if (DEFAULT_WIDTH - lx >= 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
+                x = lx - DEFAULT_WIDTH / 2 / zoom;
+            } else {
+                x = (zoom - 1) * DEFAULT_WIDTH;
+
             }
         } else {
             x = 0;
-            y = 0;
         }
 
     }
