@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @version 2011.0902
  * @since 0.3
  */
-public class MusicPlayer {
+public class MusicPlayer extends Thread {
 
     private final TrackPlayer trackPlayer;
     private final ArrayList<String> trackList;
@@ -44,7 +44,8 @@ public class MusicPlayer {
      * Takes the ArrayList of tracks belonging to the MusicPlayer, iterating through
      * it and playing each track one at a time
      */
-    public void play() {
+    @Override
+    public void run() {
         Object[] tracks = trackList.toArray();
 
         for (int i = 0; i < tracks.length; i++) {
@@ -56,7 +57,8 @@ public class MusicPlayer {
         }
     }
 
-    public void stop() {
+   
+    final public void terminate() {
         getTrackPlayer().getLine().stop();
         getTrackPlayer().getLine().drain();
         getTrackPlayer().getLine().close();

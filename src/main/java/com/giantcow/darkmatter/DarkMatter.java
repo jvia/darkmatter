@@ -25,6 +25,11 @@ import javax.imageio.ImageIO;
  *
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
  * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
+ * TODO make a copy of the matter list before iterating through it to detect
+ * collisions as we are getting crashes occasionally where we're trying to
+ * add new expelled matter to the list whilst we're iterating through it, causing
+ * said crash, can also be solved by having a 'current list' and 'added list', and add
+ * changes to the added list, swapping it into the current list once the iterator is complete
  */
 public class DarkMatter extends JComponent implements KeyListener, MouseListener {
 
@@ -90,6 +95,10 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         remotePlayer = new AIMatter(300, 200, 40, 0, 0);
         matterList.add(localPlayer);
         matterList.add(remotePlayer);
+        trackList = new ArrayList<String>();
+        trackList.add("SpaceFighterLoop.wav");
+        musicPlayer = new MusicPlayer(trackList);
+        musicPlayer.start();
 
         double area = 0.0;
         while (matterList.size() < INITIAL_BLOBS) {
