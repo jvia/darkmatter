@@ -149,7 +149,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_HEIGHT - cy >= 5 * r) {
                 y = cy - DEFAULT_HEIGHT / 2 / zoom;
             } else {
-                y = (zoom - 1) * DEFAULT_HEIGHT;
+                y = (zoom - 1) * DEFAULT_HEIGHT/zoom;
             }
         } else {
             y = 0;
@@ -161,7 +161,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_WIDTH - cx >= 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
                 x = cx - DEFAULT_WIDTH / 2 / zoom;
             } else {
-                x = (zoom - 1) * DEFAULT_WIDTH;
+                x = (zoom - 1) * DEFAULT_WIDTH/zoom;
 
             }
         } else {
@@ -191,9 +191,9 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             g2.drawString("You win", 10, 10);
         }
 
-        g2.translate(-x, -y); //move the pen to the right place
         g2.scale(zoom, zoom); //enlarge whole map
-
+        g2.translate(-x, -y); //move the pen to the right place
+        
 
         g2.drawImage(backgroundP, 0, 0, this); //draw the background
 
