@@ -18,5 +18,8 @@ Week 5 (14/02) :-
 
 Rest of the team continued to work on their assignments from last week whilst I continued looking at playing Music within our game. Abandoned the Jorbis idea as the plugin was more trouble than it was worth so I used the Java API to build a trackplayer which would assign a DataLine then stream Audio from wave files to a user. Expanded this to a full Music Player which takes ArrayLists of names of tracks from the resource folder and plays them in order. Now beginning to work on integrating this into the DarkMatter class, and also developing a fade in/out for the tracks.
 
+Week 6 (21/02) :-
+
+Met on Tuesday, wasn't much to discuss other than continuing to work on what we've already been doing in the last 2 - 3 weeks.
 
 
