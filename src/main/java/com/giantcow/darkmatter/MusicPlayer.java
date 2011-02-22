@@ -55,6 +55,13 @@ public class MusicPlayer {
             }
         }
     }
+
+    public void stop() {
+        getTrackPlayer().getLine().stop();
+        getTrackPlayer().getLine().drain();
+        getTrackPlayer().getLine().close();
+    }
+    
 /**
     public static void main(String[] args) {
     ArrayList<String> tracks = new ArrayList<String>();

@@ -2,7 +2,9 @@ package com.giantcow.darkmatter;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Perfect circle representing a Matter object in space.
@@ -196,7 +198,7 @@ public class Matter implements Shape, Comparable {
      * @param y y-coordinate of click
      * @return the expelled matter object
      */
-    public Matter changeMove(double x, double y) {
+    public Matter changeMove(double x, double y, Set<Matter> matterList) {
         // Calculate expelled matter's new speed
         double deltaX = 0.1;
         double deltaY = 0.1;

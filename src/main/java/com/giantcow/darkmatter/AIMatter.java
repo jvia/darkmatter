@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -7,6 +7,7 @@ package com.giantcow.darkmatter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  *
@@ -18,9 +19,10 @@ public class AIMatter extends Matter {
         super(new Ellipse2D.Double(x, y, radius, radius), dy, dx);
     }
 
-    public Matter AIchangeMove(double x, double y, ArrayList<Matter> others) {
+    @Override
+    public Matter changeMove(double x, double y, Set<Matter> others) {
         // Calculate expelled matter's new speed
-        Matter best = null;
+        Matter best = (Matter)others.toArray()[0];
         Matter expel = new Matter(5.0, 5.0, 5.0, 0.1, 0.1);
         for (Matter other : others) {
             if (Math.hypot(other.getCenterX() - getCenterX(),
@@ -71,36 +73,6 @@ public class AIMatter extends Matter {
         setDx(nextDX);
 
         return expel;
-    }
-     /**
-     * Creates Point2D object holding x and y coordinates which represent the centre
-     * position of a new expelled Matter object.
-     *
-     * @param x x-coordinate of mouse click
-     * @param y y-coordinate of mouse click
-     * @param radius radius of expelled matter object
-     * @return Point2D object holding x and y coordinates which represent the centre position
-     *         of the expelled Matter object
-     */
-    protected Point2D expulsionCentres( double xmod, double ymod, double radius) {
-        Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
-        double theta = Math.atan(Math.abs(xmod - getCenterY())/Math.abs(xmod - getCenterX()));
-        double theta2 = Math.toDegrees(Math.atan2(ymod,xmod));
-
-        double hyp = radius + getRadius() ;
-        double y1 = Math.sin(theta) * hyp;
-        double x1 = Math.cos(theta) * hyp;
-
-        if (xmod <= getCenterX() & ymod <= getCenterY()) {
-            expulsionCentre.setLocation(getCenterX() - x1, getCenterY() - y1);
-        } else if (xmod > getCenterX() & ymod <= getCenterY()) {
-            expulsionCentre.setLocation(getCenterX() + x1, getCenterY() - y1);
-        } else if (xmod <= getCenterX() & ymod > getCenterY()) {
-            expulsionCentre.setLocation(getCenterX() - x1, getCenterY() + y1);
-        } else if (xmod > getCenterX() & ymod > getCenterY()) {
-            expulsionCentre.setLocation(getCenterX() + x1, getCenterY() + y1);
-        }
-        return expulsionCentre;
     }
 
 }

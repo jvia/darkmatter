@@ -6,10 +6,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -48,6 +51,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private double goalArea;
     // Game constants
     private static int INITIAL_BLOBS = 20;
+    private MusicPlayer musicPlayer;
+    private ArrayList<String> trackList;
 
     /**
      * Create the game object.
@@ -81,7 +86,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private void init() {
         matterList = Collections.synchronizedSet(new HashSet<Matter>());
         localPlayer = new Matter(20, 20, 40, 0, 0);
-        remotePlayer = new Matter(300, 200, 40, 0, 0);
+        remotePlayer = new AIMatter(300, 200, 40, 0, 0);
         matterList.add(localPlayer);
         matterList.add(remotePlayer);
 
@@ -130,8 +135,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                 && DEFAULT_WIDTH - cx < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
             //zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
         } else {
-            if (DEFAULT_HEIGHT > r * 10) {
-                zoom = DEFAULT_HEIGHT / r / 10;
+            if (DEFAULT_HEIGHT > localPlayer.getRadius() * 10) {
+                zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
             } else {
                 zoom = 1;
             }
@@ -158,7 +163,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                 x = (zoom - 1) * DEFAULT_WIDTH;
 
             }
-        } else {
+         else {
             x = 0;
         }
 
@@ -325,10 +330,13 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     /** Invoked when a mouse button has been pressed on a component. */
     @Override
     public void mousePressed(MouseEvent e) {
-        Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom
-                + y);
+        Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom + y, matterList);
+        Matter n = remotePlayer.changeMove(0.0, 0.0, matterList);
         if (m != null) {
             matterList.add(m);
+        }
+        if (n != null) {
+            matterList.add(n);
         }
     }
 
