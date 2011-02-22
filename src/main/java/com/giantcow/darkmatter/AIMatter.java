@@ -18,10 +18,10 @@ public class AIMatter extends Matter {
         super(new Ellipse2D.Double(x, y, radius, radius), dy, dx);
     }
 
-    public Matter changeMove(double x, double y, ArrayList<Matter> others) {
+    public Matter AIchangeMove(double x, double y, ArrayList<Matter> others) {
         // Calculate expelled matter's new speed
         Matter best = null;
-        Matter expel = new Matter(0., 0.0, 0.0, 0.1, 0.1);
+        Matter expel = new Matter(5.0, 5.0, 5.0, 0.1, 0.1);
         for (Matter other : others) {
             if (Math.hypot(other.getCenterX() - getCenterX(),
                     other.getCenterY() - getCenterY()) <= Math.hypot(best.getCenterX() - getCenterX(),
@@ -72,4 +72,35 @@ public class AIMatter extends Matter {
 
         return expel;
     }
+     /**
+     * Creates Point2D object holding x and y coordinates which represent the centre
+     * position of a new expelled Matter object.
+     *
+     * @param x x-coordinate of mouse click
+     * @param y y-coordinate of mouse click
+     * @param radius radius of expelled matter object
+     * @return Point2D object holding x and y coordinates which represent the centre position
+     *         of the expelled Matter object
+     */
+    protected Point2D expulsionCentres(double x, double y, double radius) {
+        Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
+        double theta = Math.atan(Math.abs(y - getCenterY())/Math.abs(x - getCenterX()));
+        double theta2 = Math.toDegrees(Math.atan2(y,x));
+
+        double hyp = radius + getRadius() ;
+        double y1 = Math.sin(theta) * hyp;
+        double x1 = Math.cos(theta) * hyp;
+
+        if (x <= getCenterX() & y <= getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() - x1, getCenterY() - y1);
+        } else if (x > getCenterX() & y <= getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() + x1, getCenterY() - y1);
+        } else if (x <= getCenterX() & y > getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() - x1, getCenterY() + y1);
+        } else if (x > getCenterX() & y > getCenterY()) {
+            expulsionCentre.setLocation(getCenterX() + x1, getCenterY() + y1);
+        }
+        return expulsionCentre;
+    }
+
 }
