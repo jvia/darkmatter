@@ -163,7 +163,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                 x = (zoom - 1) * DEFAULT_WIDTH;
 
             }
-         else {
+        } else {
             x = 0;
         }
 
