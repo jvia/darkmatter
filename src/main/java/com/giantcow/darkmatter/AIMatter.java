@@ -6,12 +6,12 @@ package com.giantcow.darkmatter;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Set;
 
 /**
  *
- * @author Charlie
+ * @author Charlie Horrell <cxh900@cs.bham.ac.uk>
+ * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
  */
 public class AIMatter extends Matter {
 

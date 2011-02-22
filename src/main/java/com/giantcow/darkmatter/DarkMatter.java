@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
  * mechanics
  *
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
+ * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
  */
 public class DarkMatter extends JComponent implements KeyListener, MouseListener {
 
