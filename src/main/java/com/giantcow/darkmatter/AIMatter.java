@@ -82,22 +82,22 @@ public class AIMatter extends Matter {
      * @return Point2D object holding x and y coordinates which represent the centre position
      *         of the expelled Matter object
      */
-    protected Point2D expulsionCentres(double x, double y, double radius) {
+    protected Point2D expulsionCentres( double xmod, double ymod, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
-        double theta = Math.atan(Math.abs(y - getCenterY())/Math.abs(x - getCenterX()));
-        double theta2 = Math.toDegrees(Math.atan2(y,x));
+        double theta = Math.atan(Math.abs(xmod - getCenterY())/Math.abs(xmod - getCenterX()));
+        double theta2 = Math.toDegrees(Math.atan2(ymod,xmod));
 
         double hyp = radius + getRadius() ;
         double y1 = Math.sin(theta) * hyp;
         double x1 = Math.cos(theta) * hyp;
 
-        if (x <= getCenterX() & y <= getCenterY()) {
+        if (xmod <= getCenterX() & ymod <= getCenterY()) {
             expulsionCentre.setLocation(getCenterX() - x1, getCenterY() - y1);
-        } else if (x > getCenterX() & y <= getCenterY()) {
+        } else if (xmod > getCenterX() & ymod <= getCenterY()) {
             expulsionCentre.setLocation(getCenterX() + x1, getCenterY() - y1);
-        } else if (x <= getCenterX() & y > getCenterY()) {
+        } else if (xmod <= getCenterX() & ymod > getCenterY()) {
             expulsionCentre.setLocation(getCenterX() - x1, getCenterY() + y1);
-        } else if (x > getCenterX() & y > getCenterY()) {
+        } else if (xmod > getCenterX() & ymod > getCenterY()) {
             expulsionCentre.setLocation(getCenterX() + x1, getCenterY() + y1);
         }
         return expulsionCentre;
