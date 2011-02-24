@@ -18,7 +18,6 @@ public class Matter implements Shape, Comparable {
 
     protected static final double MAX_SPEED = 2.0;
     private static final double ALPHA = 0.1;
-    
     private Ellipse2D.Double blob;
     private VelocityVector velocity;
 
@@ -44,7 +43,7 @@ public class Matter implements Shape, Comparable {
      * @param dx     change in x
      */
     public Matter(double x, double y, double radius, double dy, double dx) {
-        this(new Ellipse2D.Double(x, y, 2 * radius,  2 * radius), dy, dx);
+        this(new Ellipse2D.Double(x, y, 2 * radius, 2 * radius), dy, dx);
     }
 
     /**
@@ -146,9 +145,9 @@ public class Matter implements Shape, Comparable {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-               && (Math.hypot(blob.getCenterX() - other.getCenterX(),
-                              blob.getCenterY() - other.getCenterY())
-                   <= (getRadius() + other.getRadius()));
+                && (Math.hypot(blob.getCenterX() - other.getCenterX(),
+                blob.getCenterY() - other.getCenterY())
+                <= (getRadius() + other.getRadius()));
     }
 
     /**
@@ -159,9 +158,11 @@ public class Matter implements Shape, Comparable {
      * @return true if a collision, false otherwise
      */
     public boolean intersects(Collection<Matter> others) {
-        for (Matter other : others)
-            if (this.intersects(other))
+        for (Matter other : others) {
+            if (this.intersects(other)) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -202,6 +203,12 @@ public class Matter implements Shape, Comparable {
         // Calculate expelled matter's new speed
         double deltaX = 0.1;
         double deltaY = 0.1;
+        double dx = Math.abs(getCenterX() - x);
+        double dy = Math.abs(getCenterY());
+        if (dx > dy) {
+            deltaX = 0.2;
+            deltaX = 0.2 * dx / dy;
+        }
 
         if (x < blob.getCenterX()) {
             deltaX *= -1;
@@ -223,9 +230,9 @@ public class Matter implements Shape, Comparable {
 
         m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
 
-        double nextDY = getDy() - m.getDy();
+        double nextDY = getDy() - m.getDy()*0.5;
         nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;
-        double nextDX = getDx() - m.getDx();
+        double nextDX = getDx() - m.getDx()*0.5;
         nextDX = (nextDX > MAX_SPEED) ? MAX_SPEED : nextDX;
         setDy(nextDY);
         setDx(nextDX);
@@ -556,7 +563,6 @@ public class Matter implements Shape, Comparable {
     @Override
     public String toString() {
         return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f",
-                             getX(), getY(), getRadius(), getDx(), getDy());
+                getX(), getY(), getRadius(), getDx(), getDy());
     }
-
 }

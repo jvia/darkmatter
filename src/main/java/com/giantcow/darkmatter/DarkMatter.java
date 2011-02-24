@@ -128,6 +128,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         }
 
         goalArea = 0.85 * area;
+        zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
     }
 
     /**
@@ -139,17 +140,15 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         double r = localPlayer.getRadius();
         double cx = localPlayer.getCenterX();
         double cy = localPlayer.getCenterY();
-        if (cy < 5 * r
-                && DEFAULT_HEIGHT - cy < 5 * r
-                && cx < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT
-                && DEFAULT_WIDTH - cx < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
-            //zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+        double currentZoom = 0;
+
+        if (DEFAULT_HEIGHT > localPlayer.getRadius() * 10) {
+            currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+            zoom = (currentZoom - zoom) / 4 + zoom;
+
+
         } else {
-            if (DEFAULT_HEIGHT > localPlayer.getRadius() * 10) {
-                zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
-            } else {
-                zoom = 1;
-            }
+            zoom = 1;
         }
 
         if (zoom > 1) {
@@ -158,7 +157,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_HEIGHT - cy >= 5 * r) {
                 y = cy - DEFAULT_HEIGHT / 2 / zoom;
             } else {
-                y = (zoom - 1) * DEFAULT_HEIGHT/zoom;
+                y = (zoom - 1) * DEFAULT_HEIGHT / zoom;
             }
         } else {
             y = 0;
@@ -170,7 +169,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_WIDTH - cx >= 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
                 x = cx - DEFAULT_WIDTH / 2 / zoom;
             } else {
-                x = (zoom - 1) * DEFAULT_WIDTH/zoom;
+                x = (zoom - 1) * DEFAULT_WIDTH / zoom;
 
             }
         } else {
@@ -202,7 +201,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
         g2.scale(zoom, zoom); //enlarge whole map
         g2.translate(-x, -y); //move the pen to the right place
-        
+
 
         g2.drawImage(backgroundP, 0, 0, this); //draw the background
 
