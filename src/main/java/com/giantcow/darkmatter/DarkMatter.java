@@ -91,7 +91,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      */
     private void init() {
         matterList = Collections.synchronizedSet(new HashSet<Matter>());
-        localPlayer = new Matter(20, 20, 40, 0, 0);
+        localPlayer = new HumanMatter(20, 20, 40, 0, 0);
         remotePlayer = new AIMatter(300, 200, 40, 0, 0);
         matterList.add(localPlayer);
         matterList.add(remotePlayer);
@@ -104,10 +104,10 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         while (matterList.size() < INITIAL_BLOBS) {
             // Generate random blob
             Matter m = new Matter(Math.random() * (getWidth() - 50),
-                    Math.random() * (getHeight() - 50),
-                    Math.random() * 25,
-                    -0.1 + Math.random() * 0.2,
-                    -0.1 + Math.random() * 0.2);
+                                  Math.random() * (getHeight() - 50),
+                                  Math.random() * 25,
+                                  -0.1 + Math.random() * 0.2,
+                                  -0.1 + Math.random() * 0.2);
 
             // Check to see if it is on top of any other blobs
             // and if not add it to the queue
@@ -188,7 +188,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+                            RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Print winning or losing message
         g2.setColor(Color.white);
@@ -272,7 +272,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                         n.setArea(0.0);
                     } else {
                         double d = n.getRadius() + m.getRadius()
-                                - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY() - n.getCenterY());
+                                   - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY() - n.getCenterY());
                         double area = 0.03 * d * n.getArea();
                         //double area = 0.03 * n.getArea();
                         m.setArea(m.getArea() + area);
@@ -285,8 +285,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 //                            n.setArea(0.0);
 //                        } else {
                         double d = n.getRadius() + m.getRadius()
-                                - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY()
-                                - n.getCenterY());
+                                   - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY()
+                                                                                 - n.getCenterY());
                         double area = 0.03 * d * n.getArea();
                         //double area = 0.03 * n.getArea();
                         m.setArea(m.getArea() + area);
@@ -298,9 +298,9 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                         if (yOffset > 0) {
                             Rectangle2D boundingBox = m.getBounds2D();
                             boundingBox.setFrame(boundingBox.getX(),
-                                    boundingBox.getY() - yOffset,
-                                    boundingBox.getWidth(),
-                                    boundingBox.getHeight());
+                                                 boundingBox.getY() - yOffset,
+                                                 boundingBox.getWidth(),
+                                                 boundingBox.getHeight());
                             m.setFrame(boundingBox);
                         }
                     }
@@ -317,6 +317,21 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             }
             m.update();
         }
+
+        updateMovement();
+    }
+
+    private void updateMovement() {
+        ArrayList<Matter> list = new ArrayList<Matter>();
+        synchronized (matterList) {
+            for (Matter m : matterList) {
+                if (m == localPlayer) continue;
+                Matter move = m.changeMove(0, 0, matterList);
+                if (move != null)
+                    list.add(move);
+            }
+        }
+        matterList.addAll(list);
     }
 
     /**
@@ -331,7 +346,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_F11) {
             isFullScreen = (isFullScreen) ? false
-                    : true;
+                           : true;
             System.out.println("Switch modes");
         }
     }
@@ -340,13 +355,10 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
         Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom + y, matterList);
-        Matter n = remotePlayer.changeMove(0.0, 0.0, matterList);
         if (m != null) {
             matterList.add(m);
         }
-        if (n != null) {
-            matterList.add(n);
-        }
+
     }
 
     // <editor-fold desc="Unused event methods">

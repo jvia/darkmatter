@@ -35,6 +35,7 @@ public class DarkServer {
     private double MAX_DY = 1.0;
     private double MAX_DX = 1.0;
     private SortedSet<Matter> matters = Collections.synchronizedSortedSet(new TreeSet<Matter>());
+    public static int PLAYERS = 0;
 
     public DarkServer() throws IOException {
 
@@ -50,6 +51,7 @@ public class DarkServer {
 
         while (true) {
             Socket socket = serverSocket.accept();
+            PLAYERS++;
             DarkServerHandler handler = new DarkServerHandler(socket, matters);
             handler.start();
         }

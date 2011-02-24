@@ -200,44 +200,7 @@ public class Matter implements Shape, Comparable {
      * @return the expelled matter object
      */
     public Matter changeMove(double x, double y, Set<Matter> matterList) {
-        // Calculate expelled matter's new speed
-        double deltaX = 0.1;
-        double deltaY = 0.1;
-        double dx = Math.abs(getCenterX() - x);
-        double dy = Math.abs(getCenterY());
-        if (dx > dy) {
-            deltaX = 0.2;
-            deltaX = 0.2 * dx / dy;
-        }
-
-        if (x < blob.getCenterX()) {
-            deltaX *= -1;
-        }
-        if (y < blob.getCenterY()) {
-            deltaY *= -1;
-        }
-
-        // Create empty matter with the speed
-        Matter m = new Matter(0.0, 0.0, 0.0, deltaY, deltaX);
-
-        // Set matter's speed
-        m.setArea(0.05 * getArea());
-        setArea((1 - 0.05) * getArea());
-        // Calculate matter's position
-        Point2D centre = expulsionCentres(x, y, m.getRadius());
-        double posX = centre.getX();
-        double posY = centre.getY();
-
-        m.setFrameFromCenter(posX, posY, posX + m.getRadius(), posY + m.getRadius());
-
-        double nextDY = getDy() - m.getDy()*0.5;
-        nextDY = (nextDY > MAX_SPEED) ? MAX_SPEED : nextDY;
-        double nextDX = getDx() - m.getDx()*0.5;
-        nextDX = (nextDX > MAX_SPEED) ? MAX_SPEED : nextDX;
-        setDy(nextDY);
-        setDx(nextDX);
-
-        return m;
+        return null;
     }
 
     public void setFrameFromCenter(double x, double y, double x1, double y1) {

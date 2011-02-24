@@ -1,0 +1,9 @@
+Added some more tests and did a bit of code cleanup. 
+
+--This line, and those below, will be ignored--
+
+M    src/test/java/com/giantcow/darkmatter/TrackPlayerTest.java
+M    src/test/java/com/giantcow/darkmatter/MatterTest.java
+D    src/main/java/com/giantcow/darkmatter/Vector.java
+D    src/main/java/com/giantcow/darkmatter/Game.java
+M    src/main/java/com/giantcow/darkmatter/DarkMatter.java
