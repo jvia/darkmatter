@@ -31,6 +31,7 @@ public class DarkClient {
     public DarkClient() {
         try {
             socket = new Socket(HOST, PORT);
+            System.out.println("Connected!");
 
             output = new ObjectOutputStream(socket.getOutputStream());
             input = new ObjectInputStream(socket.getInputStream());
@@ -62,5 +63,18 @@ public class DarkClient {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
+    }
+
+    public static void main(String[] args) {
+        DarkClient dc = new DarkClient();
+        Set<Matter> set = new HashSet<Matter>();
+
+        while (true) {
+            set.add(new Matter(Math.random(), Math.random(), Math.random(), Math.random(), Math.random()));
+            set = dc.update(set);
+//            for (Matter m : set)
+//                System.out.print(m + " | ");
+//            System.out.println("");
+        }
     }
 }

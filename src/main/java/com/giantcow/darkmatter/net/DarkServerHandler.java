@@ -28,10 +28,16 @@ public class DarkServerHandler extends Thread {
 
     @Override
     public void run() {
+        // open object stream from client
+        ObjectInputStream input = null;
+        try {
+            input = new ObjectInputStream(clientSock.getInputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(DarkServerHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         while (clientSock.isConnected()) {
             try {
-                // open object stream from client
-                ObjectInputStream input = new ObjectInputStream(clientSock.getInputStream());
 
                 // Read the player's current matter list
                 SortedSet<Matter> playerset = Collections.synchronizedSortedSet(new TreeSet<Matter>());
@@ -55,5 +61,4 @@ public class DarkServerHandler extends Thread {
             }
         }
     }
-
 }
