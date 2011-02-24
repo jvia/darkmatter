@@ -11,12 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -208,8 +205,6 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         g2.drawImage(backgroundP, 0, 0, this); //draw the background
 
         // Paint in a sorted order so smaller objects are painted below bigger ones
-        // TODO: Find a way to paint in a sorted order so bigger item are painted
-        //       on top of smaller ones.
         ArrayList<Matter> ms = new ArrayList<Matter>(matterList);
         Collections.sort(ms);
 
@@ -224,6 +219,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             g2.fill(m);
         }
 
+        // Sync and dispose Graphics context
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
