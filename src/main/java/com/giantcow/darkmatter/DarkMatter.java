@@ -93,7 +93,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private void init() {
         matterList = Collections.synchronizedSet(new HashSet<Matter>());
         localPlayer = new HumanMatter(20, 20, 30, 0, 0);
-        remotePlayer = new Matter(300, 200, 40, 0, 0);
+        remotePlayer = new AIMatter(300, 200, 40, 0, 0);
         matterList.add(localPlayer);
         matterList.add(remotePlayer);
         
