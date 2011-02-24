@@ -145,9 +145,19 @@ public class Matter implements Shape, Comparable {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-                && (Math.hypot(blob.getCenterX() - other.getCenterX(),
-                blob.getCenterY() - other.getCenterY())
+                && (distance(other)
                 <= (getRadius() + other.getRadius()));
+    }
+
+    /**
+     * Return the distance between two matters center
+     *
+     * @param other other Matter object
+     * @return the distance between two matters center
+     */
+    public double distance(Matter other){
+        return Math.hypot(blob.getCenterX() - other.getCenterX(),
+                blob.getCenterY() - other.getCenterY());
     }
 
     /**
@@ -167,7 +177,11 @@ public class Matter implements Shape, Comparable {
     }
 
     public boolean completelyConsumes(Matter other) {
-        return blob.getMinX() <= other.getMinX() && blob.getMinY() <= other.getMinY() && blob.getMaxX() >= other.getMaxX() && blob.getMaxY() >= other.getMaxX();
+        if (this.isBigger(other)){
+            return distance(other)<=getRadius()-other.getRadius();
+        } else {
+            return distance(other)<=other.getRadius()-getRadius();
+        }
     }
 
     public double getCenterX() {

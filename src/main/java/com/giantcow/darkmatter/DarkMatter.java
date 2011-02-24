@@ -22,6 +22,8 @@ import javax.imageio.ImageIO;
  *
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
  * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
+ * @author Yukun Wang <yxw999@cs.bham.ac.uk>
+ *
  *   
  * TODO make a copy of the matter list before iterating through it to detect
  * collisions as we are getting crashes occasionally where we're trying to
@@ -127,7 +129,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             System.exit(1);
         }
 
-        goalArea = 0.85 * area;
+        goalArea = 0.6 * area;
         zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
     }
 
@@ -140,13 +142,10 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         double r = localPlayer.getRadius();
         double cx = localPlayer.getCenterX();
         double cy = localPlayer.getCenterY();
-        double currentZoom = 0;
+        double currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
 
-        if (DEFAULT_HEIGHT > localPlayer.getRadius() * 10) {
-            currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
-            zoom = (currentZoom - zoom) / 4 + zoom;
-
-
+        if (currentZoom>1&&currentZoom<5) {
+            zoom = (currentZoom - zoom) / 5 + zoom;
         } else {
             zoom = 1;
         }
@@ -154,7 +153,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         if (zoom > 1) {
             if (cy < 5 * r) {
                 y = 0;
-            } else if (DEFAULT_HEIGHT - cy >= 5 * r) {
+            } else if (DEFAULT_HEIGHT - cy >= 15 * r) {
                 y = cy - DEFAULT_HEIGHT / 2 / zoom;
             } else {
                 y = (zoom - 1) * DEFAULT_HEIGHT / zoom;
@@ -189,20 +188,11 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                             RenderingHints.VALUE_ANTIALIAS_ON);
+         g2.drawImage(backgroundP, 0, 0, this); //draw the background
 
-        // Print winning or losing message
-        g2.setColor(Color.white);
-        if (localPlayer.getArea() <= 0.1) {
-            g2.drawString("You lose", 10, 10);
-        }
-        if (localPlayer.getArea() >= goalArea) {
-            g2.drawString("You win", 10, 10);
-        }
-
+        
         g2.scale(zoom, zoom); //enlarge whole map
-        g2.translate(-x, -y); //move the pen to the right place
-
-        g2.drawImage(backgroundP, 0, 0, this); //draw the background
+        g2.translate(-x, -y); //move the pen to the right place       
 
         // Paint in a sorted order so smaller objects are painted below bigger ones
         ArrayList<Matter> ms = new ArrayList<Matter>(matterList);
@@ -221,6 +211,18 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
         // Sync and dispose Graphics context
         Toolkit.getDefaultToolkit().sync();
+
+        g2.scale(1/zoom,1/zoom);
+        g2.translate(x,y);
+        // Print winning or losing message
+        g2.setColor(Color.white);
+        if (localPlayer.getArea() <= 16) {
+            g2.drawString("You lose", 10, 10);
+        }
+        if (localPlayer.getArea() >= goalArea) {
+            g2.drawString("You win", 10, 10);
+        }
+
         g.dispose();
     }
 
@@ -274,7 +276,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                             n.setArea(0.0);
                         } else {
                             double d = n.getRadius() + m.getRadius()
-                                       - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY() - n.getCenterY());
+                                       - m.distance(n);
                             double area = 0.03 * d * n.getArea();
                             //double area = 0.03 * n.getArea();
                             m.setArea(m.getArea() + area);
