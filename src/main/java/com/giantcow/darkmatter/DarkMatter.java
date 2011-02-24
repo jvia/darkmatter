@@ -6,8 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,6 +15,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
  *
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
  * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
+ *   
  * TODO make a copy of the matter list before iterating through it to detect
  * collisions as we are getting crashes occasionally where we're trying to
  * add new expelled matter to the list whilst we're iterating through it, causing
@@ -38,7 +39,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         darkMatter.run();
     }
     // GUI Variables
-    private static final long DELAY = 10;
+    private static final long DELAY = 20;
     private static int DEFAULT_WIDTH = 800;
     private static int DEFAULT_HEIGHT = 600;
     private Color background = new Color(14, 36, 48);
@@ -91,14 +92,16 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      */
     private void init() {
         matterList = Collections.synchronizedSet(new HashSet<Matter>());
-        localPlayer = new HumanMatter(20, 20, 40, 0, 0);
-        remotePlayer = new AIMatter(300, 200, 40, 0, 0);
+        localPlayer = new HumanMatter(20, 20, 30, 0, 0);
+        remotePlayer = new Matter(300, 200, 40, 0, 0);
         matterList.add(localPlayer);
         matterList.add(remotePlayer);
-        trackList = new ArrayList<String>();
-        trackList.add("SpaceFighterLoop.wav");
-        musicPlayer = new MusicPlayer(trackList);
-        musicPlayer.start();
+        
+//        TODO: MusicPlayer is throwing NullPointerException
+//        trackList = new ArrayList<String>();
+//        trackList.add("SpaceFighterLoop.wav");
+//        musicPlayer = new MusicPlayer(trackList);
+//        musicPlayer.start();
 
         double area = 0.0;
         while (matterList.size() < INITIAL_BLOBS) {
@@ -202,15 +205,17 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         g2.scale(zoom, zoom); //enlarge whole map
         g2.translate(-x, -y); //move the pen to the right place
 
-
         g2.drawImage(backgroundP, 0, 0, this); //draw the background
 
         // Paint in a sorted order so smaller objects are painted below bigger ones
-        Matter[] ms = new Matter[matterList.size()];
-        matterList.toArray(ms);
-        Arrays.sort(ms);
+        // TODO: Find a way to paint in a sorted order so bigger item are painted
+        //       on top of smaller ones.
+        ArrayList<Matter> ms = new ArrayList<Matter>(matterList);
+        Collections.sort(ms);
 
         for (Matter m : ms) {
+            if (m == null) continue;
+            
             if (m.equals(localPlayer) || m.equals(remotePlayer)) {
                 g2.setColor(player);
             } else {
@@ -260,62 +265,67 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      */
     private void update() {
         // Detect collisions
-        for (Matter m : matterList) {
-            for (Matter n : matterList) {
-                if (m.equals(n)) {
-                    continue;
-                }
-
-                if (m.intersects(n) && m.isBigger(n)) {
-                    if (m.completelyConsumes(n)) {
-                        m.setArea(m.getArea() + n.getArea());
-                        n.setArea(0.0);
-                    } else {
-                        double d = n.getRadius() + m.getRadius()
-                                   - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY() - n.getCenterY());
-                        double area = 0.03 * d * n.getArea();
-                        //double area = 0.03 * n.getArea();
-                        m.setArea(m.getArea() + area);
-                        n.setArea(n.getArea() - area);
+        synchronized (matterList) {
+            for (Matter m : matterList) {
+                for (Matter n : matterList) {
+                    if (m.equals(n)) {
+                        continue;
                     }
 
                     if (m.intersects(n) && m.isBigger(n)) {
+                        if (m.completelyConsumes(n)) {
+                            m.setArea(m.getArea() + n.getArea());
+                            n.setArea(0.0);
+                        } else {
+                            double d = n.getRadius() + m.getRadius()
+                                       - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY() - n.getCenterY());
+                            double area = 0.03 * d * n.getArea();
+                            //double area = 0.03 * n.getArea();
+                            m.setArea(m.getArea() + area);
+                            n.setArea(n.getArea() - area);
+                        }
+
+                        if (m.intersects(n) && m.isBigger(n)) {
 //                        if (m.completelyConsumes(n)) {
 //                            m.setArea(m.getArea() + n.getArea());
 //                            n.setArea(0.0);
 //                        } else {
-                        double d = n.getRadius() + m.getRadius()
-                                   - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY()
-                                                                                 - n.getCenterY());
-                        double area = 0.03 * d * n.getArea();
-                        //double area = 0.03 * n.getArea();
-                        m.setArea(m.getArea() + area);
-                        n.setArea(n.getArea() - area);
+                            double d = n.getRadius() + m.getRadius()
+                                       - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY()
+                                                                                     - n.getCenterY());
+                            double area = 0.03 * d * n.getArea();
+                            //double area = 0.03 * n.getArea();
+                            m.setArea(m.getArea() + area);
+                            n.setArea(n.getArea() - area);
 //                        }
 
 
-                        double yOffset = m.getBounds2D().getMaxY() - getHeight();
-                        if (yOffset > 0) {
-                            Rectangle2D boundingBox = m.getBounds2D();
-                            boundingBox.setFrame(boundingBox.getX(),
-                                                 boundingBox.getY() - yOffset,
-                                                 boundingBox.getWidth(),
-                                                 boundingBox.getHeight());
-                            m.setFrame(boundingBox);
+                            double yOffset = m.getBounds2D().getMaxY() - getHeight();
+                            if (yOffset > 0) {
+                                Rectangle2D boundingBox = m.getBounds2D();
+                                boundingBox.setFrame(boundingBox.getX(),
+                                                     boundingBox.getY() - yOffset,
+                                                     boundingBox.getWidth(),
+                                                     boundingBox.getHeight());
+                                m.setFrame(boundingBox);
+                            }
                         }
                     }
                 }
             }
         }
-        // Change dy/dx if necessary
-        for (Matter m : matterList) {
-            if (m.getX() <= 0 || m.getMaxX() >= DEFAULT_WIDTH) {
-                m.setDx(-m.getDx());
+
+        synchronized (matterList) {
+            // Change dy/dx if necessary
+            for (Matter m : matterList) {
+                if (m.getX() <= 0 || m.getMaxX() >= DEFAULT_WIDTH) {
+                    m.setDx(-m.getDx());
+                }
+                if (m.getY() <= 0 || m.getMaxY() >= DEFAULT_HEIGHT) {
+                    m.setDy(-m.getDy());
+                }
+                m.update();
             }
-            if (m.getY() <= 0 || m.getMaxY() >= DEFAULT_HEIGHT) {
-                m.setDy(-m.getDy());
-            }
-            m.update();
         }
 
         updateMovement();
