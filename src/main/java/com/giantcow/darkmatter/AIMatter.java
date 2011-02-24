@@ -24,7 +24,7 @@ public class AIMatter extends Matter {
     @Override
     public Matter changeMove(double x, double y, Set<Matter> others) {
 
-        if (pause++ == 100) {
+        if (pause++ == 50) {
             pause = 0;
             // Calculate expelled matter's new speed
             Matter best = (Matter) others.toArray()[0];
