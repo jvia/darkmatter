@@ -1,6 +1,7 @@
 
-package com.giantcow.darkmatter;
+package com.giantcow.darkmatter.player;
 
+import com.giantcow.darkmatter.player.Matter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Set;

@@ -1,5 +1,6 @@
-package com.giantcow.darkmatter;
+package com.giantcow.darkmatter.player;
 
+import com.giantcow.darkmatter.VelocityVector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;

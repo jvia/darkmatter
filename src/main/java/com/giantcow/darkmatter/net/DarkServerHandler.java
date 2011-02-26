@@ -1,6 +1,6 @@
 package com.giantcow.darkmatter.net;
 
-import com.giantcow.darkmatter.Matter;
+import com.giantcow.darkmatter.player.Matter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

@@ -1,5 +1,8 @@
 package com.giantcow.darkmatter;
 
+import com.giantcow.darkmatter.player.AIMatter;
+import com.giantcow.darkmatter.player.HumanMatter;
+import com.giantcow.darkmatter.player.Matter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;

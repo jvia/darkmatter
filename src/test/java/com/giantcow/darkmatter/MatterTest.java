@@ -1,5 +1,6 @@
 package com.giantcow.darkmatter;
 
+import com.giantcow.darkmatter.player.Matter;
 import java.awt.geom.Point2D;
 import junit.framework.TestCase;
 
