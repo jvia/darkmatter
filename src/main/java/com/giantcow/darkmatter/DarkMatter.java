@@ -3,12 +3,14 @@ package com.giantcow.darkmatter;
 import com.giantcow.darkmatter.player.AIMatter;
 import com.giantcow.darkmatter.player.HumanMatter;
 import com.giantcow.darkmatter.player.Matter;
+import java.awt.event.MouseWheelEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,7 +36,7 @@ import javax.imageio.ImageIO;
  * said crash, can also be solved by having a 'current list' and 'added list', and add
  * changes to the added list, swapping it into the current list once the iterator is complete
  */
-public class DarkMatter extends JComponent implements KeyListener, MouseListener {
+public class DarkMatter extends JComponent implements KeyListener, MouseListener, MouseWheelListener {
 
     public static void main(String[] args) {
         DarkMatter darkMatter = new DarkMatter();
@@ -48,7 +50,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private Color player = new Color(252, 58, 81);
     private Color npc = new Color(245, 179, 73);
     private boolean isFullScreen;
-    private double zoom = 1; //zoomlevel
+    private double zoom = 1;
+    private double zoomlevel=5;
     // the distance pen need to move
     private double x = 0;
     private double y = 0;
@@ -73,6 +76,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         setIgnoreRepaint(true);
         addKeyListener(this);
         addMouseListener(this);
+        addMouseWheelListener(this);
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
 
@@ -138,25 +142,25 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
     /**
      * calculate the zoomlevel and the distancae pen should move
-     * the initial zoomlevel is 5 times, means the screen width is 5 times of
+     * the initial zoomlevel is 'zoomlevel' times, means the screen width is 5 times of
      * local player matter's diameter if it is possible
      */
     private void zoom() {
         double r = localPlayer.getRadius();
         double cx = localPlayer.getCenterX();
         double cy = localPlayer.getCenterY();
-        double currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+        double currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / zoomlevel/2;
 
-        if (currentZoom>1&&currentZoom<5) {
-            zoom = (currentZoom - zoom) / 5 + zoom;
+        if (currentZoom>1&&currentZoom<10) {
+            zoom = (currentZoom - zoom) / zoomlevel + zoom;
         } else {
             zoom = 1;
         }
 
         if (zoom > 1) {
-            if (cy < 5 * r) {
+            if (cy < zoomlevel * r) {
                 y = 0;
-            } else if (DEFAULT_HEIGHT - cy >= 15 * r) {
+            } else if (DEFAULT_HEIGHT - cy >= zoomlevel * r) {
                 y = cy - DEFAULT_HEIGHT / 2 / zoom;
             } else {
                 y = (zoom - 1) * DEFAULT_HEIGHT / zoom;
@@ -166,9 +170,9 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         }
 
         if (zoom > 1) {
-            if (cx < 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
+            if (cx < zoomlevel * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
                 x = 0;
-            } else if (DEFAULT_WIDTH - cx >= 5 * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
+            } else if (DEFAULT_WIDTH - cx >= zoomlevel * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
                 x = cx - DEFAULT_WIDTH / 2 / zoom;
             } else {
                 x = (zoom - 1) * DEFAULT_WIDTH / zoom;
@@ -370,6 +374,16 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             matterList.add(m);
         }
 
+    }
+
+        @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+            double n=e.getUnitsToScroll();
+            double z=zoomlevel;
+            if(z+n/3>1&&z+n/3<10){
+                zoomlevel=zoomlevel+n/5;
+            }
+            System.out.println(n);            
     }
 
     // <editor-fold desc="Unused event methods">
