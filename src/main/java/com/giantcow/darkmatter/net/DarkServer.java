@@ -4,9 +4,8 @@ import com.giantcow.darkmatter.player.Matter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,65 +15,57 @@ import java.util.logging.Logger;
  */
 public class DarkServer {
 
-    protected static final Matter MINIMUM_MATTER_SIZE = new Matter(0, 0, 1.0, 0, 0);
+    public static final int DEFAULT_PORT = 1234;
+    public static final String HOST = "localhost";
+    public static int players;
+    Set<Matter> gameState;
 
-    public static void main(String[] args) {
+    /**
+     * 
+     * @param port
+     */
+    public DarkServer(final int port) {
+        gameState = initializeGame();
+
         try {
-            new DarkServer();
+            ServerSocket socket = new ServerSocket(port);
+
+            Socket client;
+
+            while (true) {
+                System.out.println("Waiting for client " + (players +1) + "..." );
+                client = socket.accept();
+                new DarkServerHandler(client, gameState);
+            }
+
         } catch (IOException ex) {
-            Logger.getLogger(DarkServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private static final int PORT = 1234;
-    // Blob characteristics
-    private static final int INITIAL_NPCS = 20;
-    private double MAX_START_X = 1000;
-    private double MAX_START_Y = 1000;
-    private double MAX_RADIUS = 50.0;
-    private double MAX_DY = 1.0;
-    private double MAX_DX = 1.0;
-    private SortedSet<Matter> matters = Collections.synchronizedSortedSet(new TreeSet<Matter>());
-    public static int PLAYERS = 0;
-
-    public DarkServer() throws IOException {
-
-        while (matters.size() < INITIAL_NPCS) {
-            Matter m = new Matter(randomX(), randomY(), randomRadius(),
-                                  randomDY(), randomDX());
-
-            if (!m.intersects(matters))
-                matters.add(m);
+            Logger.getLogger(DarkServer.class.getName()).log(Level.SEVERE, "Could not lock socket", ex);
         }
 
-        ServerSocket serverSocket = new ServerSocket(PORT);
-
-        while (true) {
-            Socket socket = serverSocket.accept();
-            PLAYERS++;
-            DarkServerHandler handler = new DarkServerHandler(socket, matters);
-            handler.start();
-        }
     }
 
-    private double randomX() {
-        return Math.random() * MAX_START_X;
+    /**
+     *
+     */
+    public DarkServer() {
+        this(DEFAULT_PORT);
     }
 
-    private double randomY() {
-        return Math.random() * MAX_START_Y;
+    /**
+     *
+     * @return
+     */
+    private Set<Matter> initializeGame() {
+        Set<Matter> set = new HashSet<Matter>();
+        set.add(new Matter(10, 10, 40, 0, 0));
+        return set;
     }
 
-    private double randomRadius() {
-        return Math.random() * MAX_RADIUS;
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        new DarkServer();
     }
-
-    private double randomDY() {
-        return Math.random() * MAX_DY;
-    }
-
-    private double randomDX() {
-        return Math.random() * MAX_DX;
-    }
-
 }

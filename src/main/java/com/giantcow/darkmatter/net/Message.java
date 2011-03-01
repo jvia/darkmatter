@@ -13,10 +13,13 @@ import java.util.Set;
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -8584149296031996410L;
-    private static final int MESSAGE = 0;
-    private static final int DATA = 1;
 
+    enum Type {
+
+        String, Data
+    };
+    
     String message;
     Set<Matter> data;
-    int type = MESSAGE;
+    Type type = Type.String;
 }

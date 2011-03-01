@@ -6,8 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,46 +19,69 @@ public class DarkServerHandler extends Thread {
 
     private Socket clientSock;
     private String address;
-    private SortedSet<Matter> matters = Collections.synchronizedSortedSet(new TreeSet<Matter>());
+    private Set<Matter> matters = Collections.synchronizedSet(new HashSet<Matter>());
+    private boolean finished;
 
-    DarkServerHandler(Socket socket, SortedSet<Matter> matters) {
+    DarkServerHandler(Socket socket, Set<Matter> matters) {
         clientSock = socket;
         this.matters = matters;
+        boolean finished = false;
+        DarkServer.players++;
     }
 
     @Override
     public void run() {
-        // open object stream from client
-        ObjectInputStream input = null;
         try {
-            input = new ObjectInputStream(clientSock.getInputStream());
+
+            ObjectInputStream input = new ObjectInputStream(clientSock.getInputStream());
+            ObjectOutputStream output = new ObjectOutputStream(clientSock.getOutputStream());
+
+            processClient(input, output);
+
+            // Close all streams and connections
+            input.close();
+            output.close();
+            clientSock.close();
         } catch (IOException ex) {
-            Logger.getLogger(DarkServerHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-        while (clientSock.isConnected()) {
+    private void processClient(ObjectInputStream input, ObjectOutputStream output) {
+        Message msg;
+        while (!finished) {
             try {
+                // read request
+                msg = (Message) input.readObject();
 
-                // Read the player's current matter list
-                SortedSet<Matter> playerset = Collections.synchronizedSortedSet(new TreeSet<Matter>());
-                playerset = (SortedSet<Matter>) input.readObject();
-                playerset = playerset.tailSet(DarkServer.MINIMUM_MATTER_SIZE);
-
-                synchronized (matters) {
-                    matters.addAll(playerset);
+                // determine its type and process accordingly
+                switch (msg.type) {
+                    case Data:
+                        Set<Matter> set = msg.data;
+                        matters.addAll(set);
+                        msg.type = msg.type.Data;
+                        msg.data = matters;
+                        break;
+                    case String:
+                        if (msg.message.equals("playercount")) {
+                            msg.type = msg.type.String;
+                            msg.message = String.valueOf(DarkServer.players);
+                        } else if (msg.message.equals("goodbye")) {
+                            finished = true;
+                            DarkServer.players--;
+                            return;
+                        }
+                        break;
                 }
 
-                // Open object sttream to client
-                ObjectOutputStream output = new ObjectOutputStream(clientSock.getOutputStream());
 
-                // Send the new set back down
-                output.writeObject(matters);
-
+                // send the data back down
+                output.writeObject(msg);
             } catch (IOException ex) {
-                Logger.getLogger(DarkServerHandler.class.getName()).log(Level.SEVERE, "IO Problem", ex);
+                Logger.getLogger(DarkServerHandler.class.getName()).log(Level.SEVERE, "Could not read object", ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(DarkServerHandler.class.getName()).log(Level.SEVERE, "Object not of expected type", ex);
+                Logger.getLogger(DarkServerHandler.class.getName()).log(Level.SEVERE, "Could not cast object to Message", ex);
             }
         }
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

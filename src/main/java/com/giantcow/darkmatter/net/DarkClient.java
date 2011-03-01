@@ -5,6 +5,7 @@
 package com.giantcow.darkmatter.net;
 
 import com.giantcow.darkmatter.player.Matter;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
@@ -31,17 +32,35 @@ public class DarkClient {
     public DarkClient() {
         try {
             socket = new Socket(HOST, PORT);
-            System.out.println("Connected!");
 
             output = new ObjectOutputStream(socket.getOutputStream());
-            input = new ObjectInputStream(socket.getInputStream());
+            InputStream inputStream = socket.getInputStream();
+            input = new ObjectInputStream(inputStream);
 
+            System.out.println("Connected!");
         } catch (UnknownHostException ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public int playerCountRequest() {
+        try {
+            Message msg = new Message();
+            msg.type = msg.type.String;
+            msg.message = "playercount";
+            output.writeObject(msg);
+            msg = (Message) input.readObject();
+            if (msg.type == msg.type.String)
+                return Integer.parseInt(msg.message);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Integer.MIN_VALUE;
     }
 
     public void end() {
@@ -56,6 +75,7 @@ public class DarkClient {
         Set<Matter> data = new HashSet<Matter>();
         try {
             output.writeObject(gameState);
+            output.flush();
             data = (Set<Matter>) input.readObject();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,14 +87,9 @@ public class DarkClient {
 
     public static void main(String[] args) {
         DarkClient dc = new DarkClient();
-        Set<Matter> set = new HashSet<Matter>();
 
         while (true) {
-            set.add(new Matter(Math.random(), Math.random(), Math.random(), Math.random(), Math.random()));
-            set = dc.update(set);
-//            for (Matter m : set)
-//                System.out.print(m + " | ");
-//            System.out.println("");
+            System.out.println("PLAYERS: " + dc.playerCountRequest());
         }
     }
 }
