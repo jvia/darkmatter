@@ -146,8 +146,8 @@ public class Matter implements Shape, Comparable {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-                && (distance(other)
-                <= (getRadius() + other.getRadius()));
+                && ( distance(other)
+                <= ( getRadius() + other.getRadius() ) );
     }
 
     /**
@@ -156,7 +156,7 @@ public class Matter implements Shape, Comparable {
      * @param other other Matter object
      * @return the distance between two matters center
      */
-    public double distance(Matter other){
+    public double distance(Matter other) {
         return Math.hypot(blob.getCenterX() - other.getCenterX(),
                 blob.getCenterY() - other.getCenterY());
     }
@@ -178,10 +178,10 @@ public class Matter implements Shape, Comparable {
     }
 
     public boolean completelyConsumes(Matter other) {
-        if (this.isBigger(other)){
-            return distance(other)<=getRadius()-other.getRadius();
+        if (this.isBigger(other)) {
+            return distance(other) <= getRadius() - other.getRadius();
         } else {
-            return distance(other)<=other.getRadius()-getRadius();
+            return distance(other) <= other.getRadius() - getRadius();
         }
     }
 
@@ -525,8 +525,24 @@ public class Matter implements Shape, Comparable {
     public int compareTo(Object o) {
         try {
             Matter m = (Matter) o;
-            return (int) (this.getRadius() - m.getRadius());
-        } catch (ClassCastException ex) {
+            return (int) ( this.getRadius() - m.getRadius() );
+        }
+        catch (ClassCastException ex) {
+            throw new ClassCastException("Object not of type Matter");
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Matter m = (Matter) obj;
+            return getX() == m.getX()
+                    && getY() == m.getY()
+                    && getRadius() == m.getRadius()
+                    && getDx() == m.getDx()
+                    && getDy() == m.getDy();
+        }
+        catch (ClassCastException ex) {
             throw new ClassCastException("Object not of type Matter");
         }
     }
@@ -541,6 +557,6 @@ public class Matter implements Shape, Comparable {
     @Override
     public String toString() {
         return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f",
-                getX(), getY(), getRadius(), getDx(), getDy());
+                getX(), getY(), getRadius(), getDy(), getDx());
     }
 }

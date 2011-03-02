@@ -1,0 +1,7 @@
+# A basic level to understand the syntax
+#
+# Jeremiah M. Via
+
+# x        y        r       dy     dx
+  45.0,    45.0,    40.0,   0.1,   0.2
+  300.0,   300.0,   50.0,   0.0,   0.0

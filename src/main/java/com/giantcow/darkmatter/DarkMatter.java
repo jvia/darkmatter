@@ -58,13 +58,14 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private BufferedImage backgroundP = null;
     // Game Variables
     private Set<Matter> matterList;
-    private Matter localPlayer;
+    private HumanMatter localPlayer;
     private Matter remotePlayer;
     private double goalArea;
     // Game constants
     private static int INITIAL_BLOBS = 20;
     private MusicPlayer musicPlayer;
     private ArrayList<String> trackList;
+    private boolean singlePlayer = true;
 
     /**
      * Create the game object.
@@ -97,11 +98,10 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      * TODO Use level loader to build
      */
     private void init() {
-        matterList = Collections.synchronizedSet(new HashSet<Matter>());
-        localPlayer = new HumanMatter(20, 20, 30, 0, 0);
-        remotePlayer = new AIMatter(300, 200, 40, 0, 0);
-        matterList.add(localPlayer);
-        matterList.add(remotePlayer);
+        LevelLoader.readFile("02.lvl");
+        localPlayer = LevelLoader.loadPlayer(localPlayer, 0);
+        remotePlayer = LevelLoader.loadPlayer(remotePlayer, 1);
+        matterList = Collections.synchronizedSet(new HashSet<Matter>(LevelLoader.loadLevel()));
         
 //        TODO: MusicPlayer is throwing NullPointerException
 //        trackList = new ArrayList<String>();
@@ -109,23 +109,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 //        musicPlayer = new MusicPlayer(trackList);
 //        musicPlayer.start();
 
-        double area = 0.0;
-        while (matterList.size() < INITIAL_BLOBS) {
-            // Generate random blob
-            Matter m = new Matter(Math.random() * (getWidth() - 50),
-                                  Math.random() * (getHeight() - 50),
-                                  Math.random() * 25,
-                                  -0.1 + Math.random() * 0.2,
-                                  -0.1 + Math.random() * 0.2);
 
-            // Check to see if it is on top of any other blobs
-            // and if not add it to the queue
-            if (!m.intersects(matterList)) {
-                matterList.add(m);
-                area += m.getArea();
-
-            }
-        }
+        double area = 800.0;
 
         //read the background picture
         try {
@@ -370,6 +355,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
         Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom + y, matterList);
+        System.out.println("here");
         if (m != null) {
             matterList.add(m);
         }

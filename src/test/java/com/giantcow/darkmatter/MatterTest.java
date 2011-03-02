@@ -128,4 +128,11 @@ public class MatterTest extends TestCase {
         int result = instance.compareTo(other);
         assertTrue(result == 0.0);
     }
+
+    public void testEquals() {
+        System.out.println("equals");
+        Matter instance = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        Matter other = new Matter(0.0, 0.0, 0.0, 0.0, 0.0);
+        assertEquals(other, instance);
+    }
 }
