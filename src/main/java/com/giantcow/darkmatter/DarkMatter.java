@@ -77,7 +77,6 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         addMouseWheelListener(this);
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-
         // Add it to the frame
         JFrame frame = new JFrame("DarkMatter");
         frame.setBackground(background);
@@ -114,17 +113,17 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             System.exit(1);
         }
 
-        goalArea = calculateGoalArea();
+        calculateGoalArea();
 
         if (ZOOM_GAME)
             zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
     }
 
-    private double calculateGoalArea() {
+    private void calculateGoalArea() {
         double area = 0.0;
         for (Matter m : matterList)
             area += m.getArea();
-        return 0.8 * area;
+        goalArea = 0.8 * area;
     }
 
     /**

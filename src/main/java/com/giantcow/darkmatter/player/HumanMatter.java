@@ -31,8 +31,8 @@ public class HumanMatter extends Matter {
         Matter m = new Matter(0.0, 0.0, 0.0, deltaY, deltaX);
 
         // Set matter's speed
-        m.setArea(0.05 * getArea());
-        setArea((1 - 0.05) * getArea());
+        m.setArea(0.01 * getArea());
+        setArea((1 - 0.01) * getArea());
         // Calculate matter's position
         Point2D centre = expulsionCentres(x, y, m.getRadius());
         double posX = centre.getX();

@@ -34,8 +34,6 @@ public class DarkClient {
             socket = new Socket(HOST, PORT);
 
             output = new ObjectOutputStream(socket.getOutputStream());
-            InputStream inputStream = socket.getInputStream();
-            input = new ObjectInputStream(inputStream);
 
             System.out.println("Connected!");
         } catch (UnknownHostException ex) {
