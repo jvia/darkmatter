@@ -10,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -61,10 +60,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private Matter remotePlayer;
     private double goalArea;
     // Game constants
-    private static int INITIAL_BLOBS = 20;
     private MusicPlayer musicPlayer;
     private ArrayList<String> trackList;
-    private boolean singlePlayer = true;
     private static final boolean ZOOM_GAME = true;
 
     /**
@@ -111,17 +108,23 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
         //read the background picture
         try {
-            backgroundP = ImageIO.read(new File(
-                    "src/main/resources/Background.png"));
-        }
-        catch (IOException e) {
+            backgroundP = ImageIO.read(new File("src/main/resources/Background.png"));
+        } catch (IOException e) {
             System.err.print("Failed to open image file");
             System.exit(1);
         }
 
-        goalArea = 800.0;
+        goalArea = calculateGoalArea();
+
         if (ZOOM_GAME)
-        zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+            zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+    }
+
+    private double calculateGoalArea() {
+        double area = 0.0;
+        for (Matter m : matterList)
+            area += m.getArea();
+        return 0.8 * area;
     }
 
     /**
@@ -136,7 +139,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         double currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / zoomlevel / 2;
 
         if (currentZoom > 1 && currentZoom < 10) {
-            zoom = ( currentZoom - zoom ) / zoomlevel + zoom;
+            zoom = (currentZoom - zoom) / zoomlevel + zoom;
         } else {
             zoom = 1;
         }
@@ -147,7 +150,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_HEIGHT - cy >= zoomlevel * r) {
                 y = cy - DEFAULT_HEIGHT / 2 / zoom;
             } else {
-                y = ( zoom - 1 ) * DEFAULT_HEIGHT / zoom;
+                y = (zoom - 1) * DEFAULT_HEIGHT / zoom;
             }
         } else {
             y = 0;
@@ -159,7 +162,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_WIDTH - cx >= zoomlevel * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
                 x = cx - DEFAULT_WIDTH / 2 / zoom;
             } else {
-                x = ( zoom - 1 ) * DEFAULT_WIDTH / zoom;
+                x = (zoom - 1) * DEFAULT_WIDTH / zoom;
 
             }
         } else {
@@ -178,7 +181,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+                            RenderingHints.VALUE_ANTIALIAS_ON);
         g2.drawImage(backgroundP, 0, 0, this); //draw the background
 
 
@@ -238,8 +241,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             }
             try {
                 Thread.sleep(sleep);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 System.out.println("interrupted");
             }
 
@@ -256,53 +258,23 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         synchronized (matterList) {
             for (Matter m : matterList) {
                 for (Matter n : matterList) {
-                    if (m.equals(n)) {
-                        continue;
-                    }
+                    if (m.equals(n)) continue;
 
                     if (m.intersects(n) && m.isBigger(n)) {
-                        if (m.completelyConsumes(n)) {
-                            m.setArea(m.getArea() + n.getArea());
-                            n.setArea(0.0);
-                        } else {
-                            double d = n.getRadius() + m.getRadius()
-                                    - m.distance(n);
-                            double area = 0.03 * d * n.getArea();
-                            //double area = 0.03 * n.getArea();
-                            m.setArea(m.getArea() + area);
-                            n.setArea(n.getArea() - area);
-                        }
-
-                        if (m.intersects(n) && m.isBigger(n)) {
-//                        if (m.completelyConsumes(n)) {
-//                            m.setArea(m.getArea() + n.getArea());
-//                            n.setArea(0.0);
-//                        } else {
-                            double d = n.getRadius() + m.getRadius()
-                                    - Math.hypot(m.getCenterX() - n.getCenterX(), m.getCenterY()
-                                    - n.getCenterY());
-                            double area = 0.03 * d * n.getArea();
-                            //double area = 0.03 * n.getArea();
-                            m.setArea(m.getArea() + area);
-                            n.setArea(n.getArea() - area);
-//                        }
-
-
-                            double yOffset = m.getBounds2D().getMaxY() - getHeight();
-                            if (yOffset > 0) {
-                                Rectangle2D boundingBox = m.getBounds2D();
-                                boundingBox.setFrame(boundingBox.getX(),
-                                        boundingBox.getY() - yOffset,
-                                        boundingBox.getWidth(),
-                                        boundingBox.getHeight());
-                                m.setFrame(boundingBox);
-                            }
-                        }
+                        double d = n.getRadius() + m.getRadius() - m.distance(n);
+                        double area = 0.03 * d * n.getArea();
+                        m.setArea(m.getArea() + area);
+                        n.setArea(n.getArea() - area);
                     }
                 }
             }
         }
 
+        updateDirection();
+        updateMovement();
+    }
+
+    private void updateDirection() {
         synchronized (matterList) {
             // Change dy/dx if necessary
             for (Matter m : matterList) {
@@ -315,8 +287,6 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                 m.update();
             }
         }
-
-        updateMovement();
     }
 
     private void updateMovement() {
@@ -360,7 +330,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         if (ma < la)
             return smaller;
         return biiiger;
-        
+
     }
 
     /**
@@ -374,8 +344,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     public void keyPressed(
             final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_F11) {
-            isFullScreen = ( isFullScreen ) ? false
-                    : true;
+            isFullScreen = (isFullScreen) ? false
+                           : true;
             System.out.println("Switch modes");
         }
     }
@@ -384,11 +354,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
         Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom + y, matterList);
-        System.out.println("here");
-        if (m != null) {
+        if (m != null)
             matterList.add(m);
-        }
-
     }
 
     @Override

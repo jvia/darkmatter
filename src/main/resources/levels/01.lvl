@@ -1,7 +1,4 @@
-# A basic level to understand the syntax
-#
-# Jeremiah M. Via
-
-# x        y        r       dy     dx
-  45.0,    45.0,    40.0,   0.1,   0.2
-  300.0,   300.0,   50.0,   0.0,   0.0
+p1: x: 0.0 y: 0.0 r: 40.0 dy: 0.1 dx: 0.2
+p2: x: 3.0 y: 3.0 r: 40.0 dy: 0.1 dx: 0.2
+m:  x: 5.0 y: 5.0 r: 40.0 dy: 0.1 dx: 0.2
+m:  x: 7.0 y: 7.0 r: 40.0 dy: 0.1 dx: 0.2

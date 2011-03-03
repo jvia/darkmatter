@@ -1,7 +1,6 @@
 
 package com.giantcow.darkmatter.player;
 
-import com.giantcow.darkmatter.player.Matter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Set;
@@ -18,8 +17,8 @@ public class HumanMatter extends Matter {
 
     public Matter changeMove(double x, double y, Set<Matter> matterList) {
         // Calculate expelled matter's new speed
-        double deltaX = 0.1;
-        double deltaY = 0.1;
+        double deltaX = 0.25;
+        double deltaY = 0.25;
 
         if (x < getCenterX()) {
             deltaX *= -1;
