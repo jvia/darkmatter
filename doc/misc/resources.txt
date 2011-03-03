@@ -23,3 +23,4 @@
 * Music sources
 
    - 'SpaceFighterLoop.wav' - Kevin MacLeod @ Incompetech.com (Space Fighter Loop)
+   - 'SashaXpander.wav' - Wipeout 3 Soundtrack - DJ Sasha ft. Orbital and The Chemical Brothers
