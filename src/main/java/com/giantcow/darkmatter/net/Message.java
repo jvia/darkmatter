@@ -14,12 +14,12 @@ public class Message implements Serializable {
 
     private static final long serialVersionUID = -8584149296031996410L;
 
-    enum Type {
+    public enum Type {
 
         String, Data
     };
     
-    String message;
-    Set<Matter> data;
-    Type type = Type.String;
+    public String message;
+    public Set<Matter> data;
+    public Type type = Type.String;
 }

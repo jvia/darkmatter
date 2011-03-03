@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 public class DarkClient {
 
     // Server details
-    private int PORT = 1234;
+    private int PORT = DarkServer.DEFAULT_PORT;
     private String HOST = "localhost";
-    private Socket socket;
+    private Socket socket = null;
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
@@ -34,12 +34,16 @@ public class DarkClient {
             socket = new Socket(HOST, PORT);
 
             output = new ObjectOutputStream(socket.getOutputStream());
+            //input = new ObjectInputStream(socket.getInputStream());
 
             System.out.println("Connected!");
+            
         } catch (UnknownHostException ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
         } catch (IOException ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
         }
 
     }

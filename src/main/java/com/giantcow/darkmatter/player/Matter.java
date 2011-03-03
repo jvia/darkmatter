@@ -3,6 +3,7 @@ package com.giantcow.darkmatter.player;
 import com.giantcow.darkmatter.VelocityVector;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -15,8 +16,9 @@ import java.util.Set;
  * @version 2011.0201
  * @since 0.1
  */
-public class Matter implements Shape, Comparable {
+public class Matter implements Shape, Comparable, Serializable {
 
+    private static final long serialVersionUID = 7526472295622776147L;
     protected static final double MAX_SPEED = 2.0;
     private static final double ALPHA = 0.1;
     private Ellipse2D.Double blob;
@@ -146,8 +148,8 @@ public class Matter implements Shape, Comparable {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-                && ( distance(other)
-                <= ( getRadius() + other.getRadius() ) );
+               && (distance(other)
+                   <= (getRadius() + other.getRadius()));
     }
 
     /**
@@ -158,7 +160,7 @@ public class Matter implements Shape, Comparable {
      */
     public double distance(Matter other) {
         return Math.hypot(blob.getCenterX() - other.getCenterX(),
-                blob.getCenterY() - other.getCenterY());
+                          blob.getCenterY() - other.getCenterY());
     }
 
     /**
@@ -525,9 +527,8 @@ public class Matter implements Shape, Comparable {
     public int compareTo(Object o) {
         try {
             Matter m = (Matter) o;
-            return (int) ( this.getRadius() - m.getRadius() );
-        }
-        catch (ClassCastException ex) {
+            return (int) (this.getRadius() - m.getRadius());
+        } catch (ClassCastException ex) {
             throw new ClassCastException("Object not of type Matter");
         }
     }
@@ -537,12 +538,11 @@ public class Matter implements Shape, Comparable {
         try {
             Matter m = (Matter) obj;
             return getX() == m.getX()
-                    && getY() == m.getY()
-                    && getRadius() == m.getRadius()
-                    && getDx() == m.getDx()
-                    && getDy() == m.getDy();
-        }
-        catch (ClassCastException ex) {
+                   && getY() == m.getY()
+                   && getRadius() == m.getRadius()
+                   && getDx() == m.getDx()
+                   && getDy() == m.getDy();
+        } catch (ClassCastException ex) {
             throw new ClassCastException("Object not of type Matter");
         }
     }
@@ -557,6 +557,6 @@ public class Matter implements Shape, Comparable {
     @Override
     public String toString() {
         return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f",
-                getX(), getY(), getRadius(), getDy(), getDx());
+                             getX(), getY(), getRadius(), getDy(), getDx());
     }
 }

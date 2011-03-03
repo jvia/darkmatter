@@ -1,5 +1,7 @@
 package com.giantcow.darkmatter;
 
+import java.io.Serializable;
+
 /**
  * Class to define Velocity and Direction of matters vector.
  *
@@ -8,8 +10,9 @@ package com.giantcow.darkmatter;
  * @version 2011.0203
  * @since 0.1
  */
-public class VelocityVector {
+public class VelocityVector implements Serializable {
 
+    private static final long serialVersionUID = 7526472295622776148L;
     private double dy;
     private double dx;
 
