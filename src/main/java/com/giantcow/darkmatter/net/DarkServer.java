@@ -10,7 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * TODO: Client should be able to ask `whoami' in order to get
+ * find out which player they are for the map.
+ * 
  * @author Jeremiah Via <jxv911@cs.bham.ac.uk>
  */
 public class DarkServer {
