@@ -2,37 +2,19 @@ package com.giantcow.darkmatter;
 
 import com.giantcow.darkmatter.player.HumanMatter;
 import com.giantcow.darkmatter.player.Matter;
-import java.awt.event.MouseWheelEvent;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import javax.imageio.ImageIO;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.util.*;
 
 /**
  * This is the class that runs the whole show. It handles the game
  * mechanics
  *
  * @author Jeremiah M. Via <jxv911@cs.bham.ac.uk>
- * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
- * @author Yukun Wang <yxw999@cs.bham.ac.uk>
- *
- *   
- * TODO make a copy of the matter list before iterating through it to detect
- * collisions as we are getting crashes occasionally where we're trying to
- * add new expelled matter to the list whilst we're iterating through it, causing
- * said crash, can also be solved by having a 'current list' and 'added list', and add
- * changes to the added list, swapping it into the current list once the iterator is complete
+ * @author Joss Greenaway  <jtg897@cs.bham.ac.uk>
+ * @author Yukun Wang      <yxw999@cs.bham.ac.uk>
  */
 public class DarkMatter extends JComponent implements KeyListener, MouseListener, MouseWheelListener {
 
@@ -63,6 +45,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private MusicPlayer musicPlayer;
     private ArrayList<String> trackList;
     private static final boolean ZOOM_GAME = true;
+    Sprite bgSprite;
 
     /**
      * Create the game object.
@@ -106,23 +89,20 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 //        musicPlayer.start();
 
         //read the background picture
-        try {
-            backgroundP = ImageIO.read(new File("src/main/resources/Background.png"));
-        } catch (IOException e) {
-            System.err.print("Failed to open image file");
-            System.exit(1);
-        }
+        bgSprite = SpriteFactory.producer().generateSprite("Background.png");
 
         calculateGoalArea();
 
-        if (ZOOM_GAME)
+        if (ZOOM_GAME) {
             zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
+        }
     }
 
     private void calculateGoalArea() {
         double area = 0.0;
-        for (Matter m : matterList)
+        for (Matter m : matterList) {
             area += m.getArea();
+        }
         goalArea = 0.8 * area;
     }
 
@@ -138,7 +118,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         double currentZoom = DEFAULT_HEIGHT / localPlayer.getRadius() / zoomlevel / 2;
 
         if (currentZoom > 1 && currentZoom < 10) {
-            zoom = (currentZoom - zoom) / zoomlevel + zoom;
+            zoom = ( currentZoom - zoom ) / zoomlevel + zoom;
         } else {
             zoom = 1;
         }
@@ -149,7 +129,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_HEIGHT - cy >= zoomlevel * r) {
                 y = cy - DEFAULT_HEIGHT / 2 / zoom;
             } else {
-                y = (zoom - 1) * DEFAULT_HEIGHT / zoom;
+                y = ( zoom - 1 ) * DEFAULT_HEIGHT / zoom;
             }
         } else {
             y = 0;
@@ -161,7 +141,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             } else if (DEFAULT_WIDTH - cx >= zoomlevel * r * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
                 x = cx - DEFAULT_WIDTH / 2 / zoom;
             } else {
-                x = (zoom - 1) * DEFAULT_WIDTH / zoom;
+                x = ( zoom - 1 ) * DEFAULT_WIDTH / zoom;
 
             }
         } else {
@@ -182,8 +162,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.drawImage(backgroundP, 0, 0, this); //draw the background
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        bgSprite.draw(g2, 0, 0);
 
 
         g2.scale(zoom, zoom); //enlarge whole map
@@ -197,7 +177,6 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             if (m == null) {
                 continue;
             }
-
             g2.setColor(determineColor(m));
             g2.fill(m);
         }
@@ -231,7 +210,9 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         while (true) {
 
             update();
-            if (ZOOM_GAME) zoom();
+            if (ZOOM_GAME) {
+                zoom();
+            }
             repaint();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
@@ -242,7 +223,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             }
             try {
                 Thread.sleep(sleep);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 System.out.println("interrupted");
             }
 
@@ -255,13 +237,21 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
      * so it will be best to try and split it up into many smaller methods.
      */
     private void update() {
+        // remove too small matter objects
+        deleteSmall();
+
         // Detect collisions
         synchronized (matterList) {
             for (Matter m : matterList) {
                 for (Matter n : matterList) {
-                    if (m.equals(n)) continue;
+                    if (m.equals(n)) {
+                        continue;
+                    }
 
                     if (m.intersects(n) && m.isBigger(n)) {
+                        if (m == localPlayer) 
+                            System.out.println("Collision: " + System.currentTimeMillis());
+                        
                         double d = n.getRadius() + m.getRadius() - m.distance(n);
                         double area = 0.03 * d * n.getArea();
                         m.setArea(m.getArea() + area);
@@ -313,25 +303,30 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         Color smaller = new Color(167, 219, 216);
         Color smaaaller = new Color(105, 210, 231);
 
-        if (m == localPlayer) {
+        if (m == localPlayer) 
             return player;
-        }
 
         double la = localPlayer.getArea();
+
+
         double ma = m.getArea();
 
-        if (ma == la)
+        if (ma == la) {
             return same;
-        if (ma > 2 * la)
+        }
+        if (ma > 2 * la) {
             return bigger;
-        if (ma > la)
+        }
+        if (ma > la) {
             return bigger;
-        if (ma * 2 < la)
+        }
+        if (ma * 2 < la) {
             return smaaaller;
-        if (ma < la)
+        }
+        if (ma < la) {
             return smaller;
+        }
         return biiiger;
-
     }
 
     /**
@@ -345,9 +340,11 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     public void keyPressed(
             final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_F11) {
-            isFullScreen = (isFullScreen) ? false
-                           : true;
+            isFullScreen = ( isFullScreen ) ? false
+                    : true;
             System.out.println("Switch modes");
+
+
         }
     }
 
@@ -355,20 +352,31 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
         Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom + y, matterList);
-        if (m != null)
+
+
+        if (m != null) {
             matterList.add(m);
+
+
+        }
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         double n = e.getUnitsToScroll();
+
+
         double z = zoomlevel;
         System.out.println("z+n/3: "+z+n/3);
         if (z + n / 5 > 2 ) {
             zoomlevel = zoomlevel + n / 5;
+
+
         }
         z=zoomlevel;
         System.out.println(z);
+
+
     }
 
     // <editor-fold desc="Unused event methods">
@@ -398,6 +406,20 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     /** Invoked when the mouse exits a component. */
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    private void deleteSmall() {
+        ArrayList<Matter> remove = new ArrayList<Matter>();
+        for (Matter m : matterList) {
+            if (m.getArea() <= 0.1) {
+                remove.add(m);
+
+            }
+
+        }
+        synchronized (matterList) {
+            matterList.removeAll(remove);
+        }
     }
     // </editor-fold>
 }

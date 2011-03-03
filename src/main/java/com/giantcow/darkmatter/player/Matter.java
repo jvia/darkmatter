@@ -20,7 +20,7 @@ public class Matter implements Shape, Comparable, Serializable {
 
     private static final long serialVersionUID = 7526472295622776147L;
     protected static final double MAX_SPEED = 2.0;
-    private static final double ALPHA = 0.1;
+    private static final double ALPHA = 0.2;
     private Ellipse2D.Double blob;
     private VelocityVector velocity;
 
@@ -148,8 +148,8 @@ public class Matter implements Shape, Comparable, Serializable {
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-               && (distance(other)
-                   <= (getRadius() + other.getRadius()));
+                && ( distance(other)
+                <= ( getRadius() + other.getRadius() ) );
     }
 
     /**
@@ -160,7 +160,7 @@ public class Matter implements Shape, Comparable, Serializable {
      */
     public double distance(Matter other) {
         return Math.hypot(blob.getCenterX() - other.getCenterX(),
-                          blob.getCenterY() - other.getCenterY());
+                blob.getCenterY() - other.getCenterY());
     }
 
     /**
@@ -236,9 +236,7 @@ public class Matter implements Shape, Comparable, Serializable {
      */
     protected Point2D expulsionCentres(double x, double y, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
-        double theta = Math.atan(Math.abs(y - getCenterY()) / Math.abs(
-                x - getCenterX()));
-        //double theta = Math.toDegrees(Math.atan2(y,x));
+        double theta = Math.atan(Math.abs(y - getCenterY()) / Math.abs(x - getCenterX()));
 
         double hyp = radius + getRadius() + ALPHA;
         double y1 = Math.sin(theta) * hyp;
@@ -527,8 +525,9 @@ public class Matter implements Shape, Comparable, Serializable {
     public int compareTo(Object o) {
         try {
             Matter m = (Matter) o;
-            return (int) (this.getRadius() - m.getRadius());
-        } catch (ClassCastException ex) {
+            return (int) ( this.getRadius() - m.getRadius() );
+        }
+        catch (ClassCastException ex) {
             throw new ClassCastException("Object not of type Matter");
         }
     }
@@ -538,11 +537,12 @@ public class Matter implements Shape, Comparable, Serializable {
         try {
             Matter m = (Matter) obj;
             return getX() == m.getX()
-                   && getY() == m.getY()
-                   && getRadius() == m.getRadius()
-                   && getDx() == m.getDx()
-                   && getDy() == m.getDy();
-        } catch (ClassCastException ex) {
+                    && getY() == m.getY()
+                    && getRadius() == m.getRadius()
+                    && getDx() == m.getDx()
+                    && getDy() == m.getDy();
+        }
+        catch (ClassCastException ex) {
             throw new ClassCastException("Object not of type Matter");
         }
     }
@@ -557,6 +557,6 @@ public class Matter implements Shape, Comparable, Serializable {
     @Override
     public String toString() {
         return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f",
-                             getX(), getY(), getRadius(), getDy(), getDx());
+                getX(), getY(), getRadius(), getDy(), getDx());
     }
 }
