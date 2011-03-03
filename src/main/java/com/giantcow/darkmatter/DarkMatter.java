@@ -167,7 +167,9 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         } else {
             x = 0;
         }
-
+        if (1==zoom){
+            zoomlevel=DEFAULT_HEIGHT / localPlayer.getRadius() / zoom / 2;
+        }
     }
 
     /**
@@ -361,10 +363,12 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     public void mouseWheelMoved(MouseWheelEvent e) {
         double n = e.getUnitsToScroll();
         double z = zoomlevel;
-        if (z + n / 3 > 1 && z + n / 3 < 10) {
+        System.out.println("z+n/3: "+z+n/3);
+        if (z + n / 5 > 2 ) {
             zoomlevel = zoomlevel + n / 5;
         }
-        System.out.println(n);
+        z=zoomlevel;
+        System.out.println(z);
     }
 
     // <editor-fold desc="Unused event methods">
