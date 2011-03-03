@@ -65,6 +65,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     private MusicPlayer musicPlayer;
     private ArrayList<String> trackList;
     private boolean singlePlayer = true;
+    private static final boolean ZOOM_GAME = true;
 
     /**
      * Create the game object.
@@ -108,9 +109,6 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 //        musicPlayer = new MusicPlayer(trackList);
 //        musicPlayer.start();
 
-
-        double area = 800.0;
-
         //read the background picture
         try {
             backgroundP = ImageIO.read(new File(
@@ -121,7 +119,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             System.exit(1);
         }
 
-        goalArea = 0.6 * area;
+        goalArea = 800.0;
+        if (ZOOM_GAME)
         zoom = DEFAULT_HEIGHT / localPlayer.getRadius() / 10;
     }
 
@@ -228,7 +227,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         while (true) {
 
             update();
-            zoom();
+            if (ZOOM_GAME) zoom();
             repaint();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
@@ -362,7 +361,6 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
             return smaller;
         return biiiger;
         
-
     }
 
     /**
