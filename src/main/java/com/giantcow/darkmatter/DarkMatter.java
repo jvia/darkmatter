@@ -83,11 +83,12 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         remotePlayer = LevelLoader.loadPlayer(remotePlayer, 1);
         matterList = Collections.synchronizedSet(new HashSet<Matter>(LevelLoader.loadLevel()));
 
-//        TODO: MusicPlayer is throwing NullPointerException
-//        trackList = new ArrayList<String>();
-//        trackList.add("SpaceFighterLoop.wav");
-//        musicPlayer = new MusicPlayer(trackList);
-//        musicPlayer.start();
+//        TODO: MusicPlayer is throwing NullPointerException on Linux
+        trackList = new ArrayList<String>();
+        trackList.add("SashaXpander.wav");
+        trackList.add("SpaceFighterLoop.wav");
+        musicPlayer = new MusicPlayer(trackList);
+        musicPlayer.start();
 
         //read the background picture
         bgSprite = SpriteFactory.producer().generateSprite("horsehead.jpg");
@@ -250,7 +251,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
                     }
 
                     if (m.intersects(n) && m.isBigger(n)) {
-                        if (m == localPlayer) 
+                        if (m == localPlayer)
                             System.out.println("Collision: " + System.currentTimeMillis());
                         
                         double d = n.getRadius() + m.getRadius() - m.distance(n);

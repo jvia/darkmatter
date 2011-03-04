@@ -2,6 +2,8 @@ package com.giantcow.darkmatter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -182,6 +184,26 @@ public class TrackPlayer implements Runnable {
         }
 
         auline.start();
+        try {
+            auline.open();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(TrackPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        FloatControl volume = (FloatControl) auline.getControl(FloatControl.Type.MASTER_GAIN);
+        int i = 0;
+        volume.setValue(i);
+
+        while (volume.getValue() != 0) {
+            volume.setValue(i=+1);
+            System.out.println("Volume : " + volume.getValue());
+            try {
+                Thread.sleep(75);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TrackPlayer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         int nBytesRead = 0;
         byte[] abData = new byte[getEXTERNAL_BUFFER_SIZE()];
 
