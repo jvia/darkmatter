@@ -1,5 +1,6 @@
 package com.giantcow.darkmatter;
 
+import com.giantcow.darkmatter.player.AIMatter;
 import com.giantcow.darkmatter.player.HumanMatter;
 import com.giantcow.darkmatter.player.Matter;
 import javax.swing.*;
@@ -39,7 +40,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
     // Game Variables
     private Set<Matter> matterList;
     private HumanMatter localPlayer;
-    private Matter remotePlayer;
+    private AIMatter remotePlayer;
     private double goalArea;
     // Game constants
     private MusicPlayer musicPlayer;
@@ -89,7 +90,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 //        musicPlayer.start();
 
         //read the background picture
-        bgSprite = SpriteFactory.producer().generateSprite("Background.png");
+        bgSprite = SpriteFactory.producer().generateSprite("horsehead.jpg");
 
         calculateGoalArea();
 
