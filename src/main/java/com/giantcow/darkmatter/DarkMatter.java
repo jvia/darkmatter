@@ -91,7 +91,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         musicPlayer.start();
 
         //read the background picture
-        bgSprite = SpriteFactory.producer().generateSprite("horsehead.jpg");
+        bgSprite = SpriteFactory.producer().generateSprite("nebulabg.jpg");
 
         calculateGoalArea();
 

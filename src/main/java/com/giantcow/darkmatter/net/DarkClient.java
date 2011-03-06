@@ -5,7 +5,6 @@
 package com.giantcow.darkmatter.net;
 
 import com.giantcow.darkmatter.player.Matter;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
@@ -22,76 +21,103 @@ import java.util.logging.Logger;
  */
 public class DarkClient {
 
-    // Server details
-    private int PORT = DarkServer.DEFAULT_PORT;
-    private String HOST = "localhost";
-    private Socket socket = null;
+    private static final String DEFAULT_HOST = "localhost";
+    private String host;
     private ObjectOutputStream output;
     private ObjectInputStream input;
+    private Socket socket;
+
+    public DarkClient(String host) {
+        try {
+            socket = new Socket(host, DarkServer.PORT);
+            output = new ObjectOutputStream(socket.getOutputStream());
+            output.flush();
+            input = new ObjectInputStream(socket.getInputStream());
+        }
+        catch (Exception ex) {
+            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, "Could not connect", ex);
+            System.exit(1);
+        }
+
+    }
 
     public DarkClient() {
-        try {
-            socket = new Socket(HOST, PORT);
-
-            output = new ObjectOutputStream(socket.getOutputStream());
-            //input = new ObjectInputStream(socket.getInputStream());
-
-            System.out.println("Connected!");
-            
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
-            System.exit(1);
-        } catch (IOException ex) {
-            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
-            System.exit(1);
-        }
-
+        this(DEFAULT_HOST);
     }
 
-    public int playerCountRequest() {
+    public boolean isReady() {
+        boolean ready = false;
         try {
-            Message msg = new Message();
-            msg.type = msg.type.String;
-            msg.message = "playercount";
-            output.writeObject(msg);
-            msg = (Message) input.readObject();
-            if (msg.type == msg.type.String)
-                return Integer.parseInt(msg.message);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            GameMessage message = new GameMessage();
+            message.setType(GameMessage.Type.String);
+            message.setString("ready?");
+            output.writeObject(message);
+            message = (GameMessage) input.readObject();
+            ready = Boolean.valueOf(message.getString());
+        }
+        catch (Exception ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return Integer.MIN_VALUE;
+        return ready;
     }
 
-    public void end() {
+    public Set<Matter> update(Set<Matter> set) {
         try {
+            GameMessage message = new GameMessage();
+            message.setType(GameMessage.Type.Set);
+            message.setSet(set);
+            output.writeObject(message);
+            message = (GameMessage) input.readObject();
+            return message.getSet();
+        }
+        catch (Exception ex) {
+            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return set;
+    }
+
+    public void shutdown() {
+        try {
+            GameMessage message = new GameMessage();
+            message.setType(GameMessage.Type.String);
+            message.setString("bye");
+            output.writeObject(message);
+
             socket.close();
-        } catch (IOException ex) {
+        }
+        catch (Exception ex) {
             Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Set<Matter> update(Set<Matter> gameState) {
-        Set<Matter> data = new HashSet<Matter>();
-        try {
-            output.writeObject(gameState);
-            output.flush();
-            data = (Set<Matter>) input.readObject();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DarkClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return data;
-    }
+    public static void main(String[] args) throws UnknownHostException, IOException,
+            IllegalMessageTypeException, ClassNotFoundException {
 
-    public static void main(String[] args) {
-        DarkClient dc = new DarkClient();
+        DarkClient client = new DarkClient();
+        Set<Matter> game = new HashSet<Matter>();
+        boolean finished = false;
+        boolean ready = false;
 
-        while (true) {
-            System.out.println("PLAYERS: " + dc.playerCountRequest());
+        while (!client.isReady()) {
+            System.out.println("Not ready");
         }
+        System.out.println("Ready");
+        
+        while (!finished) {
+
+
+            game.add(new Matter(Math.random(),
+                    Math.random(),
+                    Math.random(),
+                    Math.random(),
+                    Math.random()));
+            game = client.update(game);
+            System.out.println(game.size());
+
+            if (game.size() == 1000) {
+                finished = true;
+            }
+        }
+        client.shutdown();
     }
 }

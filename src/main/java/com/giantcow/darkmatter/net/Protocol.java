@@ -12,7 +12,7 @@ public class Protocol {
     };
     State state;
 
-    public Message processMesage(Message message) {
+    public GameMessage processMesage(GameMessage message) {
 
         switch (state) {
             case Waiting:
