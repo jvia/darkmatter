@@ -90,7 +90,61 @@
   I coded many unit tests to demonstrated the intent of our program.
 
 * Week 06
+
+  We had our weekly team meeting. It was quite short since we were all
+  busy and had the game goals from the previous week.
+
+  I spent about 4 hours playing around and trying to understand
+  networking code. Other than that, this was a pretty unproductive
+  week for me. My SSC assignment ended up eating all my time and I
+  wasn't prepared for that.
+  
 * Week 07
+
+  We had our weekly team meeting on Tuesday. We talked about the
+  stalled progress of our game and what we were going to do to solve
+  it. We decided on some new features to add which would help propel
+  the game forward. 
+
+  I spent a few hours on Tuesday trying to implement the networking
+  for the game. It was mostly research and trying to understand the
+  problem. I created some classes but had no success is getting the
+  code to work.
+
+  On Wednesday I took about 5 hours to create a level loader. Levels
+  can be defined in external `lvl' files which are editable in a text
+  editor. The game can then load these files, assign a blob to each
+  player and load the state of the world.
+
+  Spent another hour or so on Wednesday making the blobs change color
+  depending on their size. Essentially, smaller blobs would be blue
+  and larger blobs would be orange. This made it easier to tell when a
+  player was larger or smaller than the other blobs.
+
+  On Thursday I spent about 2 hours making a puzzle level and refining
+  the level loader. Defining levels in a text editor in slow going so
+  I may make a GUI level editor or procedurally generated levels if
+  there is time. But this is not a priority.
+
+  I also spent a few hours on Thursday in an attempt to make a form of
+  absorbing inelastic collisions. I was able to get inelastic
+  collisions working but it completely broke the absorption
+  process. Unfortunately, I had to revert all this code. I look
+  forward to trying it again because it is a critical feature of the
+  game.
+
+  On Sunday I finally got the networking to send data over the
+  wire. This took about 6 hours from start to finish. I am currently
+  trying to integrate it into the main game but there are some
+  problems. I will have to sort those out. I believe it has something
+  to do with my `elegant' approach to handling the game state. My
+  intent was to use set union to deal with all duplicates created by
+  the clients and the server. Unfortunately, updating an object on the
+  client and sending it back up causes it to be ignored because the
+  older object is already in the list. What this means when you play
+  is that none of the blobs move because they can't replace their old
+  object self with their update self. 
+  
 * Week 08
 * Week 09
 * Week 10
