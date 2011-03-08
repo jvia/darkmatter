@@ -16,3 +16,9 @@ Week 5
 
 Continue do the rest work from last week; I have already done a prototype by using translate and scale method in painting. However it still not works perfectly. I will try to figure out the value about how much the pen should move and scaling level. Jeremiah suggested me to put the entire thing in a panel not frame. Hope it can help me solve my work.
 
+Week 6
+Had weekly Team meeting on Tuesday. Continue doing the rest work. The zoom method was working now. Keeping optimizing to find a way make zoom processing smooth.
+
+Week 7
+This week I stopped guessing the correct method for zooming and spend three hour to thinking about the detail of zoom process and calculating the correct transfer value for current zoom level. After that, I linked scrolling to mouse wheel. The next aim is to create an AI player. The difficult thing for this is how many levels should this AI player calculate and determine whether to change it move direction.
+
