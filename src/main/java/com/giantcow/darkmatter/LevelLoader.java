@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-  
+
 /**
  * Loads files containing a level layout. A level can be laid out in a
  * text file like this:
@@ -59,8 +59,7 @@ public class LevelLoader {
 
                 matter.add(m);
             }
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(LevelLoader.class.getName()).log(Level.SEVERE, "Could not locate file", ex);
         }
     }
@@ -73,8 +72,12 @@ public class LevelLoader {
         Matter ref = matter.get(player);
 
         m = new HumanMatter(ref.getX(), ref.getY(), ref.getRadius(), ref.getDy(), ref.getDx());
+        System.out.println("_size: " + matter.size());
         matter.remove(player);
         matter.add(player, m);
+        System.out.println("_size: " + matter.size());
+        for (Matter n : matter)
+            if (m == n) System.out.println("well okay : " + m.getClass().getSimpleName());
         return m;
     }
 

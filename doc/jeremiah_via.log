@@ -146,6 +146,21 @@
   object self with their update self. 
   
 * Week 08
+
+  Made an attempt at integrating the networking into the main game
+  code on Monday. I spent about three hours trying to make it work. I
+  ran ino problems because updte objects won't displace older version
+  of the same object on the server. Because of that I spent some time
+  brainstorming a new approach. Instead I will use a pure client
+  server model where the sever does allthe computation and the clients
+  simply peek in on the state pf the world.
+
+  On Tuesday we had our weekly team meeting. As we approach the end of
+  the project there are fewer tasks to do. Now we need to concentrate
+  on writing and adding the finishing touches. I spent an hour and a
+  half changing the game architecture to a client-server model. Some
+  kinks need to be worked out but it should be done today.
+  
 * Week 09
 * Week 10
 * Week 11

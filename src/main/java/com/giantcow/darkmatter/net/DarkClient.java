@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.giantcow.darkmatter.net;
 
 import com.giantcow.darkmatter.player.HumanMatter;
@@ -126,39 +122,46 @@ public class DarkClient {
 
         DarkClient client = new DarkClient();
         Set<Matter> game = new HashSet<Matter>();
+        HumanMatter me = null;
         boolean finished = false;
-        boolean ready = false;
 
-        Matter o = new Matter(0.0, 0.0, 3.0, 5.0, 6.0);
-        Matter n = o;
+        while (!client.isReady())
+            System.out.println("Waiting for connection...");
+        System.out.println("Connected!");
 
-        while (!client.isReady()) {
-            System.out.println(o + " <> " + n);
-            System.out.println("Not ready <> " + o.equals(n));
-            n.update();
+        game = client.update(game);
+        me = client.getPlayer();
+        Matter remove = null;
+        for (Matter m : game) {
+            if (m.getX() == me.getX() && m.getY() == me.getY() && m.getRadius() == me.getRadius()
+                && m.getDx() == me.getDx() && m.getDy() == m.getDy())
+                remove = m;
         }
-        System.out.println("Ready");
+        game.remove(remove);
+        game.add(me);
+        game = client.update(game);
 
+        for (Matter m : game) {
+            System.out.println((me == m) + " " + m.getClass().getSimpleName());
+        }
+        System.out.println("I'm " + me + "\n");
+
+        int i = 0;
         while (!finished) {
-            System.out.println();
-            System.out.print(game.size() + ": ");
-            if (game.size() > 0) {
-                System.out.print(game.toArray()[0]);
-            }
-            game = client.update(game);
-            if (game.size() > 0) {
-                System.out.println("BEFORE: " + game.toArray()[0]);
-            }
-            for (Matter m : game) {
-                m.update();
-            }
-            if (game.size() > 0) {
-                System.out.println("AFTER: " + game.toArray()[0]);
-            }
+            System.out.println("SIZE: " + game.size());
+            for (Matter m : game)
+                if (m == me)
+                    System.out.printf(">  %s\n", m);
+                else
+                    System.out.printf("   %s \n", m);
 
-            if (game.size() == 1000) {
-                finished = true;
-            }
+
+            // Human clicks on the screen
+            // and client sends a message to server
+            game = client.sendClick(new Point2D.Double(Math.random(), Math.random()));
+            System.out.println();
+
+            finished = i++ == 5;
         }
         client.shutdown();
     }

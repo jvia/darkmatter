@@ -29,8 +29,8 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
 
     // GUI Variables
     private static final long DELAY = 20;
-    private static int DEFAULT_WIDTH = 800;
-    private static int DEFAULT_HEIGHT = 600;
+    public static int DEFAULT_WIDTH = 800;
+    public static int DEFAULT_HEIGHT = 600;
     private Color background = new Color(14, 36, 48);
     private Color player = new Color(252, 58, 81);
     private Color npc = new Color(245, 179, 73);

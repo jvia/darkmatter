@@ -40,36 +40,71 @@ public class GameMessage implements Serializable {
      */
     public void setType(Type type) {
         this.type = type;
+        click = null;
+        string = null;
+        set = null;
     }
 
+    /**
+     * Returns the set within the message.
+     *
+     * @return set
+     */
     public Set<Matter> getSet() {
-
         return set;
     }
 
+    /**
+     * Sets the set within the message.
+     *
+     * @param set set to send
+     */
     public void setSet(Set<Matter> set) {
-
         this.set = set;
     }
 
+    /**
+     * Gets the string in the message.
+     *
+     * @return the string
+     */
     public String getString() {
-
         return string;
     }
 
+    /**
+     * Sets the string within the message.
+     *
+     * @param string string to send
+     */
     public void setString(String string) {
-
         this.string = string;
     }
 
+    /**
+     * Sets the click within the message.
+     *
+     * @param click click to send
+     */
     public void setClick(Point2D click) {
         this.click = click;
     }
 
+    /**
+     * Sets the click within the message.
+     *
+     * @param x x component of click
+     * @param y y component of click
+     */
     public void setClick(double x, double y) {
         click = new Point2D.Double(x, y);
     }
 
+    /**
+     * Gets the click from the message.
+     *
+     * @return the click
+     */
     public Point2D getClick() {
         return click;
     }
