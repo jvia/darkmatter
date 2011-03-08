@@ -48,11 +48,23 @@ public class MusicPlayer extends Thread {
     @Override
     public void run() {
         Object[] tracks = trackList.toArray();
-
-        double trackPlay = Math.random();
+        ArrayList playedTracks = new ArrayList<String>();
+        Boolean newTrack;
+        int playTrack = 0;
 
         for (int i = 0; i < tracks.length; i++) {
-            getTrackPlayer().setFileName((String) tracks[i]);
+            newTrack = false;
+            while (newTrack != true){
+            playTrack = (int)(Math.round(Math.random() * tracks.length));
+            if (playedTracks.contains(tracks[playTrack])){
+
+            }
+            else {
+                newTrack = true;
+                playedTracks.add(tracks[playTrack]);
+            }
+            }
+            getTrackPlayer().setFileName((String) tracks[playTrack]);
             getTrackPlayer().run();
             while(getTrackPlayer().getLine().isActive()){
 
