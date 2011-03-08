@@ -85,10 +85,7 @@ public class DarkMatter extends JComponent implements KeyListener, MouseListener
         matterList = Collections.synchronizedSet(new HashSet<Matter>(LevelLoader.loadLevel()));
 
 //        TODO: MusicPlayer is throwing NullPointerException on Linux
-        trackList = new ArrayList<String>();
-        trackList.add("SashaXpander.wav");
-        trackList.add("SpaceFighterLoop.wav");
-        musicPlayer = new MusicPlayer(trackList);
+        musicPlayer = new MusicPlayer();
         musicPlayer.start();
 
         //read the background picture

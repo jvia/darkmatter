@@ -16,11 +16,12 @@ public class MusicPlayer extends Thread {
     /**
      * Constructor for MusicPlayer, creates TrackPlayer to play wave files, the names
      * of which are provided by an ArrayList
-     * @param trackList ArrayList<String> listing the wave files to be played
      */
-    public MusicPlayer(ArrayList<String> trackList) {
+    public MusicPlayer() {
         trackPlayer = new TrackPlayer(null);
-        this.trackList = trackList;
+        trackList = new ArrayList<String>();
+        trackList.add("SashaXpander.wav");
+        trackList.add("SpaceFighterLoop.wav");
 
     }
 
@@ -47,6 +48,8 @@ public class MusicPlayer extends Thread {
     @Override
     public void run() {
         Object[] tracks = trackList.toArray();
+
+        double trackPlay = Math.random();
 
         for (int i = 0; i < tracks.length; i++) {
             getTrackPlayer().setFileName((String) tracks[i]);
