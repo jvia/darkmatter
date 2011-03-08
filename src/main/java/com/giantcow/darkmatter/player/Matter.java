@@ -532,20 +532,20 @@ public class Matter implements Shape, Comparable, Serializable {
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        try {
-            Matter m = (Matter) obj;
-            return getX() == m.getX()
-                    && getY() == m.getY()
-                    && getRadius() == m.getRadius()
-                    && getDx() == m.getDx()
-                    && getDy() == m.getDy();
-        }
-        catch (ClassCastException ex) {
-            throw new ClassCastException("Object not of type Matter");
-        }
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        try {
+//            Matter m = (Matter) obj;
+//            return getX() == m.getX()
+//                    && getY() == m.getY()
+//                    && getRadius() == m.getRadius()
+//                    && getDx() == m.getDx()
+//                    && getDy() == m.getDy();
+//        }
+//        catch (ClassCastException ex) {
+//            throw new ClassCastException("Object not of type Matter");
+//        }
+//    }
 
     /**
      * Returns a String representation of the object. It details the (X,Y)
