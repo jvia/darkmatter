@@ -184,25 +184,15 @@ public class TrackPlayer implements Runnable {
         }
 
         auline.start();
+
         try {
             auline.open();
         } catch (LineUnavailableException ex) {
             Logger.getLogger(TrackPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        FloatControl volume = (FloatControl) auline.getControl(FloatControl.Type.MASTER_GAIN);
-        int i = 0;
-        volume.setValue(i);
-
-        while (volume.getValue() != 0) {
-            volume.setValue(i=+1);
-            System.out.println("Volume : " + volume.getValue());
-            try {
-                Thread.sleep(75);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(TrackPlayer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        volCont vol = new volCont();
+        vol.start();
 
         int nBytesRead = 0;
         byte[] abData = new byte[getEXTERNAL_BUFFER_SIZE()];
@@ -212,6 +202,7 @@ public class TrackPlayer implements Runnable {
                 nBytesRead = audioIn.read(abData, 0, abData.length);
                 if (nBytesRead >= 0) {
                     auline.write(abData, 0, nBytesRead);
+
                 }
             }
         } catch (IOException e) {
@@ -226,4 +217,36 @@ public class TrackPlayer implements Runnable {
 
 
     }
+
+    /**
+     * Inner class volCont to generate a separate Thread so that volume may be incremented for a fade in on
+     * tracks whilst the music is playing
+     */
+    private class volCont extends Thread {
+        
+        @Override
+        public void run(){
+        FloatControl volume = (FloatControl) auline.getControl(FloatControl.Type.MASTER_GAIN);
+        double newVolume = 0.1;
+        volume.setValue((float) (Math.log(newVolume) / Math.log(10.0) * 20.0));
+
+        while (newVolume <= 1.0) {
+            //float volumeChange = (float) volume.getValue();
+            newVolume = newVolume + 0.001;
+            volume.setValue((float) (Math.log(newVolume) / Math.log(10.0) * 20.0));
+            //System.out.println("Initial Volume : " + volumeChange);
+            //System.out.println("Changed Volume : " + volume.getValue());
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TrackPlayer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            
+            
+        }
+    }
+
 }
+
+
