@@ -1,6 +1,7 @@
 package com.giantcow.darkmatter;
 
 import com.giantcow.darkmatter.player.AIMatter;
+import com.giantcow.darkmatter.player.AIMatter2;
 import com.giantcow.darkmatter.player.HumanMatter;
 import com.giantcow.darkmatter.player.Matter;
 import java.io.File;
@@ -81,6 +82,15 @@ public class LevelLoader {
         Matter ref = matter.get(player);
 
         m = new AIMatter(ref.getX(), ref.getY(), ref.getRadius(), ref.getDy(), ref.getDx());
+        matter.remove(player);
+        matter.add(player, m);
+        return m;
+    }
+
+    public static AIMatter2 loadPlayer(AIMatter2 m, int player) {
+        Matter ref = matter.get(player);
+
+        m = new AIMatter2(ref.getX(), ref.getY(), ref.getRadius(), ref.getDy(), ref.getDx());
         matter.remove(player);
         matter.add(player, m);
         return m;
