@@ -1,7 +1,0 @@
-22/02 - 
-
-	10:00 - 12:00 : Worked on making the AIMatter class work within the game
-				  : Merged conflicted DarkMatter class files
-				  
-	12:00 - 13:00 : Worked on the MusicPlayer class, changed it to extend thread and implemented it
-					within DarkMatter so that it now plays music alongside the game
