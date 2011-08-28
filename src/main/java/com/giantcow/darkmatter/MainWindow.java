@@ -1,12 +1,11 @@
 package com.giantcow.darkmatter;
 
 import com.giantcow.darkmatter.level.MusicPlayer;
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * @author Jeremiah M Via. <jxv911@cs.bham.ac.uk>
@@ -21,47 +20,30 @@ public class MainWindow extends JFrame {
     }
 
     // The panels
-    /** The root panel of the CardLayout */
     private JPanel rootPanel;
-    /** The game panel. */
     private DarkMatterNetworked darkMatter;
-    Background bg;
+    BackgroundPanel bg;
 
-    // Game images
-    /** The title image; says "DarkMatter". */
-    ImageIcon title;
-    /** Single player menu icon. */
-    ImageIcon singlePlayerIcon;
-    /** Single player menu rollover icon. */
-    ImageIcon singlePlayerIconRollover;
-    /** Multiplayer menu icon. */
-    ImageIcon multiplayerIcon;
-    /** Multiplayer menu rollover icon. */
-    ImageIcon multiplayerIconRollover;
-    /** Instructions icon. */
-    ImageIcon howToPlayIcon;
-    /** Instructions rollover icon. */
-    ImageIcon howToPlayIconRollover;
-    /** About icon. */
-    ImageIcon aboutIcon;
-    /** About rollover icon. */
-    ImageIcon aboutIconRollover;
-    /** Back icon. */
+    /**
+     * Back icon.
+     */
     ImageIcon backIcon;
-    /** Back rollover icon. */
+    /**
+     * Back rollover icon.
+     */
     ImageIcon backIconRollover;
-    /** Quit icon. */
-    ImageIcon quitIcon;
-    /** Quit rollover icon. */
-    ImageIcon quitIconRollover;
-    /** Host icon. */
+    /**
+     * Host icon.
+     */
     ImageIcon hostIcon;
-    /** Port icon. */
+    /**
+     * Port icon.
+     */
     ImageIcon portIcon;
-    /** Play icon. */
+    /**
+     * Play icon.
+     */
     ImageIcon playIcon;
-    /** Play rollover icon. */
-    ImageIcon playIconRollover;
 
     /**
      * Creates the MainWindow. This class run the whole interaction with the game. Users can look at
@@ -88,7 +70,7 @@ public class MainWindow extends JFrame {
         rootPanel.setOpaque(false);
 
         // Add our background image
-        bg = new Background();
+        bg = new BackgroundPanel();
         bg.add(rootPanel);
         add(bg);
 
@@ -123,28 +105,6 @@ public class MainWindow extends JFrame {
         rootPanel.add(about, "about");
         rootPanel.add(multiPlayerMenu, "multiPlayerMenu");
 
-//        // Set selector
-//        try {
-//            // Get image & dimensions
-//            Image cursorImage =
-//                    ImageIO.read(getClass().getClassLoader().getResource("menu/Selector.png"));
-//            Dimension d = Toolkit.getDefaultToolkit().getBestCursorSize(cursorImage.getWidth(null),
-//                                                                        cursorImage.getHeight(null));
-//            int width = d.width;
-//
-//            // Create cursor
-//            cursorImage = cursorImage.getScaledInstance(width, width, Image.SCALE_SMOOTH);
-//            Point cursorPoint = new Point(width / 2, width / 2);
-//            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
-//                                                                           cursorPoint,
-//                                                                           "myCursor");
-//
-//            // Make it out cursor
-//            this.setCursor(cursor);
-//        } catch (IOException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-
         // Make snug and visible
         pack();
         setVisible(true);
@@ -153,7 +113,9 @@ public class MainWindow extends JFrame {
         new MusicPlayer().start();
     }
 
-    /** Displays the main menu. */
+    /**
+     * Displays the main menu.
+     */
     class MainMenu extends JPanel implements ActionListener {
 
         JButton singlePlayer;
@@ -170,21 +132,9 @@ public class MainWindow extends JFrame {
         public MainMenu() {
             // Load images
             ClassLoader l = getClass().getClassLoader();
-            title = new ImageIcon(l.getResource("menu/title.png"));
-            singlePlayerIcon = new ImageIcon(l.getResource("menu/single.png"));
-            singlePlayerIconRollover = new ImageIcon(l.getResource("menu/single_o.png"));
-            multiplayerIcon = new ImageIcon(l.getResource("menu/multi.png"));
-            multiplayerIconRollover = new ImageIcon(l.getResource("menu/multi_o.png"));
-            howToPlayIcon = new ImageIcon(l.getResource("menu/howto.png"));
-            howToPlayIconRollover = new ImageIcon(l.getResource("menu/howto_o.png"));
-            aboutIcon = new ImageIcon(l.getResource("menu/about.png"));
-            aboutIconRollover = new ImageIcon(l.getResource("menu/about_o.png"));
-            quitIcon = new ImageIcon(l.getResource("menu/quit.png"));
-            quitIconRollover = new ImageIcon(l.getResource("menu/quit_o.png"));
-
 
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-            JLabel label = new JLabel(title);
+            JLabel label = new JLabel(new ImageIcon(l.getResource("menu/title.png")));
             JButton invisible = new JButton();
             invisible.setBorderPainted(false);
             invisible.setBackground(new Color(0, 0, 0, 0));
@@ -194,8 +144,8 @@ public class MainWindow extends JFrame {
             add(Box.createVerticalGlue());
 
             // Set up single player button
-            singlePlayer = new JButton(singlePlayerIcon);
-            //singlePlayer.setRolloverIcon(singlePlayerIconRollover);
+            singlePlayer = new JButton(new ImageIcon(l.getResource("menu/single.png")));
+            singlePlayer.setRolloverIcon(new ImageIcon(l.getResource("menu/single_o.png")));
             singlePlayer.setActionCommand(SINGLE_PLAYER);
             singlePlayer.setBackground(new Color(0, 0, 0, 0));
             singlePlayer.setBorderPainted(false);
@@ -204,8 +154,8 @@ public class MainWindow extends JFrame {
             add(Box.createVerticalGlue());
 
             // Set up multiplayer button
-            multiPlayer = new JButton(multiplayerIcon);
-            //multiPlayer.setRolloverIcon(multiplayerIconRollover);
+            multiPlayer = new JButton(new ImageIcon(l.getResource("menu/multi.png")));
+            multiPlayer.setRolloverIcon(new ImageIcon(l.getResource("menu/multi_o.png")));
             multiPlayer.setActionCommand(MULTI_PLAYER);
             multiPlayer.setBackground(new Color(0, 0, 0, 0));
             multiPlayer.setBorderPainted(false);
@@ -214,8 +164,8 @@ public class MainWindow extends JFrame {
             add(Box.createVerticalGlue());
 
             // Set up how to player button
-            howToPlay = new JButton(howToPlayIcon);
-            //howToPlay.setRolloverIcon(howToPlayIconRollover);
+            howToPlay = new JButton(new ImageIcon(l.getResource("menu/howto.png")));
+            howToPlay.setRolloverIcon(new ImageIcon(l.getResource("menu/howto_o.png")));
             howToPlay.setActionCommand(HOW_TO_PLAY);
             howToPlay.setBackground(new Color(0, 0, 0, 0));
             howToPlay.setBorderPainted(false);
@@ -224,8 +174,8 @@ public class MainWindow extends JFrame {
             add(Box.createVerticalGlue());
 
             // Set up about button
-            about = new JButton(aboutIcon);
-            //about.setRolloverIcon(aboutIconRollover);
+            about = new JButton(new ImageIcon(l.getResource("menu/about.png")));
+            about.setRolloverIcon(new ImageIcon(l.getResource("menu/about_o.png")));
             about.setActionCommand(ABOUT);
             about.addActionListener(this);
             about.setBackground(new Color(0, 0, 0, 0));
@@ -234,8 +184,8 @@ public class MainWindow extends JFrame {
             add(Box.createVerticalGlue());
 
             // Set up quit button
-            quit = new JButton(quitIcon);
-            //quit.setRolloverIcon(quitIconRollover);
+            quit = new JButton(new ImageIcon(l.getResource("menu/quit.png")));
+            quit.setRolloverIcon(new ImageIcon(l.getResource("menu/quit_o.png")));
             quit.setBackground(new Color(0, 0, 0, 0));
             quit.setBorderPainted(false);
             quit.addActionListener(new ActionListener() {
@@ -271,21 +221,19 @@ public class MainWindow extends JFrame {
         }
     }
 
-    /** Displays the multiplayer menu. */
+    /**
+     * Displays the multiplayer menu.
+     */
     class MultiPlayerMenu extends JPanel {
 
         public MultiPlayerMenu() {
             Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
             // Load images
             ClassLoader l = getClass().getClassLoader();
-            hostIcon = new ImageIcon(l.getResource("menu/host.png"));
-            portIcon = new ImageIcon(l.getResource("menu/port.png"));
-            playIcon = new ImageIcon(l.getResource("menu/play.png"));
-            playIconRollover = new ImageIcon("menu/play_o.png");
             setOpaque(false);
 
             // Set up host info
-            JLabel host = new JLabel(hostIcon);
+            JLabel host = new JLabel(new ImageIcon(l.getResource("menu/host.png")));
             final JTextField hostField = new JTextField("localhost");
             hostField.setColumns(30);
             hostField.setPreferredSize(new Dimension(60, 30));
@@ -297,7 +245,7 @@ public class MainWindow extends JFrame {
             add(hostPanel, BorderLayout.PAGE_START);
 
             // Se up port info
-            JLabel port = new JLabel(portIcon);
+            JLabel port = new JLabel(new ImageIcon(l.getResource("menu/port.png")));
             final JTextField portField = new JTextField("1234");
             portField.setColumns(30);
             portField.setPreferredSize(new Dimension(60, 30));
@@ -310,7 +258,7 @@ public class MainWindow extends JFrame {
 
 
             JButton goBack = new JButton(backIcon);
-            //goBack.setRolloverIcon(backIconRollover);
+            goBack.setRolloverIcon(backIconRollover);
             goBack.setAlignmentX(Component.CENTER_ALIGNMENT);
             goBack.setBackground(new Color(0, 0, 0, 0));
             goBack.setBorderPainted(false);
@@ -323,9 +271,8 @@ public class MainWindow extends JFrame {
                 }
             });
 
-            JButton play = new JButton(playIcon);
-            System.out.println(play.getHeight() + " " + play.getWidth());
-            //play.setRolloverIcon(playIconRollover);
+            JButton play = new JButton(new ImageIcon(l.getResource("menu/play.png")));
+            play.setRolloverIcon(new ImageIcon(l.getResource("menu/play_o.png")));
             play.setBackground(new Color(0, 0, 0, 0));
             play.setAlignmentX(Component.CENTER_ALIGNMENT);
             play.setBorderPainted(false);
@@ -349,7 +296,9 @@ public class MainWindow extends JFrame {
         }
     }
 
-    /** Defines the panel that contains the instructions. */
+    /**
+     * Defines the panel that contains the instructions.
+     */
     class InstructionsPanel extends JPanel {
 
         public InstructionsPanel() {
@@ -428,31 +377,6 @@ public class MainWindow extends JFrame {
 
             panel.add(goBack, BorderLayout.SOUTH);
             add(panel);
-        }
-    }
-
-    class Background extends JPanel {
-
-        Image img;
-
-        public Background() {
-            super();
-            img =
-                    Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("nebbg_occluded.png"));
-        }
-
-        public void setBackground(Image img) {
-            this.img = img;
-            repaint();
-        }
-
-        @Override
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.drawImage(img, 0, 0, this);
         }
     }
 }
