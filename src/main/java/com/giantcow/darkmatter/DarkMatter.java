@@ -63,7 +63,7 @@ public class DarkMatter extends JComponent
     private Image sparkle = null;
     private Image arrow = null;
     // Game Variables
-    private Set<Matter> matterList;
+    private final Set<Matter> matterList;
     private HumanMatter localPlayer;
     private AIMatter remotePlayer;
     private double goalArea;
@@ -73,7 +73,9 @@ public class DarkMatter extends JComponent
     private static final boolean ZOOM_GAME = true;
     Sprite bgSprite;
 
-    /** Create the game object. */
+    /**
+     * Create the game object.
+     */
     public DarkMatter() throws IOException {
         // Setup our component
         setDoubleBuffered(true);
@@ -91,6 +93,13 @@ public class DarkMatter extends JComponent
         frame.add(this);
         frame.pack();
         frame.setVisible(true);
+
+        LevelLoader.readFile("02.lvl");
+        localPlayer = LevelLoader.loadPlayer(localPlayer, 0);
+        remotePlayer = LevelLoader.loadPlayer(remotePlayer, 1);
+        musicPlayer = new MusicPlayer();
+        musicPlayer.start();
+        matterList = Collections.synchronizedSet(new HashSet<Matter>(LevelLoader.loadLevel()));
         init();
     }
 
@@ -100,14 +109,6 @@ public class DarkMatter extends JComponent
      * TODO Contact network to get this information TODO Use level loader to build
      */
     private void init() throws IOException {
-        LevelLoader.readFile("02.lvl");
-        localPlayer = LevelLoader.loadPlayer(localPlayer, 0);
-        remotePlayer = LevelLoader.loadPlayer(remotePlayer, 1);
-        matterList = Collections.synchronizedSet(new HashSet<Matter>(LevelLoader.loadLevel()));
-
-        musicPlayer = new MusicPlayer();
-        musicPlayer.start();
-
         //read the background picture
         bgSprite = SpriteFactory.producer().generateSprite("nebbg.jpg");
 
@@ -198,7 +199,8 @@ public class DarkMatter extends JComponent
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-        bgSprite.draw(g2, 0, 0);
+        if (bgSprite != null)
+            bgSprite.draw(g2, 0, 0);
 
 
         if (matterList == null) {
@@ -227,26 +229,26 @@ public class DarkMatter extends JComponent
                     continue;
                 } else if (m == localPlayer) {
                     g2.drawImage(player3, (int) m.getX(), (int) m.getY(), (int) (2
-                                                                                 * m.getRadius()), (int) (
+                            * m.getRadius()), (int) (
                             (int) 2 * m.getRadius()), this);
                     g2.drawImage((BufferedImage) player1, imageOp(m, rotateV), (int) m.getX(), (int) m.getY());
                     g2.drawImage((BufferedImage) player2, imageOp(m, -rotateV), (int) m.getX(), (int) m.getY());
                     //g2.drawImage((BufferedImage) player7, imageOp(m, 2*rotateV), (int) m.getX(), (int) m.getY());
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, t));
                     g2.drawImage(player4, (int) m.getX(), (int) m.getY(), (int) (2
-                                                                                 * m.getRadius()), (int) (
+                            * m.getRadius()), (int) (
                             (int) 2 * m.getRadius()), this);
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
                 } else if (m.getArea() > 1.1 * localPlayer.getArea()) {
                     g2.drawImage(bigS, (int) m.getX(), (int) m.getY(), (int) (2
-                                                                              * m.getRadius()), (int) (
+                            * m.getRadius()), (int) (
                             (int) 2 * m.getRadius()), this);
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, t));
                     g2.drawImage((BufferedImage) sparkle, imageOp(m, rotateV), (int) m.getX(), (int) m.getY());
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
                 } else if (m.getArea() < 0.9 * localPlayer.getArea()) {
                     g2.drawImage(smallS, (int) m.getX(), (int) m.getY(), (int) (2
-                                                                                * m.getRadius()), (int) (
+                            * m.getRadius()), (int) (
                             (int) 2 * m.getRadius()), this);
                     g2.drawImage((BufferedImage) sparkle, imageOp(m, rotateV), (int) m.getX(), (int) m.getY());
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, t));
@@ -254,7 +256,7 @@ public class DarkMatter extends JComponent
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
                 } else {
                     g2.drawImage(interS, (int) m.getX(), (int) m.getY(), (int) (2
-                                                                                * m.getRadius()), (int) (
+                            * m.getRadius()), (int) (
                             (int) 2 * m.getRadius()), this);
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, t));
                     g2.drawImage((BufferedImage) sparkle, imageOp(m, rotateV), (int) m.getX(), (int) m.getY());
@@ -395,7 +397,8 @@ public class DarkMatter extends JComponent
     private void updateMovement() {
         ArrayList<Matter> list = new ArrayList<Matter>();
         synchronized (matterList) {
-            for (Matter m : matterList) {
+            HashSet<Matter> _matterList = new HashSet<Matter>(matterList);
+            for (Matter m : _matterList) {
                 if (m == localPlayer) {
                     continue;
                 }
@@ -425,7 +428,9 @@ public class DarkMatter extends JComponent
         }
     }
 
-    /** Invoked when a mouse button has been pressed on a component. */
+    /**
+     * Invoked when a mouse button has been pressed on a component.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         Matter m = localPlayer.changeMove(e.getX() / zoom + x, e.getY() / zoom + y, matterList);
@@ -453,22 +458,30 @@ public class DarkMatter extends JComponent
     public void keyReleased(KeyEvent e) {
     }
 
-    /** Invoked when the mouse button has been clicked (pressed and released) on a component. */
+    /**
+     * Invoked when the mouse button has been clicked (pressed and released) on a component.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
     }
 
-    /** Invoked when a mouse button has been released on a component. */
+    /**
+     * Invoked when a mouse button has been released on a component.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
     }
 
-    /** Invoked when the mouse enters a component. */
+    /**
+     * Invoked when the mouse enters a component.
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
     }
 
-    /** Invoked when the mouse exits a component. */
+    /**
+     * Invoked when the mouse exits a component.
+     */
     @Override
     public void mouseExited(MouseEvent e) {
     }
