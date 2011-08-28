@@ -1,7 +1,0 @@
-K 10
-svn:ignore
-V 1364
-*.toc                                                                                                                                                                                                                                                                          *.aux                                                                                                                                                                                                                                                                          *.bbl                                                                                                                                                                                                                                                                          *.log                                                                                                                                                                                                                                                                          *.blg                                                                                                                                                                                                                                                                          
-*.aux  
-
-END
