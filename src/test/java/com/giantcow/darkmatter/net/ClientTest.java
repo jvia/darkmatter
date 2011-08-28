@@ -38,13 +38,14 @@ public class ClientTest extends TestCase {
     }
 
 
-    /** Test of run method, of class Client. */
+    /** Test of run method, of class Client.
     public void testRun() {
         System.out.println("run");
         client.start();
         assertTrue(client.isConnected());
         client.shutdown();
     }
+    */
 
     /** Test of getGameState method, of class Client. */
     public void testGetGameState() {
@@ -54,13 +55,14 @@ public class ClientTest extends TestCase {
         assertNotNull(result);
     }
 
-    /** Test of sendClick method, of class Client. */
+    /** Test of sendClick method, of class Client.
     public void testSendClick() {
         System.out.println("sendClick");
         Point click = new Point(4, 5);
         client.sendClick(click);
         assertTrue(true);
     }
+    */
 
 //    /** Test of whoAmI method, of class Client. */
 //    public void testWhoAmI() {
