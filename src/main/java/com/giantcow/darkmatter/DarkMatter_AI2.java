@@ -1,5 +1,9 @@
 package com.giantcow.darkmatter;
 
+import com.giantcow.darkmatter.level.LevelLoader;
+import com.giantcow.darkmatter.level.MusicPlayer;
+import com.giantcow.darkmatter.level.Sprite;
+import com.giantcow.darkmatter.level.SpriteFactory;
 import com.giantcow.darkmatter.player.AIMatter;
 import com.giantcow.darkmatter.player.AIMatter2;
 import com.giantcow.darkmatter.player.Matter;
@@ -26,10 +30,11 @@ public class DarkMatter_AI2 extends JComponent implements KeyListener, MouseList
         DarkMatter_AI2 darkMatter = new DarkMatter_AI2();
         darkMatter.run();
     }
+
     // GUI Variables
     private static final long DELAY = 20;
-    private static int DEFAULT_WIDTH = 800;
-    private static int DEFAULT_HEIGHT = 600;
+    public static int DEFAULT_WIDTH = 800;
+    public static int DEFAULT_HEIGHT = 600;
     private Color background = new Color(14, 36, 48);
     private Color player = new Color(252, 58, 81);
     private Color npc = new Color(245, 179, 73);
@@ -85,15 +90,11 @@ public class DarkMatter_AI2 extends JComponent implements KeyListener, MouseList
         remotePlayer = LevelLoader.loadPlayer(remotePlayer, 1);
         matterList = Collections.synchronizedSet(new HashSet<Matter>(LevelLoader.loadLevel()));
 
-//        TODO: MusicPlayer is throwing NullPointerException on Linux
-        trackList = new ArrayList<String>();
-        trackList.add("SashaXpander.wav");
-        trackList.add("SpaceFighterLoop.wav");
-        musicPlayer = new MusicPlayer(trackList);
+        musicPlayer = new MusicPlayer();
         musicPlayer.start();
 
         //read the background picture
-        bgSprite = SpriteFactory.producer().generateSprite("nebulabg.jpg");
+        bgSprite = SpriteFactory.producer().generateSprite("nebbg.jpg");
 
         calculateGoalArea();
 
@@ -287,7 +288,10 @@ public class DarkMatter_AI2 extends JComponent implements KeyListener, MouseList
         synchronized (matterList) {
             for (Matter m : matterList) {
                 if (m == localPlayer) {
-                    continue;
+                    Matter x = localPlayer.changeMove(matterList);
+                    if (x != null) {
+                        matterList.add(x);
+                    }
                 }
                 Matter move = m.changeMove(0, 0, matterList);
                 if (move != null) {

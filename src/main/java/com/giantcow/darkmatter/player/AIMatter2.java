@@ -4,17 +4,18 @@
  */
 package com.giantcow.darkmatter.player;
 
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  *
  * @author yxw999
  */
-public class AIMatter2 extends Matter {
+public class AIMatter2 extends HumanMatter {
 
     public Matter matter;
     public Set<Matter> matterList;
@@ -24,15 +25,13 @@ public class AIMatter2 extends Matter {
     public double y;
 
     public AIMatter2(double x, double y, double radius, double dy, double dx) {
-        super(new Ellipse2D.Double(x, y, radius, radius), dy, dx);
+        super(x, y, radius, dy, dx);
     }
 
     public void setScreen(int w, int h) {
         DEFAULT_WIDTH = w;
         DEFAULT_HEIGHT = h;
     }
-
-
 
     private void update2() {
         // Detect collisions
@@ -114,21 +113,41 @@ public class AIMatter2 extends Matter {
         return r;
     }
 
-    public Point2D thinking() {
-        Point2D p = null;
+    public void thinking() {
+        x=0;
+        y=0;
         int i = 0;
-        while (i < 20 && !click()) {
+        double d=500;
+        while (i < 10 && !click()) {
             update2();
         }
-        return p;
+        for(Matter m : matterList) {
+            if (matter.isBigger(m)&&matter.distance(m)<d){
+                d=matter.distance(m);
+                if(m.getCenterY()>matter.getCenterY()){
+                    y=matter.getCenterY()+1;
+                } else if(m.getCenterY()<matter.getCenterY()){
+                    y=matter.getCenterY()-1;
+                }
+                if(m.getCenterX()>matter.getCenterX()){
+                    x=matter.getCenterX()+1;
+                } else if(m.getCenterX()<matter.getCenterX()){
+                    x=matter.getCenterX()-1;
+                }
+            }
+        }
+        
     }
 
-    public Matter changeMove(Set<Matter> list) {
+    public Matter changeMove(Collection<Matter> list) {
         Matter[] a =(Matter[]) list.toArray();
+        matterList = new HashSet<Matter>();
         matterList.addAll(Arrays.asList(a));
 
         thinking();
-
+        
+        System.out.println(x+" "+y);
+        
         double deltaX = 0.25;
         double deltaY = 0.25;
 

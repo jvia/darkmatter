@@ -1,15 +1,14 @@
 package com.giantcow.darkmatter.player;
 
-import com.giantcow.darkmatter.VelocityVector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 /**
- * Perfect circle representing a Matter object in space.
+ * Perfect circle representing a Matter object in space. This is the basic NPC object in the game.
+ * It never moves on its own. It has to be interacted with my an intelligent agent to impart change
+ * on this object.
  *
  * @author Joss Greenaway <jtg897@cs.bham.ac.uk>
  * @author Jeremiah Via <jxv911@cs.bham.ac.uk>
@@ -18,10 +17,26 @@ import java.util.Set;
  */
 public class Matter implements Shape, Comparable, Serializable {
 
+    // Serialization variable
+    /** Unique identifier. */
     private static final long serialVersionUID = 7526472295622776147L;
+
+    // Object identification
+    /** Variable which is used in the implicit ID creation. */
+    private static int ID_MAKER = 0;
+    /** The object's unique ID */
+    private int id;
+
+    // Constants
+    /** The most an object's position can change in any direction. */
     protected static final double MAX_SPEED = 2.0;
-    private static final double ALPHA = 0.2;
+    /** The amount of extra distance to consider when checking if objects collide. */
+    private static final double FUDGE_FACTOR = 0.2;
+
+    // Shape and speed
+    /** The internal shape of the object. */
     private Ellipse2D.Double blob;
+    /** The speed of the object. */
     private VelocityVector velocity;
 
     /**
@@ -30,10 +45,26 @@ public class Matter implements Shape, Comparable, Serializable {
      * @param blob the Ellipse2D object
      * @param dy   change in y
      * @param dx   change in x
+     * @param id   the object's id
      */
-    public Matter(Ellipse2D.Double blob, double dy, double dx) {
+    public Matter(Ellipse2D.Double blob, double dy, double dx, int id) {
         this.blob = blob;
         velocity = new VelocityVector(dy, dx);
+        this.id = id;
+    }
+
+    /**
+     * Constructs a Matter object
+     *
+     * @param x      Top left corner of the bounding rectangle
+     * @param y      Top left corner of the bounding rectangle
+     * @param radius the radius
+     * @param dy     change in y
+     * @param dx     change in x
+     * @param id     the object's id
+     */
+    public Matter(double x, double y, double radius, double dy, double dx, int id) {
+        this(new Ellipse2D.Double(x, y, 2 * radius, 2 * radius), dy, dx, id);
     }
 
     /**
@@ -46,58 +77,40 @@ public class Matter implements Shape, Comparable, Serializable {
      * @param dx     change in x
      */
     public Matter(double x, double y, double radius, double dy, double dx) {
-        this(new Ellipse2D.Double(x, y, 2 * radius, 2 * radius), dy, dx);
+        this(new Ellipse2D.Double(x, y, 2 * radius, 2 * radius), dy, dx, ID_MAKER++);
     }
 
     /**
-     * Constructs a Matter object from another matter object.
+     * Returns change in x-axis.
      *
-     * @param m the other matter object.
-     */
-    public Matter(Matter m) {
-        this(m.blob, m.getDy(), m.getDx());
-    }
-
-    /**
-     * Constructs a Matter object
-     *
-     * @param blob the Ellipse2D object
-     */
-    public Matter(Ellipse2D.Double blob) {
-        this(blob, 0.0, 0.0);
-    }
-
-    /**
-     * Returns change in x
-     *
-     * @return change in x
+     * @return change in x-axis
      */
     public double getDx() {
         return velocity.getDx();
     }
 
     /**
-     * Sets change in x
+     * Sets change in x-axis.
      *
-     * @param dx change in x
+     * @param dx change in x-axis
      */
     public void setDx(double dx) {
         velocity.setDx(dx);
     }
 
     /**
-     * returns change in y
+     * Returns change in y-axis.
      *
-     * @return change in y
+     * @return change in y-axis
      */
     public double getDy() {
         return velocity.getDy();
     }
 
     /**
-     * sets change in y
+     * Sets change in y-axis
      *
-     * @param dy change in y
+     * @param dy change in y-axis
      */
     public void setDy(double dy) {
         velocity.setDy(dy);
@@ -123,7 +136,17 @@ public class Matter implements Shape, Comparable, Serializable {
     }
 
     /**
+     * Gets the object's unique id.
+     *
+     * @return object id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
      * Returns the area of the object.
+     *
      * @return the current area
      */
     public double getArea() {
@@ -141,31 +164,30 @@ public class Matter implements Shape, Comparable, Serializable {
     }
 
     /**
-     * Checks whether Matter object intersects 'other'
+     * Checks whether Matter object intersects 'other'.
      *
      * @param other other Matter object
      * @return 'True' if objects intersects, 'False' if otherwise
      */
     public boolean intersects(Matter other) {
         return blob.intersects(other.getBounds2D())
-                && ( distance(other)
-                <= ( getRadius() + other.getRadius() ) );
+               && (distance(other)
+                   <= (getRadius() + other.getRadius()));
     }
 
     /**
-     * Return the distance between two matters center
+     * Return the distance between two matters center.
      *
      * @param other other Matter object
      * @return the distance between two matters center
      */
     public double distance(Matter other) {
         return Math.hypot(blob.getCenterX() - other.getCenterX(),
-                blob.getCenterY() - other.getCenterY());
+                          blob.getCenterY() - other.getCenterY());
     }
 
     /**
-     * Checks whether this Matter object intersects with a Collection  of
-     * other  Matter objects.
+     * Checks whether this Matter object intersects with a Collection of other Matter objects.
      *
      * @param others the Collection  of Matter objects
      * @return true if a collision, false otherwise
@@ -179,26 +201,55 @@ public class Matter implements Shape, Comparable, Serializable {
         return false;
     }
 
+    /**
+     * Checks if a Matter object is completely inside this Matter object.
+     *
+     * @param other other Matter object.
+     * @return true iff other object is within this one
+     */
     public boolean completelyConsumes(Matter other) {
         if (this.isBigger(other)) {
-            return distance(other) <= getRadius() - other.getRadius();
+            return distance(other) <= getRadius() - other.getRadius()+4;
         } else {
-            return distance(other) <= other.getRadius() - getRadius();
+            return false;
         }
+
+
     }
 
+    /**
+     * Returns the center point on the x-axis of the object.
+     *
+     * @return center x-coordinate
+     */
     public double getCenterX() {
         return blob.getCenterX();
     }
 
+    /**
+     * Returns the center point on the y-axis of the object.
+     *
+     * @return center y-coordinate
+     */
     public double getCenterY() {
         return blob.getCenterY();
     }
 
+    /**
+     * Returns true if this object is bigger than the other.
+     *
+     * @param other other Matter object
+     * @return true iff this object is bigger
+     */
     public boolean isBigger(Matter other) {
         return getRadius() > other.getRadius();
     }
 
+    /**
+     * Returns the velocity of this object.
+     *
+     * @return velocity
+     */
     public double getVelocity() {
         return velocity.resultant();
     }
@@ -212,33 +263,44 @@ public class Matter implements Shape, Comparable, Serializable {
     /**
      * Alters the matter object and creates a new Matter object  that is expelled out.
      *
-     * @param x x-coordinate of click
-     * @param y y-coordinate of click
+     * @param x          x-coordinate of click
+     * @param y          y-coordinate of click
+     * @param matterList the list of all other objects
      * @return the expelled matter object
      */
-    public Matter changeMove(double x, double y, Set<Matter> matterList) {
+    public Matter changeMove(double x, double y, Collection<Matter> matterList) {
         return null;
     }
 
-    public void setFrameFromCenter(double x, double y, double x1, double y1) {
-        blob.setFrameFromCenter(x, y, x1, y1);
+    /**
+     * Sets the framing rectangle of this Shape based on the specified center point coordinates and
+     * corner point coordinates. The framing rectangle is used by the subclasses of RectangularShape
+     * to define their geometry.
+     *
+     * @param centerX the X coordinate of the specified center point
+     * @param centerY the Y coordinate of the specified center point
+     * @param cornerX the X coordinate of the specified corner point
+     * @param cornerY the Y coordinate of the specified corner point
+     */
+    public void setFrameFromCenter(double centerX, double centerY, double cornerX, double cornerY) {
+        blob.setFrameFromCenter(centerX, centerY, cornerX, cornerY);
     }
 
     /**
-     * Creates Point2D object holding x and y coordinates which represent the centre
-     * position of a new expelled Matter object.
+     * Creates Point2D object holding x and y coordinates which represent the centre position of a
+     * new expelled Matter object.
      *
-     * @param x x-coordinate of mouse click
-     * @param y y-coordinate of mouse click
+     * @param x      x-coordinate of mouse click
+     * @param y      y-coordinate of mouse click
      * @param radius radius of expelled matter object
-     * @return Point2D object holding x and y coordinates which represent the centre position
-     *         of the expelled Matter object
+     * @return Point2D object holding x and y coordinates which represent the centre position of the
+     *         expelled Matter object
      */
     protected Point2D expulsionCentres(double x, double y, double radius) {
         Point2D.Double expulsionCentre = new Point2D.Double(0.0, 0.0);
         double theta = Math.atan(Math.abs(y - getCenterY()) / Math.abs(x - getCenterX()));
 
-        double hyp = radius + getRadius() + ALPHA;
+        double hyp = radius + getRadius() + FUDGE_FACTOR;
         double y1 = Math.sin(theta) * hyp;
         double x1 = Math.cos(theta) * hyp;
 
@@ -254,263 +316,251 @@ public class Matter implements Shape, Comparable, Serializable {
         return expulsionCentre;
     }
 
+
     /**
-     * Returns an integer {@link java.awt.Rectangle} that completely encloses the <code>Shape</code>.  Note that there
-     * is no guarantee that the returned <code>Rectangle</code> is the smallest bounding box that encloses the
-     * <code>Shape</code>, only that the <code>Shape</code> lies entirely within the indicated  <code>Rectangle</code>.
-     * The returned <code>Rectangle</code> might also fail to completely enclose the <code>Shape</code> if the
-     * <code>Shape</code> overflows the limited range of the integer data type.  The <code>getBounds2D</code> method
-     * generally returns a tighter bounding box due to its greater flexibility in representation.
+     * Returns an integer Rectangle that completely encloses the Shape. Note that there is no
+     * guarantee that the returned Rectangle is the smallest bounding box that encloses the Shape,
+     * only that the Shape lies entirely within the indicated Rectangle. The returned Rectangle
+     * might also fail to completely enclose the Shape if the Shape overflows the limited range of
+     * the integer data type. The getBounds2D method generally returns a tighter bounding box due to
+     * its greater flexibility in representation.
      *
-     * @return an integer <code>Rectangle</code> that completely encloses the <code>Shape</code>.
-     * @see #getBounds2D
-     * @since 1.2
+     * @return an integer Rectangle that completely encloses the Shape
      */
-    @Override
     public Rectangle getBounds() {
         return blob.getBounds();
     }
 
     /**
-     * Returns a high precision and more accurate bounding box of the <code>Shape</code> than the <code>getBounds</code>
-     * method. Note that there is no guarantee that the returned {@link java.awt.geom.Rectangle2D} is the smallest
-     * bounding box that encloses the <code>Shape</code>, only that the <code>Shape</code> lies entirely within the
-     * indicated <code>Rectangle2D</code>.  The bounding box returned by this method is usually tighter than that
-     * returned by the <code>getBounds</code> method and never fails due to overflow problems since the return value can
-     * be an instance of the <code>Rectangle2D</code> that uses double precision values to store the dimensions.
+     * Returns a high precision and more accurate bounding box of the Shape than the getBounds
+     * method. Note that there is no guarantee that the returned Rectangle2D is the smallest
+     * bounding box that encloses the Shape, only that the Shape lies entirely within the indicated
+     * Rectangle2D. The bounding box returned by this method is usually tighter than that returned
+     * by the getBounds method and never fails due to overflow problems since the return value can
+     * be an instance of the Rectangle2D that uses double precision values to store the dimensions.
      *
-     * @return an instance of <code>Rectangle2D</code> that is a high-precision bounding box of the <code>Shape</code>.
-     * @see #getBounds
-     * @since 1.2
+     * @return an instance of Rectangle2D that is a high-precision bounding box of the Shape.
      */
-    @Override
     public Rectangle2D getBounds2D() {
         return blob.getBounds2D();
     }
 
     /**
-     * Tests if the specified coordinates are inside the boundary of the <code>Shape</code>.
+     * Tests if the specified coordinates are inside the boundary of the Shape.
      *
      * @param x the specified X coordinate to be tested
      * @param y the specified Y coordinate to be tested
-     * @return <code>true</code> if the specified coordinates are inside the <code>Shape</code> boundary;
-     *         <code>false</code> otherwise.
-     * @since 1.2
+     * @return true if the specified coordinates are inside the Shape boundary; false otherwise.
      */
-    @Override
     public boolean contains(double x, double y) {
         return blob.contains(x, y);
     }
 
     /**
-     * Tests if a specified {@link java.awt.geom.Point2D} is inside the boundary of the <code>Shape</code>.
+     * Tests if a specified Point2D is inside the boundary of the Shape.
      *
-     * @param p the specified <code>Point2D</code> to be tested
-     * @return <code>true</code> if the specified <code>Point2D</code> is inside the boundary of the <code>Shape</code>;
-     *         <code>false</code> otherwise.
-     * @since 1.2
+     * @param p the specified Point2D to be tested
+     * @return true if the specified Point2D is inside the boundary of the Shape; false otherwise.
      */
-    @Override
     public boolean contains(Point2D p) {
         return blob.contains(p);
     }
 
     /**
-     * Tests if the interior of the <code>Shape</code> intersects the interior of a specified rectangular area. The
-     * rectangular area is considered to intersect the <code>Shape</code> if any point is contained in both the interior
-     * of the <code>Shape</code> and the specified rectangular area.
+     * Tests if the interior of the Shape intersects the interior of a specified rectangular area.
+     * The rectangular area is considered to intersect the Shape if any point is contained in both
+     * the interior of the Shape and the specified rectangular area. The Shape.intersects() method
+     * allows a Shape implementation to conservatively return true when:
      * <p/>
-     * The {@code Shape.intersects()} method allows a {@code Shape} implementation to conservatively return {@code true}
-     * when: <ul> <li> there is a high probability that the rectangular area and the <code>Shape</code> intersect, but
-     * <li> the calculations to accurately determine this intersection are prohibitively expensive. </ul> This means
-     * that for some {@code Shapes} this method might return {@code true} even though the rectangular area does not
-     * intersect the {@code Shape}. The {@link java.awt.geom.Area Area} class performs more accurate computations of
-     * geometric intersection than most {@code Shape} objects and therefore can be used if a more precise answer is
-     * required.
+     * <ul> <li>there is a high probability that the rectangular area and the Shape intersect,
+     * but</li> <li>the calculations to accurately determine this intersection are prohibitively
+     * expensive.</li> </ul>
+     * <p/>
+     * This means that for some Shapes this method might return true even though the rectangular
+     * area does not intersect the Shape. The Area class performs more accurate computations of
+     * geometric intersection than most Shape objects and therefore can be used if a more precise
+     * answer is required.
      *
      * @param x the X coordinate of the upper-left corner of the specified rectangular area
      * @param y the Y coordinate of the upper-left corner of the specified rectangular area
      * @param w the width of the specified rectangular area
      * @param h the height of the specified rectangular area
-     * @return <code>true</code> if the interior of the <code>Shape</code> and the interior of the rectangular area
-     *         intersect, or are both highly likely to intersect and intersection calculations would be too expensive to
-     *         perform; <code>false</code> otherwise.
-     * @see java.awt.geom.Area
-     * @since 1.2
+     * @return true if the interior of the Shape and the interior of the rectangular area intersect,
+     *         or are both highly likely to intersect and intersection calculations would be too
+     *         expensive to perform; false otherwise.
      */
-    @Override
     public boolean intersects(double x, double y, double w, double h) {
         return blob.intersects(x, y, w, h);
     }
 
     /**
-     * Tests if the interior of the <code>Shape</code> intersects the interior of a specified <code>Rectangle2D</code>.
-     * The {@code Shape.intersects()} method allows a {@code Shape} implementation to conservatively return {@code true}
-     * when: <ul> <li> there is a high probability that the <code>Rectangle2D</code> and the <code>Shape</code>
-     * intersect, but <li> the calculations to accurately determine this intersection are prohibitively expensive. </ul>
-     * This means that for some {@code Shapes} this method might return {@code true} even though the {@code Rectangle2D}
-     * does not intersect the {@code Shape}. The {@link java.awt.geom.Area Area} class performs more accurate
-     * computations of geometric intersection than most {@code Shape} objects and therefore can be used if a more
-     * precise answer is required.
+     * Tests if the interior of the Shape intersects the interior of a specified rectangular area.
+     * The rectangular area is considered to intersect the Shape if any point is contained in both
+     * the interior of the Shape and the specified rectangular area. The Shape.intersects() method
+     * allows a Shape implementation to conservatively return true when:
+     * <p/>
+     * <ul> <li>there is a high probability that the rectangular area and the Shape intersect,
+     * but</li> <li>the calculations to accurately determine this intersection are prohibitively
+     * expensive.</li> </ul>
+     * <p/>
+     * This means that for some Shapes this method might return true even though the rectangular
+     * area does not intersect the Shape. The Area class performs more accurate computations of
+     * geometric intersection than most Shape objects and therefore can be used if a more precise
+     * answer is required.
      *
-     * @param r the specified <code>Rectangle2D</code>
-     * @return <code>true</code> if the interior of the <code>Shape</code> and the interior of the specified
-     *         <code>Rectangle2D</code> intersect, or are both highly likely to intersect and intersection calculations
-     *         would be too expensive to perform; <code>false</code> otherwise.
-     * @see #intersects(double, double, double, double)
-     * @since 1.2
+     * @param r other rectangle
+     * @return true if the interior of the Shape and the interior of the rectangular area intersect,
+     *         or are both highly likely to intersect and intersection calculations would be too
+     *         expensive to perform; false otherwise.
      */
-    @Override
     public boolean intersects(Rectangle2D r) {
         return blob.intersects(r);
     }
 
     /**
-     * Tests if the interior of the <code>Shape</code> entirely contains the specified rectangular area.  All
-     * coordinates that lie inside the rectangular area must lie within the <code>Shape</code> for the entire rectanglar
-     * area to be considered contained within the <code>Shape</code>.
+     * Tests if the interior of the Shape entirely contains the specified rectangular area. All
+     * coordinates that lie inside the rectangular area must lie within the Shape for the entire
+     * rectanglar area to be considered contained within the Shape. The Shape.contains() method
+     * allows a Shape implementation to conservatively return false when:
      * <p/>
-     * The {@code Shape.contains()} method allows a {@code Shape} implementation to conservatively return {@code false}
-     * when: <ul> <li> the <code>intersect</code> method returns <code>true</code> and <li> the calculations to
-     * determine whether or not the <code>Shape</code> entirely contains the rectangular area are prohibitively
-     * expensive. </ul> This means that for some {@code Shapes} this method might return {@code false} even though the
-     * {@code Shape} contains the rectangular area. The {@link java.awt.geom.Area Area} class performs more accurate
-     * geometric computations than most {@code Shape} objects and therefore can be used if a more precise answer is
-     * required.
+     * <ul><li>the intersect method returns true and</li> <li>the calculations to determine whether
+     * or not the Shape entirely contains the rectangular area are prohibitively expensive.</li>
+     * </ul>
+     * <p/>
+     * This means that for some Shapes this method might return false even though the Shape contains
+     * the rectangular area. The Area class performs more accurate geometric computations than most
+     * Shape objects and therefore can be used if a more precise answer is required.
      *
      * @param x the X coordinate of the upper-left corner of the specified rectangular area
      * @param y the Y coordinate of the upper-left corner of the specified rectangular area
      * @param w the width of the specified rectangular area
      * @param h the height of the specified rectangular area
-     * @return <code>true</code> if the interior of the <code>Shape</code> entirely contains the specified rectangular
-     *         area; <code>false</code> otherwise or, if the <code>Shape</code> contains the rectangular area and the
-     *         <code>intersects</code> method returns <code>true</code> and the containment calculations would be too
-     *         expensive to perform.
-     * @see java.awt.geom.Area
-     * @see #intersects
-     * @since 1.2
+     * @return true if the interior of the Shape entirely contains the specified rectangular area;
+     *         false otherwise or, if the Shape contains the rectangular area and the intersects
+     *         method returns true and the containment calculations would be too expensive to
+     *         perform.
      */
-    @Override
     public boolean contains(double x, double y, double w, double h) {
         return blob.contains(x, y, w, h);
     }
 
     /**
-     * Tests if the interior of the <code>Shape</code> entirely contains the specified <code>Rectangle2D</code>. The
-     * {@code Shape.contains()} method allows a {@code Shape} implementation to conservatively return {@code false}
-     * when: <ul> <li> the <code>intersect</code> method returns <code>true</code> and <li> the calculations to
-     * determine whether or not the <code>Shape</code> entirely contains the <code>Rectangle2D</code> are prohibitively
-     * expensive. </ul> This means that for some {@code Shapes} this method might return {@code false} even though the
-     * {@code Shape} contains the {@code Rectangle2D}. The {@link java.awt.geom.Area Area} class performs more accurate
-     * geometric computations than most {@code Shape} objects and therefore can be used if a more precise answer is
-     * required.
+     * Tests if the interior of the Shape entirely contains the specified rectangular area. All
+     * coordinates that lie inside the rectangular area must lie within the Shape for the entire
+     * rectanglar area to be considered contained within the Shape. The Shape.contains() method
+     * allows a Shape implementation to conservatively return false when:
+     * <p/>
+     * <ul><li>the intersect method returns true and</li> <li>the calculations to determine whether
+     * or not the Shape entirely contains the rectangular area are prohibitively expensive.</li>
+     * </ul>
+     * <p/>
+     * This means that for some Shapes this method might return false even though the Shape contains
+     * the rectangular area. The Area class performs more accurate geometric computations than most
+     * Shape objects and therefore can be used if a more precise answer is required.
      *
-     * @param r The specified <code>Rectangle2D</code>
-     * @return <code>true</code> if the interior of the <code>Shape</code> entirely contains the
-     *         <code>Rectangle2D</code>; <code>false</code> otherwise or, if the <code>Shape</code> contains the
-     *         <code>Rectangle2D</code> and the <code>intersects</code> method returns <code>true</code> and the
-     *         containment calculations would be too expensive to perform.
-     * @see #contains(double, double, double, double)
-     * @since 1.2
+     * @param r other rectangle
+     * @return true if the interior of the Shape entirely contains the specified rectangular area;
+     *         false otherwise or, if the Shape contains the rectangular area and the intersects
+     *         method returns true and the containment calculations would be too expensive to
+     *         perform.
      */
-    @Override
     public boolean contains(Rectangle2D r) {
         return blob.contains(r);
     }
 
     /**
-     * Returns an iterator object that iterates along the <code>Shape</code> boundary and provides access to the
-     * geometry of the <code>Shape</code> outline.  If an optional {@link java.awt.geom.AffineTransform} is specified,
-     * the coordinates returned in the iteration are transformed accordingly.
-     * <p/>
-     * Each call to this method returns a fresh <code>PathIterator</code> object that traverses the geometry of the
-     * <code>Shape</code> object independently from any other <code>PathIterator</code> objects in use at the same
-     * time.
-     * <p/>
-     * It is recommended, but not guaranteed, that objects implementing the <code>Shape</code> interface isolate
-     * iterations that are in process from any changes that might occur to the original object's geometry during such
-     * iterations.
+     * Returns an iteration object that defines the boundary of this Ellipse2D. The iterator for
+     * this class is multi-threaded safe, which means that this Ellipse2D class guarantees that
+     * modifications to the geometry of this Ellipse2D object do not affect any iterations of that
+     * geometry that are already in process.
      *
-     * @param at an optional <code>AffineTransform</code> to be applied to the coordinates as they are returned in the
-     *           iteration, or <code>null</code> if untransformed coordinates are desired
-     * @return a new <code>PathIterator</code> object, which independently traverses the geometry of the
-     *         <code>Shape</code>.
-     * @since 1.2
+     * @param at n optional AffineTransform to be applied to the coordinates as they are returned in
+     *           the iteration, or null if untransformed coordinates are desired
+     * @return the PathIterator object that returns the geometry of the outline of this Ellipse2D,
+     *         one segment at a time.
      */
-    @Override
     public PathIterator getPathIterator(AffineTransform at) {
         return blob.getPathIterator(at);
     }
 
     /**
-     * Returns an iterator object that iterates along the <code>Shape</code> 
-     * boundary and provides access to a flattened view of the <code>Shape</code>
-     * outline geometry.
-     * <p/>
-     * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types are returned
-     * by the iterator.
-     * <p/>
-     * If an optional <code>AffineTransform</code> is specified, the
-     * coordinates returned in the iteration are
-     * transformed accordingly.
-     * <p/>
-     * The amount of subdivision of the curved segments is controlled by 
-     * the <code>flatness</code> parameter, which specifies the maximum
-     * distance that any point on the unflattened transformed curve can deviate
-     * from the returned flattened path segments. Note that a limit on the
-     * accuracy of the flattened path might be silently imposed, causing very
-     * small flattening parameters to be treated as larger values.  This limit,
-     * if there is one, is defined by the particular implementation that is used.
-     * <p/>
-     * Each call to this method returns a fresh <code>PathIterator</code> 
-     * object that traverses the <code>Shape</code> object geometry independently
-     * from any other <code>PathIterator</code> objects in use at the same time.
-     * <p/>
-     * It is recommended, but not guaranteed, that objects implementing the 
-     * <code>Shape</code> interface isolate iterations that are in process
-     * from any changes that might occur to the original object's geometry
-     * during such iterations.
+     * Returns an iterator object that iterates along the Shape boundary and provides access to a
+     * flattened view of the Shape outline geometry. Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE
+     * point types are returned by the iterator. If an optional AffineTransform is specified, the
+     * coordinates returned in the iteration are transformed accordingly. The amount of subdivision
+     * of the curved segments is controlled by the flatness parameter, which specifies the maximum
+     * distance that any point on the unflattened transformed curve can deviate from the returned
+     * flattened path segments. Note that a limit on the accuracy of the flattened path might be
+     * silently imposed, causing very small flattening parameters to be treated as larger values.
+     * This limit, if there is one, is defined by the particular implementation that is used. Each
+     * call to this method returns a fresh PathIterator object that traverses the Shape object
+     * geometry independently from any other PathIterator objects in use at the same time. It is
+     * recommended, but not guaranteed, that objects implementing the Shape interface isolate
+     * iterations that are in process from any changes that might occur to the original object's
+     * geometry during such iterations.
      *
-     * @param at       an optional <code>AffineTransform</code> to be applied 
-     *                  to the coordinates as they are returned in the iteration,
-     *                  or <code>null</code> if untransformed coordinates
-     *                  are desired
-     * @param flatness the maximum distance that the line segments used to 
-     *                  approximate the curved segments are allowed to deviate
-     *                  from any point on the original curve
-     * @return a new <code>PathIterator</code> that independently traverses 
-     *          a flattened view of the geometry of the <code>Shape</code>.
-     * @since 1.2
+     * @param at       an optional AffineTransform to be applied to the coordinates as they are
+     *                 returned in the iteration, or null if untransformed coordinates are desired.
+     * @param flatness the maximum distance that the line segments used to approximate the curved
+     *                 segments are allowed to deviate from any point on the original curve
+     * @return a PathIterator object that provides access to the Shape object's flattened geometry.
      */
-    @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return blob.getPathIterator(at, flatness);
     }
 
+    /**
+     * Returns the X coordinate of the upper-left corner of the framing rectangle in double
+     * precision.
+     *
+     * @return the X coordinate of the upper-left corner of the framing rectangle.
+     */
     public double getX() {
         return blob.getX();
     }
 
+    /**
+     * Returns the Y coordinate of the upper-left corner of the framing rectangle in double
+     * precision.
+     *
+     * @return the Y coordinate of the upper-left corner of the framing rectangle.
+     */
     public double getY() {
         return blob.getY();
     }
 
-    public void setFrame(Rectangle2D frame) {
-        blob.setFrame(frame);
-    }
-
+    /**
+     * Returns the largest X coordinate of the framing rectangle of the Shape in double precision.
+     *
+     * @return the largest X coordinate of the framing rectangle of the Shape
+     */
     public double getMaxX() {
         return blob.getMaxX();
     }
 
+    /**
+     * Returns the largest Y coordinate of the framing rectangle of the Shape in double precision.
+     *
+     * @return the largest Y coordinate of the framing rectangle of the Shape
+     */
     public double getMaxY() {
         return blob.getMaxY();
     }
 
+    /**
+     * Returns the smallest X coordinate of the framing rectangle of the Shape in double precision.
+     *
+     * @return the smallest X coordinate of the framing rectangle of the Shape.
+     */
     public double getMinX() {
         return blob.getMinX();
     }
 
+    /**
+     * Returns the smallest Y coordinate of the framing rectangle of the Shape in double precision.
+     *
+     * @return the smallest Y coordinate of the framing rectangle of the Shape.
+     */
     public double getMinY() {
         return blob.getMinY();
     }
@@ -518,45 +568,54 @@ public class Matter implements Shape, Comparable, Serializable {
     /**
      * Compares this object to another.
      *
-     * @param o
-     * @return  negative if less than; 0 if equal; &gt positive if greater than
+     * @param o the other object
+     * @return negative if less than; 0 if equal; &gt positive if greater than
      */
     @Override
     public int compareTo(Object o) {
         try {
             Matter m = (Matter) o;
-            return (int) ( this.getRadius() - m.getRadius() );
-        }
-        catch (ClassCastException ex) {
+            return (int) (this.getRadius() - m.getRadius());
+        } catch (ClassCastException ex) {
             throw new ClassCastException("Object not of type Matter");
         }
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        try {
-//            Matter m = (Matter) obj;
-//            return getX() == m.getX()
-//                    && getY() == m.getY()
-//                    && getRadius() == m.getRadius()
-//                    && getDx() == m.getDx()
-//                    && getDy() == m.getDy();
-//        }
-//        catch (ClassCastException ex) {
-//            throw new ClassCastException("Object not of type Matter");
-//        }
-//    }
+    /**
+     * Checks to see if two objects are equal. This happens when they have the same ID. This is the
+     * case because the object will constantly be changing on the Server so there needs to be some
+     * unchanging component to compare to.
+     *
+     * @param obj other object
+     * @return true iff they have the same ID
+     */
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            if (obj == null || !(obj instanceof Matter)) return false;
+
+            Matter m = (Matter) obj;
+            return id == m.id;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException("Object not of type Matter");
+        }
+    }
 
     /**
-     * Returns a String representation of the object. It details the (X,Y)
-     * coordinate of the top-left corner of the bounding rectangle, the radius
-     * of the circle and the change in y and x of the object.
-     * 
+     * Returns a String representation of the object. It details the (X,Y) coordinate of the
+     * top-left corner of the bounding rectangle, the radius of the circle and the change in y and x
+     * of the object.
+     *
      * @return string representation
      */
     @Override
     public String toString() {
-        return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f",
-                getX(), getY(), getRadius(), getDy(), getDx());
+        return String.format("X: %6.2f, Y: %6.2f, R: %6.2f, DY: %6.2f, DX: %6.2f, ID: %4d",
+                             getX(), getY(), getRadius(), getDy(), getDx(), getId());
+    }
+
+    /** Resets the ID_MAKER count back to 0. */
+    public static void resetCount() {
+        ID_MAKER = 0;
     }
 }
