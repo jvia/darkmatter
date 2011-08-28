@@ -1,0 +1,582 @@
+\chapter{Meeting Minutes}
+\label{cha:minutes}
+
+\section{Group Meetings}
+
+\subsection*{Meeting 1}
+\date{20 January 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Summary}
+
+During this meeting we spent some time getting to know each other and
+confirmed the appointment of Joss and myself as officers. The main
+content of the meeting was talking about possible game ideas. Ideas
+proposed included:
+\begin{itemize}
+\item An physics game styled on Osmos with added features and
+  originality. We decided this was our primary idea and Joss came up
+  with the project name of ``Darkmatter'' for the game.
+\item An Osmos style racing game using the Osmos propulsion mechanics
+  to race blobs around an obstacle course.
+\item A tower defense style game possibly involving zombies and a
+  cooperative mode.
+\item Fruit ninja.
+\item Fall down: a two player game involved in a race to see which
+  player can fall down quickest.
+\end{itemize}
+
+
+Once we had decided on Osmos as our primary idea and zombie tower
+defense as our fall back, we considered ways to put our own spin on
+Osmos. These included the addition of weapons to the right click, such
+as an antimatter weapon that would split any other dark matter stars
+in half or reduce size. And also a weapon to stop the balls in full
+flow. The main aspect of originality that we add as well as setting it
+in space is the addition of cooperative and competitive game play. We
+talked about various modes such as straight up death match style,
+i.e., just become the biggest player, to other game modes that would
+require players to work together to take down a larger enemy or maybe
+a mode where the players are segregated and need to complete tasks
+with each other to complete the level.
+
+We also touched on the software engineering principles we would employ
+and this included testing methods such as JUnit and the possible use
+of pair programming was mentioned as a method as well as other methods
+such as ``Scrum''. Jeremiah suggested the use of Maven for our project.
+
+\subsubsection{Action}
+
+\begin{description}
+\item[All] Research Osmos and Subversion
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 2}
+\date{25 January 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Summary}
+
+We met for the second time to discuss coding practices and the
+structure of our game. We decided that we would leave the start of
+coding till week 3 when we knew how to work sockets and networking
+into the code as we felt that this would impact our code at every
+level. We decided on a pair programming schedule where we would each
+code with each other member of the team for an hour a week. We also
+decided that we would have this meeting every week. After these
+discussions and some discussion of the physics engine we decided to
+head to the labs to get Subversion working and test it out. Jeremiah
+helped the team with this as he has prior experience of using
+subversion.
+
+\subsubsection{Action}
+\begin{description}
+\item[All] Research coding structure and Osmos. Submit progress logs
+  to Subversion.
+\item[Charlie] Produce timetable of pair programming and other Team
+  Java commitments and upload to Subversion.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 3}
+\date{1 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+We decided to meet to discuss the impending deadline for the
+specification and to make sure we were broadly on the same page
+regarding what to put in it. We also talked over software engineering
+principles that we were going to use including maven and testing. We
+also discussed the GUI and the possible methods of animating the dark
+matter. Yukun also showed the team a small model he had made with an
+object bouncing around a screen and interacting with the edges. We
+then created a sandbox in the subversion repository in which we could
+put experimental code to play around with. We decided on physics that
+would go into the game that included making the game universe
+frictionless to make the modeling easier and to replicate space.
+
+\subsubsection{Action}
+\begin{description}
+\item[All] Produce specification and submit to Subversion.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 4}
+\date{1 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+We discussed how we were going to approach the pair programming
+sessions over the coming week. It was decided upon that for the
+sessions scheduled straight after the meeting that Jeremiah and Joss
+would work on the matter class and charlie and Yukun would work on the
+physics class. This work was then undertaken and submitted to
+subversion. It was raised that charlie and Yukun were not uploading
+comments when they submitted work to subversion and this should be
+remedied. Jeremiah and Yukun also showed of various prototypes that
+they had uploaded to subversion to test out aspects of the game.
+
+\subsubsection{Action}
+
+\begin{description}
+\item[Joss \& Jeremiah] Produce Matter Class.
+\item[Charlie \& Yukun] Produce Physics Class.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 5}
+\date{8 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+Firstly we discussed the progress of the previous and team members
+were bought up to date on the demonstrator meeting from the previous
+week. We discussed the points raised in that meeting and endeavored to
+address the issues that came up such as using more scientific English
+and producing a detailed weekly report. It was decided that charlie
+would produce this in time for the demonstrator meeting for the
+following weeks. Jeremiah demonstrated to us the Darkmatter class he
+had written and Joss showed us the draft of an opening video for the
+game. We then decided on tasks for the week and ranked tasks that
+needed to be done in order of priority. The main issues to be
+undertaken were programming an AI for the other player in the single
+player mode, start programming the networking, fixing the ejection
+angles of the balls of matter and introduce an egocentric scrolling
+view.
+
+\subsubsection{Action}
+
+\begin{description}
+\item[Joss] Fix ejection angles of matter.
+\item[Charlie] Produce AI for other player.
+\item[Jeremiah] Start the client-server networking.
+\item[Yukun] Develop a scrolling system with the player always at the center.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 6}
+\date{15 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+This was an extremely brief meeting where we just decided that we
+would carry on with the previous weeks goals and that Joss would work
+on producing the media player. Jeremiah also filled us in on how the
+changes to the client-server would effect the rest of the game code
+and helped us install the latest versions of maven on our machines.
+
+\subsubsection{Action}
+\begin{description}
+\item[Joss] Produce media player for the game.
+\item[Charlie] Produce AI for other player.
+\item[Jeremiah] Start the client-server networking.
+\item[Yukun] Develop a scrolling system with the player always at the
+  center.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 7}
+\date{22 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+This was another brief meeting where we again decided to carry on with
+the previous weeks work as it was still in progress. Also tidy up and
+review JUnit tests for the testing vivas later on in the week.
+
+\subsubsection{Action}
+\begin{description}
+
+\item[Joss] Produce media player for game.
+\item[Charlie] Produce AI for other player.
+\item[Yukun] Develop an scrolling system with the player always at the center.
+\item[Jeremiah] Start the client server networking.
+\item[All] Review tests.
+\end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 8}
+\date{1 March 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+This meeting we talked frankly about our disappointing progress of the
+previous few weeks and decided on a course of action that would propel
+us forward. This involved finishing off previous tasks including
+working on finishing networking and making AI smarter and scrolling
+smoother. We also decided that a level builder would be a good feature
+to improve the games single player mode.
+
+\subsubsection{Action}
+\begin{description}
+
+\item[Charlie] Keep working on AI; begin working on final report.
+\item[Joss] Continue working on media player.
+\item[Jeremiah] Work on networking.
+\item[Yukun] Create a level builder.
+\end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 9}
+\date{8 March 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+
+\subsubsection{Summary}
+
+This meeting we talked about the things we needed to do to polish off
+our project. This included working more on the final report,
+integrating the networking and producing a menu to polish up the game.
+
+\subsubsection{Action}
+
+\begin{description}
+\item[Jeremiah] Continue working on networking.
+\item[Charlie] Work on final report and submit an iteration to Subversion.
+\item[Yukun] Work on menu.
+\item[Joss] Work on media player.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \subsection*{Meeting 10}
+% \date{25 January 2011}
+%
+% \subsubsection{Present}
+% \begin{enumerate}
+% \item Joss Greenaway (Team Leader)
+% \item Charlie Horrell (Secretary)
+% \item Jeremiah Via
+% \item Yukun Wang
+% \end{enumerate}
+%
+%
+% \subsubsection{Summary}
+% \subsubsection{Action}
+
+
+\section{Demonstrator Meetings}
+\subsection*{Meeting 1}
+\date{20 January 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting we introduced ourselves to Katrina and pitched our
+idea of Darkmatter to her. Katrina approved our idea and informed us of
+the basic structure of the module and the importance of
+logs,subversion and team work. She also prompted us into choosing a
+team name! After a brief discussion about Pokemon we settled on team
+``Giant Cow'' because to quote Joss ``one of the new Pokemon looks just
+like a giant cow.'' The name was catchy yet suitably absurd and
+humorous so ``Giant Cow Games'' was born! We also asked Katrina about the
+specification that is due in by the end of week two and it was
+suggested to us that we should not go into technical detail but give a
+more general idea of what our game will be about and the principles
+used to code it. We were also warned about pitfalls previous teams had
+had in splitting up components of the project arbitrarily and then
+meeting at a later date to merge sections, as this had no fail safe
+and often required a lot of extra work to integrate components. We
+also raised the issue of possibly using games libraries or other
+source code in the programming of the game. Katrina said she would look
+into this for us and let us know. Katrina also indicated to us that pair
+programming was an excellent idea.
+
+\subsubsection{Action}
+\begin{description}
+\item[All] Research Osmos and Subversion. Think about content for
+  specification.
+\item[Charlie] Update Facebook group, minutes and arrange further
+  meetings.
+\end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 2}
+\date{7 January 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting we were given more precise instructions on when to
+submit the specification. We were told it had to be in for 12pm on
+subversion in PDF format. We also talked about our progress for the
+week, including pair programming and testing with maven. Katrina approved
+of these measures. We also decided to drop scrum programming partly
+because of the roles that different people would have to take on made
+the process seem convoluted. We were told that creating user stories
+might be a helpful part of our development process.
+
+\subsubsection{Action}
+\begin{description}
+\item[All] Produce specification and upload it to Subversion.
+\end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 3}
+\date{3 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Charlie Horrell (Secretary)
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Apologies}
+\begin{enumerate}
+\item Jeremiah Via (\emph{Ill})
+\item Joss Greenaway (\emph{Ill})
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting we were given general feedback on our
+specifications. A major issue raised was the standard of scientific
+and formal English as well as issues with grammar. We were informed
+that unless this was improved in the final report it could loose us
+significant marks. Also raised was the lack of updating the weekly
+work logs. It was stressed these should be updated every week before
+the meeting with Katrina. Some clarification was required for Yukun on the
+non use of the waterfall model as we are using an agile approach. We
+were also told to finally decided which networking strategy we were
+going to use.  Otherwise feedback on the specification was generally
+positive. We were also encouraged to produce a weekly report for all
+future demonstrator meetings.
+
+I raised the issue of the lack of details on the subversion
+assessment. We were advised as we had well over 60 revisions already we
+did not need to worry about it for now.
+
+
+\subsubsection{Action}
+\emph{None}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 4}
+\date{10  February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting we presented to Katrina the weekly report that had
+been promised at the previous weeks meeting. Feedback from this was
+generally positive however Katrina requested that it would have been more
+useful if the weekly report had been submitted to subversion earlier
+in the day, unfortunately a large part of our timetabled man hours for
+the project takes place on the Thursdays and so any report submitted
+earlier in the day would likely be a false state of affairs. Katrina
+approved of our production of long term goals and organization in
+approaching problems.
+
+We were also introduced to the planning game which involved different
+team members approximating the amount of time taken for particular
+tasks in arbitrary units consisting of the time taken for a simple
+feature such as a button to be programmed in java. From this we
+decided that the client server would take the majority of the weeks
+ahead and as such the team should pitch in to help Jeremiah with the
+production of this. We also rated the scrolling problem as taking a
+long time to solve.
+
+\subsubsection{Action}
+\begin{description}
+\item[Jeremiah] Networking.
+\item[Charlie] AI player.
+\item[Joss] Fix angles of expelled matter.
+\item[Yukun] Implement scrolling.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 5}
+\date{17 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Joss Greenaway (Team Leader)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Apologies}
+\begin{enumerate}
+\item Charlie Horrell (\emph{Ill})
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting the testing vivas took place. Charlie was ill so
+his took place the following week.
+
+\subsubsection{Action}
+\emph{None}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 6}
+\date{24 February 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Absent}
+\begin{enumerate}
+  \item Joss Greenaway
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting we had our prototype demonstration on the
+project. We received largely negative feedback that our development
+was stagnant, our game was buggy and that we needed multiple levels in
+the single player game mode.
+
+\subsubsection{Action}
+\begin{description}
+\item[All] Finish work on assigned tasks.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Meeting 7}
+\date{3 March 2011}
+
+\subsubsection{Present}
+\begin{enumerate}
+\item Katrina Samperi (Demonstrator)
+\item Joss Greenaway (Team Leader)
+\item Charlie Horrell (Secretary)
+\item Jeremiah Via
+\item Yukun Wang
+\end{enumerate}
+
+\subsubsection{Summary}
+During this meeting we showed Katrina our improved game with multiple
+levels fixed scrolling and better AI, it is now also less buggy and
+has working music. We received largely positive feedback on this
+point.
+
+
+\subsubsection{Action}
+\emph{None}.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:
+
+% LocalWords:  Osmos Darkmatter JUnit Greenaway Horrell Joss Samperi
+% LocalWords:  Facebook PDF

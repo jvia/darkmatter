@@ -1,0 +1,146 @@
+\chapter{Requirements}
+\label{cha:requirements}
+
+% You provided a first draft of the specification. Now you have a much
+% clearer picture of what you wanted to achieve. This section should
+% outline the requirements and explain why you chose these
+% features. Explain your choices carefully (not just lists of bullet
+% points). Note that not everything about requirements in general is
+% relevant for this project (for instance, you need not write much
+% about the hardware requirements, as they are trivial for this
+% project).
+
+\section{Functionality}
+
+The game will be a multiplayer game with simple mouse-based
+controls. Players move about the environment by expelling a proportion
+of their own mass in order to gain momentum. Gameplay consists of
+absorbing smaller objects and the avoidance of absorption from larger
+objects. Combining these two constraints together force players to
+create a balance between their speed and their mass.
+
+To win the game, a play must absorb 60\% percent of the total object
+area on the map. Once this requirement is achieved, a player cannot
+lose because no challenger could muster enough mass to attack. The
+loss of one human player does not imply the victory of another. It is
+possible for all human players to lose the game. We feel this keeps
+the game exciting.
+
+In order for the game to look and act correctly, physics has to be
+implemented as realistically as possible. The key physical properties
+we need to implement are the conservation of momentum and a modified
+version of inelastic collisions. It needs to be modified because it
+must take into account that some energy is lost in the absorption of a
+matter object by another.
+
+Levels will vary in style to force players to think of creative ways
+to solve them. We aim to include levels that require expert movement
+through a maze of larger matter objects and others that reward playing
+as fast as possible. This will keep the game fresh and exciting for
+players. 
+
+To allow players to extend the game, we want to create a level editor
+if time allows. This lets users utilise their creativity to create new
+levels which we may never have thought of. This extends the value of
+our game by allowing users to get more use from it.
+
+Another advanced feature we want to implement, if time allows, is
+power-ups. We think this would add an entirely new level of game
+play. After much thought, we decided that defensive power-ups should be
+preferred. This would allow players to escape death rather than being
+able to dominate other players.
+
+\section{GUI Design}
+
+We want to design a beautiful graphic experience for our users. To do
+this we want to take advantage built-in Java capabilities. We had
+considered using the Lightweight Java Games Library \cite{lwjgl} for this
+task but given the time constraints we feel it would be too much added
+scope to our project.
+
+To create an immersive experience, we will make the game
+full-screen. But in order to prevent those with larger screens from
+having an unfair advantage, we decided to fix the size of the game
+area. Anything larger than the game area is rendered as an attractive,
+dark background. This lets the user focus on the actual game play.
+
+Because it can be difficult to distinguish the difference in area
+between two objects that are nearly the same size, we wanted to create
+a visual way to easily glean this information fast. Our solution is to
+use colour. By using warmer colours to indicate that an enemy object
+is larger and cooler colours to indicate that an enemy object is
+smaller, users can quickly and intuitively reason about how they
+should move about the map.
+
+Adding music to the game was the final touch we feel is needed in
+order to create an excellent game play experience. Since our game
+forces players to calculate their mass and speed quickly, we want to
+add some up-tempo music to increase their stress levels. We also
+want music that would create that feeling of drifting in space.
+
+The matter objects are constantly varying in size, so we feel that
+giving the player the ability to zoom in and out would increase
+playability. Since this is no easy task, we have decided to make it an
+extended feature we would implement once the core of the game was
+finished.
+
+\section{Software Engineering}
+
+As mentioned earlier, we will be using the extreme programming
+methodology for this project. We all feel it will be a good fit for
+this project and our team. We hope to code at a consistent pace so
+at the end we are not forced to work feverishly just to meet the
+deadline.
+
+We chose extreme programming for a number of reasons. The most
+important one is the principle of releasing early and releasing
+often. Because we have a short time in which to create our game, we
+need an impetus for adding functionality each week. Weekly releases
+provide this very need. By defining a set of features we want to have
+for each weekly release, we can keep forward momentum on our project.
+
+Another important aspect of extreme programming we plan to adopt is collective code
+ownership. We feel this is important because we all need to be able to
+work on the same code. This also creates an environment of trust where
+we all depend on each other to ensure the game is working well. We
+never have to depend on one person to fix a bug.
+
+We plan on doing a lot of pair programming for the project. This
+should help everyone have an understanding of the code base. It will
+also reinforce the idea of collective code ownership because we will
+be working on classes together.  Currently, we meet up three times a
+week for our pair programming sessions. That way everyone spends time
+coding with everyone else.
+
+We plan on creating a lot of unit tests to ensure our code is always
+working. This will free us from worrying if any new changes have
+broke any exiting features. As long as we have good, specific tests
+we can rest assure that our product is functioning as intended.
+
+\section{Networking}
+
+In order to incorporate networking into our game, we will adopt the
+traditional client-server model. Our reasoning was that, while less
+sophisticated, we could successfully implement this model given the
+time constraints.
+
+We plan on having a server which runs on its own. It will control all
+the game logic as well as handle requests from clients. We want to
+make the networking architecture scalable so that there are no limits
+to the number of players that can join a game. This will require
+careful planning and implementation but it will allow many people to
+play the game together, increasing the fun to be had from the game.
+
+An extended feature we want to add would be to allow the server to
+load variations in the level. So, for example, the server could load a
+cooperative version of a level and force players to work together to
+accomplish a goal. This was seen as a difficult feature and kept as
+possible extension for the end.
+
+
+%%  LocalWords:  Defence defence XP multiplayer Gameplay GUI
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End: 

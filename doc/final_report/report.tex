@@ -1,19 +1,35 @@
-\documentclass[10pt]{report}
+\documentclass[11pt, a4paper]{report}
+
 \usepackage{graphicx}
 \usepackage{a4}
 \usepackage{url}
+\usepackage{harvard}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{gantt}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{paralist}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks,%
+  citecolor=black,%
+  filecolor=black,%
+  linkcolor=black,%
+  urlcolor=black
+}
+
 
 % Report template authored V. Sorge, adapted S. Vickers.
 
-\title{% This is the title of your document
-  {\normalsize Software Workshop Team Java (06-08165) 2010/11, Dr E. Thompson }\\[2cm]
-  Project Report:\\
-  An Applet to Demonstrate ...}
+
+\title{{\normalsize Software Workshop Team Java (06-08165) 2010/11, Dr E. Thompson }\\[2cm]
+  Project Report: DarkMatter\\}
 \author{Team A2:  \\
   Jeremiah Via \\
-  Joss Greenway \\
   Yukun Wang \\
-  Charlie Horell
+  Charles Horrell \\
+  Joss Greenaway
 }
 
 \begin{document}
@@ -24,18 +40,42 @@
 
 \thispagestyle{empty}
 
-
 {\small
+  %% This is where we detail how we split up the code
   \noindent\begin{tabular}{|l||l|l|l|l|l|}\hline
-    \textbf{Coding} & \textbf{Joss (Team Leader)} & \textbf{Jeremiah} & \textbf{Yukun} & \textbf{Charlie} \\ \hline\hline
-    Datastructures  & Contribution: 100\%         & 0\%               & 0\%            & 0\%              \\ \hline
-    \ldots          & \ldots                      & \ldots            & \ldots          & \ldots           \\ \hline
-  \end{tabular}\vspace*{1cm}
+    \textbf{Coding} & \textbf{Joss (Team Leader)} & \textbf{Jeremiah} & \textbf{Yukun} & \textbf{Charles} \\ \hline\hline
+    Documentation   & Contribution: 5\%           & 85\%              & 5\%            & 5\%              \\ \hline
+    Unit Tests      & 10\%                        & 30\%              & 30\%           & 30\%             \\ \hline
+    Networking      & 0\%                         & 95\%              & 5\%            & 0\%              \\ \hline
+    Menu            & 0\%                         & 70\%              & 30\%           & 0\%              \\ \hline
+    Animation       & 0\%                         & 10\%              & 90\%           & 0\%              \\ \hline
+    Music           & 90\%                        & 10\%              & 0\%            & 0\%              \\ \hline
+    AI Player       & 30\%                        & 0\%               & 30\%           & 40\%             \\ \hline
+    Human Player    & 0\%                         & 50\%              & 50\%           & 0\%              \\ \hline
+    Level Loader    & 0\%                         & 90\%              & 10\%           & 0\%              \\ \hline
+    Level Editor    & 0\%                         & 10\%              & 95\%           & 0\%              \\ \hline
+    Level Design    & 0\%                         & 33\%              & 33\%           & 33\%             \\ \hline
+    Menu Art        & 50\%                        & 0\%               & 50\%           & 0\%              \\ \hline
+    Game Art        & 0\%                         & 100\%             & 0\%            & 0\%              \\ \hline
+    Physics         & 25\%                        & 25\%              & 25\%           & 25\%             \\ \hline
+  \end{tabular}
 
+  \vspace*{1cm}
+
+  %% This is where we detail how we split up the report
   \noindent\begin{tabular}{|l||l|l|l|l|l|}\hline
-    \textbf{Report} & \textbf{Joss (Team Leader)} & \textbf{Jeremiah} & \textbf{Yukun} & \textbf{Charlie} \\ \hline\hline
-    Datastructures  & Contribution: 100\%         & 0\%               & 0\%            & 0\%              \\ \hline
-    \ldots          & \ldots                      & \ldots            & \ldots          & \ldots           \\ \hline
+    \textbf{Report} & \textbf{Joss (Team Leader)} & \textbf{Jeremiah} & \textbf{Yukun} & \textbf{Charles} \\ \hline\hline
+    Introduction    & Contribution: 0\%           & 80\%              & 0\%            & 20\%             \\ \hline
+    Abstract        & 0\%                         & 100\%             & 0\%            & 0\%              \\ \hline
+    Requirements    & 0\%                         & 50\%              & 0\%            & 50\%             \\ \hline
+    Design          & 0\%                         & 100\%             & 0\%            & 0\%              \\ \hline
+    Validation      & 0\%                         & 100\%             & 0\%            & 0\%              \\ \hline
+    Management      & 0\%                         & 40\%              & 0\%            & 60\%             \\ \hline
+    Discussion      & 0\%                         & 33\%              & 33\%           & 33\%             \\ \hline
+    Conclusion      & 0\%                         & 100\%             & 0\%            & 0\%              \\ \hline
+    User Stories    & 0\%                         & 0\%               & 0\%            & 100\%            \\ \hline
+    Minutes         & 0\%                         & 0\%               & 0\%            & 100\%            \\ \hline
+    \LaTeX          & 0\%                         & 100\%             & 0\%            & 0\%              \\ \hline
   \end{tabular}
 }
 
@@ -43,46 +83,83 @@
 \thispagestyle{empty}
 
 \begin{abstract}
-  You should write a one-page abstract written as an ``Executive Summary''. It
-  should be written for someone who is familiar with the Team Java module, so
-  that there is no need for background or generalities. Rather, you should
-  explain what is special about your project, and what you claim to have
-  achieved. (One page maximum.)
+  Games are an interesting experience for a software developer. They
+  require vast amounts of effort to implement even the most trivial
+  features. They're also unique because we can actually show our work
+  to friends and family and get more than ``So?'' as a response. In
+  fact, if done correctly, games can inspire excitement in others
+  which makes them rewarding to work on.
+
+  Our aim for the module was to extend the premise of an enjoyable
+  physics-based game. The inspiration for our game was Osmos by
+  Hemisphere Games \cite{osmos}. Osmos is a game with a simple idea:
+  absorb motes smaller than you while avoiding motes large than
+  you. This game is a casual game that is more about solving puzzles
+  than being the quickest.
+
+  We had the idea to change this casual gameplay into something more
+  exciting. By making the game multiplayer, the time to carefully
+  consider your options is gone. You must now absorb as much matter as
+  you can before your opponent does. This game is also unique among
+  many multiplayer games because the loss of one player does not
+  entail the victory of the other. It is possible for everyone to
+  lose!
+
+  Completing the transformation is in the details. We threw away the
+  ability to change the speed of time to focus on the competitive
+  nature of the game. The goal of the game is to become huge. We
+  wanted to create an experience that pressured players to accomplish
+  this goal as fast as they could. As a final detail, we added some
+  upbeat music instead of the slow, ethereal music of the original.
 \end{abstract}
 
-\include{introduction}
-\include{requirements}
-\include{design}
-\include{validation}
-\include{management}
-\include{conclusions}
+\include{tex/introduction}  %% DONE(1)
+\include{tex/requirements}  %% DONE(1)
+\include{tex/design}        %% DONE(1)
+\include{tex/validation}    %% DONE(1)
+\include{tex/management}    %% DONE(1)
+\include{tex/discussion}    %% DONE(1)
+\include{tex/conclusions}   %% TODO(1)
+\appendix
+\include{tex/user_stories}  %% DONE(1)
+\include{tex/minutes}       %% DONE(1)
 
-\bibliographystyle{plain}
+\bibliographystyle{agsm}
 \bibliography{report}
 
-Acknowledge any code you have used (if any), and also any that was
-generated automatically, e.g. by wizards.
-
-Give correct and complete bibliographic information for any sources
-cited. See the local referencing guide. For instance cite which
-books on software engineering you have used, for
-instance~\cite{software-design}. Use the \texttt{report.bib} file to
-manage your citations.
-
-When you \emph{quote} material from other sources, you must be
-absolutely clear \emph{at the point where you quote it} exactly
-which of your material is quoted and what the source is. As
-explained in \cite{SoCS:plagiarism},
-
-``Direct quotation is not particularly common in scientific writing,
-as it is generally not the words that matter, but the meaning.
-Normally it is preferable to rewrite someone else's ideas in your
-own words, often changing the terminology and other superficial
-details to suit the new context.
-
-However, in circumstances where it is appropriate to make direct use
-of the words of another person, those words should normally be
-included within quotation marks and a reference to the source of the
-words given in the usual way.''
+% Acknowledge any code you have used (if any), and also any that was
+% generated automatically, e.g. by wizards.
+%
+% Give correct and complete bibliographic information for any sources
+% cited. See the local referencing guide. For instance cite which
+% books on software engineering you have used, for
+% instance~\cite{software-design}. Use the \texttt{report.bib} file to
+% manage your citations.
+%
+% When you \emph{quote} material from other sources, you must be
+% absolutely clear \emph{at the point where you quote it} exactly
+% which of your material is quoted and what the source is. As
+% explained in \cite{SoCS:plagiarism},
+%
+% ``Direct quotation is not particularly common in scientific writing,
+% as it is generally not the words that matter, but the meaning.
+% Normally it is preferable to rewrite someone else's ideas in your
+% own words, often changing the terminology and other superficial
+% details to suit the new context.
+%
+% However, in circumstances where it is appropriate to make direct use
+% of the words of another person, those words should normally be
+% included within quotation marks and a reference to the source of the
+% words given in the usual way.''
 
 \end{document}
+
+%% LocalWords: Osmos gameplay javadoc Sorge Vickers tex agsm TODO Yukun
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+
+
+% LocalWords:  multiplayer Greenaway Joss Horrell colorlinks

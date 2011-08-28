@@ -1,0 +1,108 @@
+\chapter{Validation and Testing}
+\label{cha:validation}
+
+% Establish what your project can handle successfully, and what its
+% limitations are. Use meaningful examples, not lists of trivial
+% cases.
+%
+% Your applet is expected to be in good working order and do something
+% useful. This chapter is important, because it describes how you
+% assure yourself that that is the case.
+% 
+% Establish what your project can handle successfully, and what its
+% limitations are. Use meaningful examples, not lists of trivial
+% cases.
+
+Testing and validation are important aspects of extreme programming
+and we did our best to remain faithful to the traditional
+approach. Our testing strategy never became very complicated; there
+was not enough time to develop a more comprehensive approach. Had
+there been time, we would have liked to add integration tests to our
+project.
+
+\section{Testing}
+
+Because our team adopted the extreme programming methodoloy, testing
+was an important part of our development process. Our pair programming
+sessions usually consisted of three stages, the second one being the
+creation of unit tests for the code we just wrote. We took advantage
+of JUnit in order to create a series of consitent tests. Our aim was
+to have as much test coverage as possible. It was not about simply
+creating a test for each method but instead ceating a test for each
+behavior we intended the method to have. It is for this reason that we
+have multiple tests for some methods.
+
+Our testing strategy was quite simple. We created test suites at the
+package level and tested all the behaviour we wanted our code to be
+able to deal with. This meant identifying potential weak spots in the
+code and testing for it. Our process fell short of the test-driven
+approach of writing tests first but we still did a good job of
+creating tests to make our code fail. We envisioned every way in which
+our code could potentially fail and wrote a test for it. This meant
+having a lot of failling code at first but as we refined our methods
+and assumptions we gradually passed more tests until we passed them
+all.
+
+Testing the whole of our project was done in a visual and interactive
+way. Part of this was because we did not create integration tests to
+test the behaviour of multiple subsystems working
+together. Integration tests were outside the scope of our assignment
+but we still regret not exploring and implementing them. The other
+reason we had to test our game interactively was simply due to the
+domain in which we were programming. Games present a challenge for
+automated testing. While it would be possible to test some behaviour
+with Java's GUI robots, it is a lot harder to put a test into numbers
+when we are aiming to test the \emph{feeling} of the game. For these
+kinds of tests we simply had to play the game a lot. This was not a
+problem, though, as we all enjoyed playing our game. The added benefit
+of play-testing the game was that it would excite us to add or enhance
+game features.
+
+% Testing is so you can be confident that the software is robust and
+% bug-free. What was your strategy for that? How did you plan unit
+% testing (for components) and integration testing (for the whole
+% applet)? How did the prototype fit in?
+
+% Ideas: 
+%
+% - We never tested what happens if more players connect to the server
+% than there are matter objects on the map.
+%
+
+\section{Validation}
+
+Validation was a very informal process for our team. Since we were the
+kinds of users our game was intended for, we were able to determine if
+the software was headed in the right direction. Because of our weekly
+release process, we could review the current state of the game at each
+meeting. By each meeting we had coded our respective parts and were
+now all together, we could voice opinions on the way the software
+worked. This was done multiple times throughout the development of our
+game.
+
+Weekly validation was critical to make the zooming and scrooling
+features of the game work well. When discussing the feature and how it
+worked, we undoubtedly envisioned subtlely different variations as to
+how it would look. After a prototype was created we all talked about
+it. This input allowed a refinement of the behaviour that we all felt
+worked well.
+
+A similar situation happened with the absorption of matter objects. It
+took many iterations to get the absroption behaviour exactly
+correct. There were many details to consider, such as absorption rate
+and change in momentum, whch made working out the exact behaviour we
+wanted take a long time. Each week we were able to see a slightly
+modified absorption behaviour and by voicing our opinions it reached
+its final, excellent state.
+
+% Validation is to check that in the end the applet is useful
+% and pleasant to use. What was your strategy for that? Have you tried
+% it out with teachers or students? What kind of rolling validation
+% did you use for the evolutionary part (developing the GUI)?
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End: 
