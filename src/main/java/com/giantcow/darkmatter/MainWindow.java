@@ -123,27 +123,27 @@ public class MainWindow extends JFrame {
         rootPanel.add(about, "about");
         rootPanel.add(multiPlayerMenu, "multiPlayerMenu");
 
-        // Set selector
-        try {
-            // Get image & dimensions
-            Image cursorImage =
-                    ImageIO.read(getClass().getClassLoader().getResource("menu/Selector.png"));
-            Dimension d = Toolkit.getDefaultToolkit().getBestCursorSize(cursorImage.getWidth(null),
-                                                                        cursorImage.getHeight(null));
-            int width = d.width;
-
-            // Create cursor
-            cursorImage = cursorImage.getScaledInstance(width, width, Image.SCALE_SMOOTH);
-            Point cursorPoint = new Point(width / 2, width / 2);
-            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
-                                                                           cursorPoint,
-                                                                           "myCursor");
-
-            // Make it out cursor
-            this.setCursor(cursor);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+//        // Set selector
+//        try {
+//            // Get image & dimensions
+//            Image cursorImage =
+//                    ImageIO.read(getClass().getClassLoader().getResource("menu/Selector.png"));
+//            Dimension d = Toolkit.getDefaultToolkit().getBestCursorSize(cursorImage.getWidth(null),
+//                                                                        cursorImage.getHeight(null));
+//            int width = d.width;
+//
+//            // Create cursor
+//            cursorImage = cursorImage.getScaledInstance(width, width, Image.SCALE_SMOOTH);
+//            Point cursorPoint = new Point(width / 2, width / 2);
+//            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
+//                                                                           cursorPoint,
+//                                                                           "myCursor");
+//
+//            // Make it out cursor
+//            this.setCursor(cursor);
+//        } catch (IOException ex) {
+//            System.out.println(ex.getMessage());
+//        }
 
         // Make snug and visible
         pack();
